@@ -1,0 +1,658 @@
+timestamp: 2016-03-08T09:28:09.021968
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2016-03-08T09:28:09.479883
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-03-08T09:28:09.827868
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-08T09:28:10.184230
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2016-03-08T09:28:10.538475
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-03-08T09:28:11.009461
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2016-03-08T11:51:19.176722
+CREATE TABLE course(
+    id SERIAL PRIMARY KEY,
+    code_course INTEGER,
+    name_course VARCHAR(60),
+    description_course TEXT
+);
+success!
+timestamp: 2016-03-08T11:51:20.031087
+CREATE TABLE machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine VARCHAR(512),
+    code_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    operative_system VARCHAR(512),
+    memory VARCHAR(512),
+    processor VARCHAR(512),
+    description_machine TEXT
+);
+success!
+timestamp: 2016-03-08T12:10:25.472378
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+success!
+timestamp: 2016-03-08T12:10:25.632008
+CREATE TABLE auth_group(
+    id SERIAL PRIMARY KEY,
+    role VARCHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-03-08T12:10:25.756104
+CREATE TABLE auth_membership(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-08T12:10:25.846075
+CREATE TABLE auth_permission(
+    id SERIAL PRIMARY KEY,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
+    name VARCHAR(512),
+    table_name VARCHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2016-03-08T12:10:26.002794
+CREATE TABLE auth_event(
+    id SERIAL PRIMARY KEY,
+    time_stamp TIMESTAMP,
+    client_ip VARCHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    origin VARCHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-03-08T12:10:26.134242
+CREATE TABLE auth_cas(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    created_on TIMESTAMP,
+    service VARCHAR(512),
+    ticket VARCHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2016-03-08T12:41:04.777153
+CREATE TABLE port_machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine INTEGER REFERENCES machine (id) ON DELETE CASCADE  ,
+    id_puerto VARCHAR(512),
+    nombre_host VARCHAR(512)
+);
+success!
+timestamp: 2016-03-08T12:51:04.786412
+ALTER TABLE port_machine ADD id_port VARCHAR(512);
+timestamp: 2016-03-08T12:51:04.842102
+ALTER TABLE port_machine DROP COLUMN id_puerto;
+success!
+timestamp: 2016-03-08T12:55:04.862410
+ALTER TABLE port_machine ADD hostname VARCHAR(512);
+timestamp: 2016-03-08T12:55:04.950778
+ALTER TABLE port_machine DROP COLUMN nombre_host;
+success!
+timestamp: 2016-03-08T14:05:37.557491
+ALTER TABLE port_machine ADD number_port VARCHAR(512);
+timestamp: 2016-03-08T14:05:37.588789
+ALTER TABLE port_machine DROP COLUMN id_port;
+success!
+timestamp: 2016-03-08T14:06:45.261499
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:07:04.750708
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:08:04.750323
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:09:04.766342
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:09:24.022020
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:10:04.744441
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:11:04.734291
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:12:04.760924
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:12:25.901506
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:13:04.747058
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:14:04.786311
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:14:24.472955
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:15:04.781506
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher VARCHAR(512),
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:15:55.152739
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:16:02.618540
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:16:04.742218
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:16:10.598497
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:16:53.982894
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:16:55.988465
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:17:02.963891
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:17:04.895847
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:17:52.219627
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:18:04.736812
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:18:48.677702
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:19:04.749622
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+timestamp: 2016-03-08T14:20:29.348895
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group VARCHAR(512)
+);
+timestamp: 2016-03-08T14:20:30.600782
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group VARCHAR(512)
+);
+timestamp: 2016-03-08T14:21:04.736051
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group VARCHAR(512)
+);
+timestamp: 2016-03-08T14:21:09.109449
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group VARCHAR(512)
+);
+timestamp: 2016-03-08T14:22:04.735599
+CREATE TABLE group(
+    id SERIAL PRIMARY KEY,
+    cod_group VARCHAR(512)
+);
+timestamp: 2016-03-08T14:22:22.818855
+CREATE TABLE g(
+    id SERIAL PRIMARY KEY,
+    cod_group VARCHAR(512)
+);
+success!
+timestamp: 2016-03-08T14:24:16.576191
+CREATE TABLE course_group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512)
+);
+success!
+timestamp: 2016-03-08T14:38:04.772104
+CREATE TABLE student_x_machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine INTEGER REFERENCES port_machine (id) ON DELETE CASCADE  ,
+    code_student VARCHAR(512),
+    name_student VARCHAR(512),
+    semester VARCHAR(512)
+);
+success!
+timestamp: 2016-03-08T18:08:44.177573
+ALTER TABLE course ADD modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:08:44.417709
+ALTER TABLE course ADD is_active CHAR(1);
+timestamp: 2016-03-08T18:08:44.420838
+ALTER TABLE course ADD created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:08:44.432040
+ALTER TABLE course ADD created_on TIMESTAMP;
+timestamp: 2016-03-08T18:08:44.435082
+ALTER TABLE course ADD modified_on TIMESTAMP;
+success!
+timestamp: 2016-03-08T18:09:12.999384
+ALTER TABLE machine ADD modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:09:13.004474
+ALTER TABLE machine ADD is_active CHAR(1);
+timestamp: 2016-03-08T18:09:13.007524
+ALTER TABLE machine ADD created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:09:13.012278
+ALTER TABLE machine ADD created_on TIMESTAMP;
+timestamp: 2016-03-08T18:09:13.016410
+ALTER TABLE machine ADD modified_on TIMESTAMP;
+success!
+timestamp: 2016-03-08T18:09:13.083134
+ALTER TABLE port_machine ADD modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:09:13.105041
+ALTER TABLE port_machine ADD is_active CHAR(1);
+timestamp: 2016-03-08T18:09:13.108393
+ALTER TABLE port_machine ADD created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:09:13.113034
+ALTER TABLE port_machine ADD created_on TIMESTAMP;
+timestamp: 2016-03-08T18:09:13.115991
+ALTER TABLE port_machine ADD modified_on TIMESTAMP;
+success!
+timestamp: 2016-03-08T18:09:13.168514
+ALTER TABLE course_group ADD modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:09:13.174089
+ALTER TABLE course_group ADD is_active CHAR(1);
+timestamp: 2016-03-08T18:09:13.178624
+ALTER TABLE course_group ADD created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:09:13.183749
+ALTER TABLE course_group ADD created_on TIMESTAMP;
+timestamp: 2016-03-08T18:09:13.187371
+ALTER TABLE course_group ADD modified_on TIMESTAMP;
+success!
+timestamp: 2016-03-08T18:09:13.238244
+ALTER TABLE student_x_machine ADD modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:09:13.244030
+ALTER TABLE student_x_machine ADD is_active CHAR(1);
+timestamp: 2016-03-08T18:09:13.247751
+ALTER TABLE student_x_machine ADD created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-08T18:09:13.251587
+ALTER TABLE student_x_machine ADD created_on TIMESTAMP;
+timestamp: 2016-03-08T18:09:13.254512
+ALTER TABLE student_x_machine ADD modified_on TIMESTAMP;
+success!
+timestamp: 2016-03-17T00:11:16.587763
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+timestamp: 2016-03-17T00:11:32.384944
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+timestamp: 2016-03-17T00:12:02.482191
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+timestamp: 2016-03-17T00:13:02.504936
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+timestamp: 2016-03-17T00:14:02.491486
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+timestamp: 2016-03-17T00:15:02.341730
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+timestamp: 2016-03-17T00:15:23.760232
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+timestamp: 2016-03-17T00:15:48.553702
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+success!
+timestamp: 2016-03-17T00:15:48.681788
+CREATE TABLE auth_group(
+    id SERIAL PRIMARY KEY,
+    role VARCHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-03-17T00:15:48.794023
+CREATE TABLE auth_membership(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-17T00:15:48.913788
+CREATE TABLE auth_permission(
+    id SERIAL PRIMARY KEY,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
+    name VARCHAR(512),
+    table_name VARCHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2016-03-17T00:15:49.045584
+CREATE TABLE auth_event(
+    id SERIAL PRIMARY KEY,
+    time_stamp TIMESTAMP,
+    client_ip VARCHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    origin VARCHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-03-17T00:15:49.203015
+CREATE TABLE auth_cas(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    created_on TIMESTAMP,
+    service VARCHAR(512),
+    ticket VARCHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2016-03-17T00:15:49.344930
+CREATE TABLE course(
+    id SERIAL PRIMARY KEY,
+    code_course INTEGER,
+    name_course VARCHAR(60),
+    description_course TEXT,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-17T00:15:49.513057
+CREATE TABLE machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine VARCHAR(512),
+    code_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    operative_system VARCHAR(512),
+    memory VARCHAR(512),
+    processor VARCHAR(512),
+    description_machine TEXT,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-17T00:15:49.695987
+CREATE TABLE port_machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine INTEGER REFERENCES machine (id) ON DELETE CASCADE  ,
+    number_port VARCHAR(512),
+    hostname VARCHAR(512),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-17T00:15:49.875988
+CREATE TABLE course_group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-17T00:15:50.054502
+CREATE TABLE student_x_machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine INTEGER REFERENCES port_machine (id) ON DELETE CASCADE  ,
+    code_student VARCHAR(512),
+    name_student VARCHAR(512),
+    semester VARCHAR(512),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
