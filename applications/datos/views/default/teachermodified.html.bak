@@ -1,0 +1,8 @@
+{{extend 'layout.html'}}
+<h2>
+    Este es el usuario a modificar.
+</h2>
+
+<p>
+    {{=form}
+</p>
