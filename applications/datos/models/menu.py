@@ -5,7 +5,7 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('web',SPAN(2),'py'),XML('&trade;&nbsp;'),
+response.logo = A(B('Virutal Maquine UD'),XML('&trade;&nbsp;'),
                   _class="navbar-brand",_href="http://www.web2py.com/",
                   _id="web2py-logo")
 response.title = request.application.replace('_',' ').title()
@@ -26,10 +26,11 @@ response.google_analytics_id = None
 
 response.menu = [
     (T('Home'), False, URL('default', 'index'), []),
-    (T('To register'), False, '#', [
-        (T('Course'), False, URL('default', 'register_course')),
+    (T('Aprobacion'), False, '#', [
         (T('Teacher'), False, URL('default', 'agree_teacher'))]),
-    (T('SSH Tests'), False, '#', 
+    (T('To register'), False, '#', [
+        (T('Course'), False, URL('default', 'register_course'))]),
+    (T('SSH Tests'), False, '#',
      [
         (T('Fabric'), False, URL('encendido', 'fabric')),
         (T('Ansible'), False, URL('encendido', 'ansible'))
