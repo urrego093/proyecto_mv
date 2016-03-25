@@ -46,19 +46,21 @@ def show_teacher():
     return locals()
 
 def update_group_teacher():
-    member = db1.auth_membership(request.args(0, cast=int))
-    member.update(group_id=2)
-    db1.auth_membership.user_id.writable = False
-    db1.auth_membership.user_id.reable = False
-    db1.auth_membership.group_id.writable = False
-    db1.auth_membership.group_id.reable = False    
-    form = SQLFORM(db1.auth_membership, member, showid=False)
-    
-    if form.process().accepted:        
-        response.flash = T ('User Agree to Teacher Group')        
-    elif form.errors:
-        response.flash = T ('Group No Update')
+    member = db1.auth_membership(request.args(0, cast=int) or redirect(URL('index')))
+    if member:
+        member.update(group_id=2)
+        db1.auth_membership.user_id.writable = False
+        db1.auth_membership.user_id.reable = False
+        db1.auth_membership.group_id.writable = False
+        db1.auth_membership.group_id.reable = False    
+        form = SQLFORM(db1.auth_membership, member, showid=False)
 
+        if form.process().accepted:        
+            response.flash = T ('User Agree to Teacher Group')        
+        elif form.errors:
+            response.flash = T ('Group No Update')
+    else:
+        redirect(URL('index'))
     return locals()
 
 def user():
