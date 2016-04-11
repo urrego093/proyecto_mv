@@ -5,9 +5,15 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
+<<<<<<< HEAD
+response.logo = A(B('Virutal Maquine UD'),XML('&trade;&nbsp;'),
+                  _class="navbar-brand",_href="http://www.web2py.com/",
+                  _id="web2py-logo")
+=======
 response.logo = A(B('PMV'),XML('&nbsp;'),
                   _class="navbar-brand",_href=URL('default', 'index'),
                   _id="pmv_logo")
+>>>>>>> origin
 response.title = request.application.replace('_',' ').title()
 response.subtitle = ''
 
@@ -26,10 +32,11 @@ response.google_analytics_id = None
 
 response.menu = [
     (T('Home'), False, URL('default', 'index'), []),
-    (T('To register'), False, '#', [
-        (T('Course'), False, URL('default', 'register_course')),
+    (T('Aprobacion'), False, '#', [
         (T('Teacher'), False, URL('default', 'agree_teacher'))]),
-    (T('SSH Tests'), False, '#', 
+    (T('To register'), False, '#', [
+        (T('Course'), False, URL('default', 'register_course'))]),
+    (T('SSH Tests'), False, '#',
      [
         #(T('Fabric'), False, URL('encendido', 'fabric')),
         (T('Ansible'), False, URL('encendido', 'ansible'))

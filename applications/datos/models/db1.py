@@ -1,6 +1,19 @@
 # -*- coding: utf-8 -*-
 #Define DAL object, with max 10 connection
+
+from gluon.contrib.appconfig import AppConfig
+
 db1 = DAL(STR_DAL, pool_size=10)
+## once in production, remove reload=True to gain full speed
+myconf = AppConfig(reload=True)
+
+## by default give a view/generic.extension to all actions from localhost
+## none otherwise. a pattern can be 'controller/function.extension'
+response.generic_patterns = ['*'] if request.is_local else []
+## choose a style for forms
+response.formstyle = myconf.take('forms.formstyle')  # or 'bootstrap3_stacked' or 'bootstrap2' or other
+response.form_label_separator = myconf.take('forms.separator')
+
 
 #Auth
 from gluon.tools import Auth, Service, PluginManager
@@ -21,7 +34,7 @@ mail.settings.login = myconf.take('smtp.login')
 ## configure auth policy
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = True
-auth.settings.reset_password_requires_verification = False
+auth.settings.reset_password_requires_verification = True
 
 
 #Define tables of model 

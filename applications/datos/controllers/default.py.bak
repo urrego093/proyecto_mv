@@ -56,23 +56,37 @@ def agree_teacher():
 def show_teacher():
     user = db1.auth_user(request.args(0, cast=int))
     user.update(registration_key='')
-    #db1.auth_user.firts_name = user.first_name
     db1.auth_user.first_name.writable = False
     db1.auth_user.first_name.reable = False
-    #db.blog_comments.blog_post.writable = False
-    #db.blog_comments.blog_post.redable = False
-    member = db1.auth_membership(request.args(0, cast=int))
-    member.update(group_id=2)
-    form = SQLFORM(db1.auth_user, user)
-    form2 = SQLFORM(db1.auth_membership, member)
-    form2.process()
-    if form.process().accepted:
-        response.flash = T ('Teacher accepted')
+    db1.auth_user.last_name.writable = False
+    db1.auth_user.last_name.reable = False
+    form = SQLFORM(db1.auth_user, user, deletable=True, showid=False)
+
+    if form.process(next=URL('update_group_teacher', args=user.id)).accepted:        
+        response.flash = T ('Teacher accepted')        
     elif form.errors:
-        response.flash = T ('form has errors')
-    elif form2.errors:
-        response.flash = T ('form has errors')
-    #comments = db1(db1.blog_comments.blog_post==post.id).select()
+        response.flash = T ('Teacher No Update')
+    
+
+    
+    return locals()
+
+def update_group_teacher():
+    member = db1.auth_membership(request.args(0, cast=int) or redirect(URL('index')))
+    if member:
+        member.update(group_id=2)
+        db1.auth_membership.user_id.writable = False
+        db1.auth_membership.user_id.reable = False
+        db1.auth_membership.group_id.writable = False
+        db1.auth_membership.group_id.reable = False    
+        form = SQLFORM(db1.auth_membership, member, showid=False)
+
+        if form.process().accepted:        
+            response.flash = T ('User Agree to Teacher Group')        
+        elif form.errors:
+            response.flash = T ('Group No Update')
+    else:
+        redirect(URL('index'))
     return locals()
 
 def user():
