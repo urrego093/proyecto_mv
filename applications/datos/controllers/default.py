@@ -8,11 +8,26 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
+
 def index():
     response.flash = T("Hello People UD")
+    '''
+    tarea = scheduler.queue_task(
+    "demo1",    
+    pargs=[1,2,3,4],
+    pvars={'a':'foo'},
+    #start_time= 'now', 		#datetime
+    #stop_time = None,		#datetime
+    #timeout = 60,               #seconds
+    #prevent_drift=False,
+    #period=60,                  #seconds
+    #immediate=False,
+    repeats = 1
+    )
+    '''
     return locals();
 
-@auth.requires_membership('administrador')
+@auth.requires_membership('admin')
 def register_course():
     form = SQLFORM(db1.course).process()
     if form.accepted:
@@ -21,7 +36,7 @@ def register_course():
     return locals()
 
 @auth.requires_login()
-@auth.requires_membership('administrador')
+@auth.requires_membership('admin')
 def agree_teacher():
     rows = db1(db1.auth_user.registration_key=='pending').select()
     return locals()

@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla maquinas.html</h1>
+
+<div>
+    <table class="table">
+        {{for fila in filas:}}
+        <tr>
+            <td>{{=fila.ip_machine}}</td>
+            <td>{{=fila.operative_system}}</td>
+        </tr>
+        {{pass}}
+    </table>
+</div>

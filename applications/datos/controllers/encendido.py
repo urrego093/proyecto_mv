@@ -22,7 +22,8 @@ def fabric():
     #prueba = "".join([x for x in salida])
     #print prueba
 
-    return dict(message=salida)
+    #return dict(message=salida)
+    return dict(message=T("Hola ") + auth.user.first_name)
   #  return dict(message="hello from encendido.py")
 
 def ansible():

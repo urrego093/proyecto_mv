@@ -1,0 +1,549 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.KeyError'> 'Cannot resolve reference db1.scheduler_task in job definition'"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/repo_git/web2py/applications/datos/models/db1.py'
+p5
+sS'code'
+p6
+S"# -*- coding: utf-8 -*-\n#Define DAL object, with max 10 connection\ndb1 = DAL(STR_DAL, pool_size=10)\n\n#Auth\nfrom gluon.tools import Auth, Service, PluginManager\n\nauth = Auth(db1)\nservice = Service()\nplugins = PluginManager()\n\n## create all tables needed by auth if not custom tables\nauth.define_tables(username=False, signature=False)\n\n## configure email\nmail = auth.settings.mailer\nmail.settings.server = 'logging' if request.is_local else myconf.take('smtp.server')\nmail.settings.sender = myconf.take('smtp.sender')\nmail.settings.login = myconf.take('smtp.login')\n\n## configure auth policy\nauth.settings.registration_requires_verification = False\nauth.settings.registration_requires_approval = True\nauth.settings.reset_password_requires_verification = False\n\n\n#Define tables of model \n\ndb1.define_table('course',\n                Field('code_course','integer', length=3, label = T('Course Code'),requires=IS_NOT_EMPTY()),\n                Field('name_course','string', length=60, label = T('Course Name'), requires=IS_NOT_EMPTY()),\n                Field('description_course','text',label = T('Course Description')),\n                auth.signature)\ndb1.course.code_course.requires=IS_NOT_IN_DB(db1, db1.course.code_course)\n\ndb1.define_table('machine',\n                Field('ip_machine', label=T('IPv4 Machine'), requires=IS_IPV4(minip='10.20.251.1', maxip='10.20.251.255')),\n                Field('code_course','reference course', label=T('Code Course'), requires=IS_IN_DB(db1,db1.course.id, '%(name_course)s', zero=T('Choose One'))),\n                Field('operative_system','string', label=T('Operative System'), requires=IS_IN_SET(OPERA_SYSTEM, zero=T('Select One'), error_message='You no choose one')),\n                Field('memory','string',label=T('Memory RAM'), requires=IS_IN_SET(RAM_MEMORY, zero=T('Select One'), error_message='You no choose one')),\n                Field('processor','string',label=T('Processor'), requires=IS_IN_SET(PROCESSOR, zero=T('Select One'), error_message='You no choose one')),\n                Field('description_machine','text',label=T('Description'),requires=IS_NOT_EMPTY()),\n                auth.signature)\n\ndb1.machine.ip_machine.requires=IS_NOT_IN_DB(db1, db1.machine.ip_machine)\n\n\ndb1.define_table('port_machine',\n                Field('ip_machine','reference machine', label = T('IPv4 Machine'), requires=IS_IN_DB(db1,db1.machine.id, '%(ip_machine)s', zero = T('Select One'))),\n                Field('number_port','string', label = T('Port'), requires=IS_IN_SET(P_HOST, zero = T('Select One'), error_message='You no choose one')),\n                Field('hostname','string',label = T('Hostname'), requires=IS_IN_SET(HOSTNAME, zero = T('Select One'), error_message='You no choose one')),\n                 auth.signature)\n\ndb1.port_machine.number_port.requires=IS_NOT_IN_DB(db1(db1.port_machine.ip_machine==request.vars.ip_machine),\n    'port_machine.number_port')\n\n\ndb1.define_table('course_group',\n               Field('cod_group', 'integer', label = T('Code Group'), requires=IS_NOT_EMPTY()),\n               Field('id_teacher','reference auth_user', label = T('Teacher'), requires=IS_IN_DB(db1,db1.auth_user.id, '%(first_name)s', zero = T('Select One'))),\n               Field('cod_course','reference course', label = T('Course'), requires=IS_IN_DB(db1,db1.course.id, '%(name_course)s', zero = T('Select One'))),\n               Field('semester', 'string', label = T('Semester'), requires=IS_IN_SET(SEMESTER, zero = T('Select One'), error_message='You no choose one')),\n                 auth.signature)\n\ncourses = db1(db1.course_group.cod_course==request.vars.cod_course)\n\ndb1.course_group.cod_group.requires=[IS_NOT_IN_DB(courses(db1.course_group.semester==request.vars.semester), 'course_group.cod_group')]\n\n\n\ndb1.define_table('student_x_machine',\n               Field('ip_machine', 'reference port_machine', requires=IS_IN_DB(db1,db1.port_machine.id, '%(ip_machine)s','%(number_port)s', zero = T('Select One'))),\n               Field('code_student','string', requires=IS_NOT_EMPTY()),\n               Field('name_student','string', requires=IS_NOT_EMPTY()),\n               Field('semester', 'string', label = T('Semester'), requires=IS_IN_SET(SEMESTER, zero = T('Select One'), error_message='You no choose one')),\n                 auth.signature)\n\ndb1.student_x_machine.ip_machine.requires=IS_NOT_IN_DB(db1(db1.student_x_machine.semester==request.vars.semester),\n    'student_x_machine.ip_machine')\n\ndb1.define_table('job',\n    Field('name', 'string', label=T('Job Name'), requires=IS_NOT_EMPTY()),\n    Field('user_id', 'reference auth_user', label=T('Teacher'), \n          requires=IS_IN_DB(db1, db1.auth_user.id)   ),\n    Field('task_id' , \n          'reference db1.scheduler_task' ,  # por alguna razon no deja hacer la referencia la base de datos\n          label=T('Task ID'))\n                 #,\n   # Field('state', label=T('State'), type='boolean', default=False)\n)\n\ndb1.job.name.requires=IS_NOT_IN_DB(db1(db1.job.name==request.vars.name), 'job.name')\n"
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__hash__'
+p12
+S"<method-wrapper '__hash__' of exceptions.KeyError object>"
+p13
+sS'__setattr__'
+p14
+S"<method-wrapper '__setattr__' of exceptions.KeyError object>"
+p15
+sS'__reduce_ex__'
+p16
+S'<built-in method __reduce_ex__ of exceptions.KeyError object>'
+p17
+sS'__getslice__'
+p18
+S"<method-wrapper '__getslice__' of exceptions.KeyError object>"
+p19
+sS'__getitem__'
+p20
+S"<method-wrapper '__getitem__' of exceptions.KeyError object>"
+p21
+sS'__setstate__'
+p22
+S'<built-in method __setstate__ of exceptions.KeyError object>'
+p23
+sS'args'
+p24
+S"('Cannot resolve reference db1.scheduler_task in job definition',)"
+p25
+sS'__reduce__'
+p26
+S'<built-in method __reduce__ of exceptions.KeyError object>'
+p27
+sS'__str__'
+p28
+S"<method-wrapper '__str__' of exceptions.KeyError object>"
+p29
+sS'__format__'
+p30
+S'<built-in method __format__ of exceptions.KeyError object>'
+p31
+sS'__getattribute__'
+p32
+S"<method-wrapper '__getattribute__' of exceptions.KeyError object>"
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.KeyError'>"
+p35
+sS'__unicode__'
+p36
+S'<built-in method __unicode__ of exceptions.KeyError object>'
+p37
+sS'__delattr__'
+p38
+S"<method-wrapper '__delattr__' of exceptions.KeyError object>"
+p39
+sS'__subclasshook__'
+p40
+S'<built-in method __subclasshook__ of type object>'
+p41
+sS'__repr__'
+p42
+S"<method-wrapper '__repr__' of exceptions.KeyError object>"
+p43
+sS'__dict__'
+p44
+S'{}'
+p45
+sS'__sizeof__'
+p46
+S'<built-in method __sizeof__ of exceptions.KeyError object>'
+p47
+sS'__doc__'
+p48
+S"'Mapping key not found.'"
+p49
+sS'__init__'
+p50
+S"<method-wrapper '__init__' of exceptions.KeyError object>"
+p51
+sS'__new__'
+p52
+S'<built-in method __new__ of type object>'
+p53
+ssS'evalue'
+p54
+S"'Cannot resolve reference db1.scheduler_task in job definition'"
+p55
+sS'request'
+p56
+cgluon.html
+XML_unpickle
+p57
+(S's\x95B\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>c370216449988</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>appadmin</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-349fa830-5636-4080-ab79-2af83f70c0d6<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_datos</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-821679d9-04d5-4547-bd9d-aee301d06190<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_welcome</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-786b05d4-8720-4c57-84a5-cecc5b98b23c<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>es-CL,es;q=0.8,en-US;q=0.5,en;q=0.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_datos=127.0.0.1-821679d9-04d5-4547-bd9d-aee301d06190; session_id_welcome=127.0.0.1-786b05d4-8720-4c57-84a5-cecc5b98b23c; session_id_admin=127.0.0.1-349fa830-5636-4080-ab79-2af83f70c0d6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_REFERER</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/admin/default/edit/datos/models/scheduler.py?id=models__scheduler__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_WEB2PY_COMPONENT_ELEMENT</td><td style="vertical-align:top;">:</td><td><div>c370216449988</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_WEB2PY_COMPONENT_LOCATION</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/admin/default/edit/datos/models/scheduler.py?id=models__scheduler__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_X_REQUESTED_WITH</td><td style="vertical-align:top;">:</td><td><div>XMLHttpRequest</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>37222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>camilo-GX70-3CC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>es-CL,es;q=0.8,en-US;q=0.5,en;q=0.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_datos=127.0.0.1-821679d9-04d5-4547-bd9d-aee301d06190; session_id_welcome=127.0.0.1-786b05d4-8720-4c57-84a5-cecc5b98b23c; session_id_admin=127.0.0.1-349fa830-5636-4080-ab79-2af83f70c0d6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_referer</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/admin/default/edit/datos/models/scheduler.py?id=models__scheduler__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_web2py_component_element</td><td style="vertical-align:top;">:</td><td><div>c370216449988</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_web2py_component_location</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/admin/default/edit/datos/models/scheduler.py?id=models__scheduler__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_x_requested_with</td><td style="vertical-align:top;">:</td><td><div>XMLHttpRequest</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>37222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>camilo-GX70-3CC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/camilo/Escritorio/repo_git/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.13.4-stable+timestamp.2016.02.10.15.41.11</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f82829311e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f827d8e2668&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f8251813450&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f82829311e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f827d8e2668&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f8251813450&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/camilo/Escritorio/repo_git/web2py/applications/datos/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 4, 5, 18, 12, 33, 719364)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 4, 5, 23, 12, 33, 719374)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f825184d090&gt;</div></td></tr></table></div>'
+tRp58
+sS'frames'
+p59
+(lp60
+(dp61
+S'file'
+p62
+S'/home/camilo/Escritorio/repo_git/web2py/gluon/restricted.py'
+p63
+sS'dump'
+p64
+(dp65
+S'environment'
+p66
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}"
+p67
+sS'ccode'
+p68
+S'<code object <module> at 0x7f82518136b0, file "/...web2py/applications/datos/models/db1.py", line 3>'
+p69
+ssS'lnum'
+p70
+I227
+sS'lines'
+p71
+(dp72
+I224
+S'            ccode = code'
+p73
+sI225
+S'        else:'
+p74
+sI226
+S'            ccode = compile2(code, layer)'
+p75
+sI227
+S'        exec ccode in environment'
+p76
+sI228
+S'    except HTTP:'
+p77
+sI229
+S'        raise'
+p78
+sI230
+S'    except RestrictedError:'
+p79
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p80
+sI222
+S'    try:'
+p81
+sI223
+S'        if isinstance(code, types.CodeType):'
+p82
+ssS'call'
+p83
+S'(code="# -*- coding: utf-8 -*-\\n#Define DAL object, with...b1(db1.job.name==request.vars.name), \'job.name\')\\n", environment={\'A\': <class \'gluon.html.A\'>, \'ANY_OF\': <class \'gluon.validators.ANY_OF\'>, \'ASSIGNJS\': <function ASSIGNJS>, \'AppConfig\': <function AppConfig>, \'Auth\': <class \'gluon.tools.Auth\'>, \'B\': <class \'gluon.html.B\'>, \'BEAUTIFY\': <class \'gluon.html.BEAUTIFY\'>, \'BODY\': <class \'gluon.html.BODY\'>, \'BR\': <class \'gluon.html.BR\'>, \'BUTTON\': <class \'gluon.html.BUTTON\'>, ...}, layer=\'/home/camilo/Escritorio/repo_git/web2py/applications/datos/models/db1.py\')'
+p84
+sS'func'
+p85
+S'restricted'
+p86
+sa(dp87
+g62
+S'/home/camilo/Escritorio/repo_git/web2py/applications/datos/models/db1.py'
+p88
+sg64
+(dp89
+S'T'
+S'<gluon.languages.translator object>'
+p90
+sS'label'
+p91
+S'undefined'
+p92
+ssg70
+I87
+sg71
+(dp93
+I82
+S"    Field('name', 'string', label=T('Job Name'), requires=IS_NOT_EMPTY()),"
+p94
+sI83
+S"    Field('user_id', 'reference auth_user', label=T('Teacher'),"
+p95
+sI84
+S'          requires=IS_IN_DB(db1, db1.auth_user.id)   ),'
+p96
+sI85
+S"    Field('task_id' ,"
+p97
+sI86
+S"          'reference db1.scheduler_task' ,  # por alguna razon no deja hacer la referencia la base de datos"
+p98
+sI87
+S"          label=T('Task ID'))"
+p99
+sI88
+S'                 #,'
+p100
+sI89
+S"   # Field('state', label=T('State'), type='boolean', default=False)"
+p101
+sI90
+S')'
+sI91
+S''
+ssg83
+S'()'
+p102
+sg85
+S'<module>'
+p103
+sa(dp104
+g62
+S'/home/camilo/Escritorio/repo_git/web2py/gluon/packages/dal/pydal/base.py'
+p105
+sg64
+(dp106
+S'fields'
+p107
+S'(<pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>)'
+p108
+sS'self'
+p109
+S'<DAL uri="postgres:******@localhost/proyecto2">'
+p110
+sS'args'
+p111
+g45
+sS'tablename'
+p112
+S"'job'"
+p113
+sS'table'
+p114
+g92
+sS'self.lazy_define_table'
+p115
+S'<bound method DAL.lazy_define_table of <DAL uri="postgres:******@localhost/proyecto2">>'
+p116
+ssg70
+I834
+sg71
+(dp117
+I832
+S'            table = None'
+p118
+sI833
+S'        else:'
+p119
+sI834
+S'            table = self.lazy_define_table(tablename,*fields,**args)'
+p120
+sI835
+S'        if not tablename in self.tables:'
+p121
+sI836
+S'            self.tables.append(tablename)'
+p122
+sI837
+S'        return table'
+p123
+sI838
+S''
+sI829
+S'                    % (tablename,invalid_args))'
+p124
+sI830
+S'        if self._lazy_tables and tablename not in self._LAZY_TABLES:'
+p125
+sI831
+S'            self._LAZY_TABLES[tablename] = (tablename,fields,args)'
+p126
+ssg83
+S'(self=<DAL uri="postgres:******@localhost/proyecto2">, tablename=\'job\', *fields=(<pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>), **args={})'
+p127
+sg85
+S'define_table'
+p128
+sa(dp129
+g62
+S'/home/camilo/Escritorio/repo_git/web2py/gluon/packages/dal/pydal/base.py'
+p130
+sg64
+(dp131
+S'polymodel'
+p132
+S'None'
+p133
+ssg70
+I873
+sg71
+(dp134
+I868
+S'            try:'
+p135
+sI869
+S'                GLOBAL_LOCKER.acquire()'
+p136
+sI870
+S'                self._lastsql = self._adapter.create_table('
+p137
+sI871
+S'                    table,migrate=migrate,'
+p138
+sI872
+S'                    fake_migrate=fake_migrate,'
+p139
+sI873
+S'                    polymodel=polymodel)'
+p140
+sI874
+S'            finally:'
+p141
+sI875
+S'                GLOBAL_LOCKER.release()'
+p142
+sI876
+S'        else:'
+p143
+sI877
+S'            table._dbt = None'
+p144
+ssg83
+S'(self=<DAL uri="postgres:******@localhost/proyecto2">, tablename=\'job\', *fields=(<pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>), **args={})'
+p145
+sg85
+S'lazy_define_table'
+p146
+sa(dp147
+g62
+S'/home/camilo/Escritorio/repo_git/web2py/gluon/packages/dal/pydal/adapters/base.py'
+p148
+sg64
+(dp149
+S'table'
+p150
+S'<Table job (id, name, user_id, task_id)>'
+p151
+sS'table._tablename'
+p152
+S"'job'"
+p153
+sS'referenced'
+p154
+S"'db1.scheduler_task'"
+p155
+sS'builtinKeyError'
+p156
+S"<type 'exceptions.KeyError'>"
+p157
+ssg70
+I297
+sg71
+(dp158
+I292
+S"                        rtablename,rfieldname = referenced.split('.')"
+p159
+sI293
+S'                        rtable = db[rtablename]'
+p160
+sI294
+S'                        rfield = rtable[rfieldname]'
+p161
+sI295
+S'                    except Exception as e:'
+p162
+sI296
+S"                        self.db.logger.debug('Error: %s' %e)"
+p163
+sI297
+S"                        raise KeyError('Cannot resolve reference %s in %s definition' % (referenced, table._tablename))"
+p164
+sI298
+S''
+sI299
+S'                # must be PK reference or unique'
+p165
+sI300
+S"                if getattr(rtable, '_primarykey', None) and rfieldname in rtable._primarykey or \\"
+p166
+sI301
+S'                        rfield.unique:'
+p167
+ssg83
+S'(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, table=<Table job (id, name, user_id, task_id)>, migrate=True, fake_migrate=False, polymodel=None)'
+p168
+sg85
+S'create_table'
+p169
+sasS'pyver'
+p170
+S'Python 2.7.9: /usr/bin/python (prefix: /usr)'
+p171
+sS'session'
+p172
+g57
+(S's\r\x02\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ACTIONS</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>Restart</div></td></tr><tr><td><div>Add user</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_orderby</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_query</td><td style="vertical-align:top;">:</td><td><div>db1.job.id&gt;0</div></td></tr></table></div>'
+tRp173
+sS'etype'
+p174
+S"<type 'exceptions.KeyError'>"
+p175
+sS'date'
+p176
+S'Tue Apr  5 18:12:33 2016'
+p177
+sS'response'
+p178
+g57
+(S's\x12\x18\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f8251818110&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_datos</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-821679d9-04d5-4547-bd9d-aee301d06190<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>bootstrap3_inline</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^appadmin/\\w+\\.py$</div></td></tr><tr><td><div>^appadmin/hooks/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/camilo/Escritorio/repo_git/web2py/applications/datos/sessions/0dd/022/127.0.0.1-821679d9-04d5-4547-bd9d-aee301d06190&#x27;, mode &#x27;rb+&#x27; at 0x7f8250d64c90&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/camilo/Escritorio/repo_git/web2py/applications/datos/sessions/127.0.0.1-821679d9-04d5-4547-bd9d-aee301d06190</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>68b73e031a4a55e94e3987b104cdae55</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-821679d9-04d5-4547-bd9d-aee301d06190</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>appadmin/hooks.html</div></td></tr></table></div>'
+tRp179
+sS'locals'
+p180
+(dp181
+S'rtablename'
+p182
+S"'db1'"
+p183
+sS'referenced'
+p184
+S"'db1.scheduler_task'"
+p185
+sS'migrate'
+p186
+S'True'
+p187
+sS'constraint_name'
+p188
+S"'job_task_id__constraint'"
+p189
+sS'table'
+p190
+S'<Table job (id, name, user_id, task_id)>'
+p191
+sS'real_referenced'
+p192
+S"'auth_user'"
+p193
+sS'postcreation_fields'
+p194
+S'[]'
+p195
+sS'field_type'
+p196
+S"'reference db1.scheduler_task'"
+p197
+sS'self'
+p198
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p199
+sS'type_name'
+p200
+S"'reference'"
+p201
+sS'tablename'
+p202
+S"'job'"
+p203
+sS'field'
+p204
+S'<pydal.objects.Field object>'
+p205
+sS'ftype'
+p206
+S"'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  '"
+p207
+sS'rtable'
+p208
+S'<Table auth_user (id, first_name, last_name, ema...ration_key, reset_password_key, registration_id)>'
+p209
+sS'id_fieldname'
+p210
+S"'id'"
+p211
+sS'polymodel'
+p212
+S'None'
+p213
+sS'rfieldname'
+p214
+S"'scheduler_task'"
+p215
+sS'ftype_info'
+p216
+S"{'constraint_name': 'job_user_id__constraint', 'field_name': 'user_id', 'foreign_key': 'auth_user (id)', 'index_name': 'user_id__idx', 'null': '', 'on_delete_action': 'CASCADE', 'unique': ''}"
+p217
+sS'db'
+p218
+S'<DAL uri="postgres:******@localhost/proyecto2">'
+p219
+sS'fake_migrate'
+p220
+S'False'
+p221
+sS'e'
+S'AttributeError("\'DAL\' object has no attribute \'db1\'",)'
+p222
+sS'sql_fields'
+p223
+S"{'id': {'length': 512, 'notnull': False, 'sortable': 1, 'sql': 'SERIAL PRIMARY KEY', 'type': 'id', 'unique': False}, 'name': {'length': 512, 'notnull': False, 'sortable': 2, 'sql': 'VARCHAR(512)', 'type': 'string', 'unique': False}, 'user_id': {'length': 512, 'notnull': False, 'sortable': 3, 'sql': 'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ', 'type': 'reference auth_user', 'unique': False}}"
+p224
+sS'field_name'
+p225
+S"'task_id'"
+p226
+sS'types'
+p227
+S"{'big-id': 'BIGSERIAL PRIMARY KEY', 'big-reference': 'BIGINT REFERENCES %(foreign_key)s ON DELETE %(on_delete_action)s %(null)s %(unique)s', 'bigint': 'BIGINT', 'blob': 'BYTEA', 'boolean': 'CHAR(1)', 'date': 'DATE', 'datetime': 'TIMESTAMP', 'decimal': 'NUMERIC(%(precision)s,%(scale)s)', 'double': 'FLOAT8', 'float': 'FLOAT', ...}"
+p228
+sS'sortable'
+p229
+S'4'
+sS'sql_fields_aux'
+p230
+S"{'id': {'sql': 'SERIAL PRIMARY KEY'}, 'name': {'sql': 'VARCHAR(512)'}, 'user_id': {'sql': 'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  '}}"
+p231
+sS'TFK'
+p232
+g45
+sS'fields'
+p233
+S"['id SERIAL PRIMARY KEY', 'name VARCHAR(512)', 'user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ']"
+p234
+sS'rfield'
+p235
+S'<pydal.objects.Field object>'
+p236
+sssS'traceback'
+p237
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/repo_git/web2py/applications/datos/models/db1.py", line 87, in <module>\n    label=T(\'Task ID\'))\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/packages/dal/pydal/base.py", line 834, in define_table\n    table = self.lazy_define_table(tablename,*fields,**args)\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/packages/dal/pydal/base.py", line 873, in lazy_define_table\n    polymodel=polymodel)\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/packages/dal/pydal/adapters/base.py", line 297, in create_table\n    raise KeyError(\'Cannot resolve reference %s in %s definition\' % (referenced, table._tablename))\nKeyError: \'Cannot resolve reference db1.scheduler_task in job definition\'\n'
+p238
+s.

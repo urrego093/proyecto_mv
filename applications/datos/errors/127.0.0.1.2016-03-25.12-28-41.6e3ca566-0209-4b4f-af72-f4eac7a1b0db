@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.AttributeError'> 'NoneType' object has no attribute 'form'"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# intente algo como\ndef index():\n    cabezas = ["ip_machine", "code_course", "operative_system", "memory", "processor"]\n    filas =  db1((db1.machine.ip_machine)).select(\n        db1.machine.ip_machine, db1.machine.code_course, db1.machine.operative_system,db1.machine.memory,db1.machine.processor\n    )\n    acciones = [T("Restart"),T("Add user")]\n    return locals()\n\ndef ejecutar():\n    formulario = response.vars.form\n    print "formulario es ", formulario\n    response.flash=T(\'this text should appear!\')\n    redirect(URL(\'maquinas\', \'index\'))\n\nresponse._vars=response._caller(ejecutar)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py", line 17, in <module>\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py", line 12, in ejecutar\n    formulario = response.vars.form\nAttributeError: \'NoneType\' object has no attribute \'form\'\n'
+p11
+s.

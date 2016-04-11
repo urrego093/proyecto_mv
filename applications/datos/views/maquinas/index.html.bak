@@ -1,0 +1,35 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla maquinas/index.html</h1>
+{{args=[]}}<form enctype="multipart/form-data" method="post" action="{{=URL('maquinas', 'ejecutar')}}" id="formulario" name="formulario">
+    <table cellpadding="10">
+        <tr>
+            {{for cabeza in cabezas:}}
+                <td>{{=cabeza}}</td>
+            {{pass}}
+        </tr>
+        {{for fila in filas:}}
+        <tr>
+            {{for cabeza in cabezas:}}
+                <td>{{=fila[cabeza]}}</td>
+            {{pass}}
+            <td>
+               {{x=}}<input type="checkbox" name="{{=fila[cabezas[0]]}}">
+                {{args.append(x)}}
+            </td>
+        </tr>
+        {{pass}}
+    </table>
+
+    <select>
+        {{for accion in acciones:}}
+            <option value={{=accion}}> {{=accion}} </option>
+        {{pass}}
+    </select>
+    <button type="submit">
+        Enviar tarea
+    </button>
+</form>
+
+
+
+{{#=BEAUTIFY(response._vars)}}
