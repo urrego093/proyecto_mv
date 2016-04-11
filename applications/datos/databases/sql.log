@@ -656,3 +656,156 @@ CREATE TABLE student_x_machine(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
+timestamp: 2016-04-03T13:12:53.232597
+CREATE TABLE job(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-04-03T14:15:11.672294
+ALTER TABLE job ADD state CHAR(1);
+success!
+timestamp: 2016-04-03T16:43:01.029240
+CREATE TABLE scheduler_task(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    application_name CHAR(512),
+    task_name CHAR(512),
+    group_name CHAR(512),
+    status CHAR(512),
+    function_name CHAR(512),
+    uuid CHAR(255) UNIQUE,
+    args TEXT,
+    vars TEXT,
+    enabled CHAR(1),
+    start_time TIMESTAMP,
+    next_run_time TIMESTAMP,
+    stop_time TIMESTAMP,
+    repeats INTEGER,
+    retry_failed INTEGER,
+    period INTEGER,
+    prevent_drift CHAR(1),
+    timeout INTEGER,
+    sync_output INTEGER,
+    times_run INTEGER,
+    times_failed INTEGER,
+    last_run_time TIMESTAMP,
+    assigned_worker_name CHAR(512)
+);
+success!
+timestamp: 2016-04-03T16:43:01.208927
+CREATE TABLE scheduler_run(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    task_id INTEGER REFERENCES scheduler_task (id) ON DELETE CASCADE  ,
+    status CHAR(512),
+    start_time TIMESTAMP,
+    stop_time TIMESTAMP,
+    run_output TEXT,
+    run_result TEXT,
+    traceback TEXT,
+    worker_name CHAR(512)
+);
+success!
+timestamp: 2016-04-03T16:43:01.305728
+CREATE TABLE scheduler_worker(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    worker_name CHAR(255) UNIQUE,
+    first_heartbeat TIMESTAMP,
+    last_heartbeat TIMESTAMP,
+    status CHAR(512),
+    is_ticker CHAR(1),
+    group_names TEXT,
+    worker_stats TEXT
+);
+success!
+timestamp: 2016-04-03T16:43:01.400718
+CREATE TABLE scheduler_task_deps(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    job_name CHAR(512),
+    task_parent INTEGER,
+    task_child INTEGER REFERENCES scheduler_task (id) ON DELETE CASCADE  ,
+    can_visit CHAR(1)
+);
+success!
+timestamp: 2016-04-03T22:06:59.128515
+CREATE TABLE scheduler_task(
+    id SERIAL PRIMARY KEY,
+    application_name VARCHAR(512),
+    task_name VARCHAR(512),
+    group_name VARCHAR(512),
+    status VARCHAR(512),
+    function_name VARCHAR(512),
+    uuid VARCHAR(255) UNIQUE,
+    args TEXT,
+    vars TEXT,
+    enabled CHAR(1),
+    start_time TIMESTAMP,
+    next_run_time TIMESTAMP,
+    stop_time TIMESTAMP,
+    repeats INTEGER,
+    retry_failed INTEGER,
+    period INTEGER,
+    prevent_drift CHAR(1),
+    timeout INTEGER,
+    sync_output INTEGER,
+    times_run INTEGER,
+    times_failed INTEGER,
+    last_run_time TIMESTAMP,
+    assigned_worker_name VARCHAR(512)
+);
+success!
+timestamp: 2016-04-03T22:06:59.461597
+CREATE TABLE scheduler_run(
+    id SERIAL PRIMARY KEY,
+    task_id INTEGER REFERENCES scheduler_task (id) ON DELETE CASCADE  ,
+    status VARCHAR(512),
+    start_time TIMESTAMP,
+    stop_time TIMESTAMP,
+    run_output TEXT,
+    run_result TEXT,
+    traceback TEXT,
+    worker_name VARCHAR(512)
+);
+success!
+timestamp: 2016-04-03T22:06:59.553509
+CREATE TABLE scheduler_worker(
+    id SERIAL PRIMARY KEY,
+    worker_name VARCHAR(255) UNIQUE,
+    first_heartbeat TIMESTAMP,
+    last_heartbeat TIMESTAMP,
+    status VARCHAR(512),
+    is_ticker CHAR(1),
+    group_names TEXT,
+    worker_stats JSON
+);
+success!
+timestamp: 2016-04-03T22:06:59.644627
+CREATE TABLE scheduler_task_deps(
+    id SERIAL PRIMARY KEY,
+    job_name VARCHAR(512),
+    task_parent INTEGER,
+    task_child INTEGER REFERENCES scheduler_task (id) ON DELETE CASCADE  ,
+    can_visit CHAR(1)
+);
+success!
+timestamp: 2016-04-03T22:41:31.130849
+ALTER TABLE job ADD task_id VARCHAR(512);
+success!
+timestamp: 2016-04-05T18:04:17.532780
+ALTER TABLE job DROP COLUMN state;
+success!
+timestamp: 2016-04-05T18:27:32.256725
+ALTER TABLE job ADD task_id__tmp INTEGER;
+UPDATE job SET task_id__tmp=task_id;
+timestamp: 2016-04-05T18:27:34.062051
+ALTER TABLE job ADD task_id__tmp INTEGER;
+UPDATE job SET task_id__tmp=task_id;
+timestamp: 2016-04-05T18:27:59.157388
+ALTER TABLE job ADD task_id__tmp INTEGER;
+UPDATE job SET task_id__tmp=task_id;
+timestamp: 2016-04-05T18:32:23.831038
+ALTER TABLE job ADD task_id__tmp INTEGER;
+UPDATE job SET task_id__tmp=task_id;
+timestamp: 2016-04-05T18:32:56.951820
+ALTER TABLE job ADD task_id__tmp INTEGER;
+UPDATE job SET task_id__tmp=task_id;

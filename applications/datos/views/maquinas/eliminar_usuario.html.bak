@@ -1,0 +1,3 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla maquinas/eliminar_usuario.html</h1>
+{{=form}}

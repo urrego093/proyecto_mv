@@ -24,7 +24,7 @@ auth.settings.registration_requires_approval = True
 auth.settings.reset_password_requires_verification = False
 
 
-#Define tables off model 
+#Define tables of model 
 
 db1.define_table('course',
                 Field('code_course','integer', length=3, label = T('Course Code'),requires=IS_NOT_EMPTY()),
@@ -77,3 +77,20 @@ db1.define_table('student_x_machine',
 
 db1.student_x_machine.ip_machine.requires=IS_NOT_IN_DB(db1(db1.student_x_machine.semester==request.vars.semester),
     'student_x_machine.ip_machine')
+
+db1.define_table('job',
+    Field('name', 'string', label=T('Job Name'), requires=IS_NOT_EMPTY()),
+    Field('user_id', 'reference auth_user', label=T('Teacher'), 
+          requires=IS_IN_DB(db1, db1.auth_user.id)   ),
+    Field('task_id' , 
+          #type = 'integer',    #('ERROR', '42804', 'column "task_id__tmp" is of type integer but expression is of type character varying')
+          
+          #'reference db1.scheduler_task' ,  
+          # SE DEFINE EN SCHEDULER.PY los modelos se ejecutan en orden alfabetico,
+          #la tabla a la q se quiere hacer refernecia se crea despues de q se ejecuta este archivo
+          label=T('Task ID'))
+                 #,
+   # Field('state', label=T('State'), type='boolean', default=False) # lo maneja la tabla scheduler_task
+)
+
+db1.job.name.requires=IS_NOT_IN_DB(db1(db1.job.name==request.vars.name), 'job.name')

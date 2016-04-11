@@ -5,9 +5,9 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('web',SPAN(2),'py'),XML('&trade;&nbsp;'),
-                  _class="navbar-brand",_href="http://www.web2py.com/",
-                  _id="web2py-logo")
+response.logo = A(B('PMV'),XML('&nbsp;'),
+                  _class="navbar-brand",_href=URL('default', 'index'),
+                  _id="pmv_logo")
 response.title = request.application.replace('_',' ').title()
 response.subtitle = ''
 
@@ -31,12 +31,16 @@ response.menu = [
         (T('Teacher'), False, URL('default', 'agree_teacher'))]),
     (T('SSH Tests'), False, '#', 
      [
-        (T('Fabric'), False, URL('encendido', 'fabric')),
-        (T('Ansible'), False, URL('encendido', 'fabric'))
+        #(T('Fabric'), False, URL('encendido', 'fabric')),
+        (T('Ansible'), False, URL('encendido', 'ansible'))
      ])
 ]
 
-DEVELOPMENT_MENU = True
+response.menu += [
+    (T('Machines'), False, URL('maquinas','mostrar')),
+    (T('My jobs'), False, URL('tareas', 'index'))
+]
+DEVELOPMENT_MENU = False
 
 #########################################################################
 ## provide shortcuts for development. remove in production

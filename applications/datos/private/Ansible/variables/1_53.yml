@@ -1,0 +1,5 @@
+action: create_user
+admin: 'no'
+password: Ab1234
+remote: all
+username: tes1

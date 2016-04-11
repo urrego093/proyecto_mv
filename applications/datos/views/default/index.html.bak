@@ -3,3 +3,4 @@
     {{T('Welcome')}}
     Holaaaaaa
 </h2>
+{{=grid}}
