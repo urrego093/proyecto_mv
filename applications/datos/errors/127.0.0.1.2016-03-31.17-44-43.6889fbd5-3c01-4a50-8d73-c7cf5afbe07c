@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.UnboundLocalError'> local variable 'form' referenced before assignment"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# intente algo como\nimport os\nimport playbook\nimport escribir_variables\n\n\'\'\'\ndef index():\n    cabezas = ["ip_machine", "code_course", "operative_system", "memory", "processor"]\n    filas =  db1((db1.machine.ip_machine)).select(\n        db1.machine.ip_machine, db1.machine.code_course, db1.machine.operative_system,db1.machine.memory,db1.machine.processor\n    )\n    acciones = [T("Restart"),T("Add user")]\n    return locals()\n\'\'\'\n    \n\'\'\'\ndef configurar():\n   \n    ids = request.vars.id\n    opcion = request.vars.accion\n    #query = /......\n    \n    #crear formulario segun opcion\n    #return locals()\n    redirect(  URL(\'maquinas\', \'ejecutar\', vars=dict(ids=ids, opcoin=opcion)) )\n\'\'\'\n    \ndef mostrar():\n    # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers\n    # como agregar campos a un formulario https://web2py.wordpress.com/2010/05/01/more-customization-on-forms/\n    opciones = [T("Restart"), T("Test"), T("Foo")]\n    test = SELECT(*opciones, **dict(_name="accion", _id="accion") )\n\n    grid = SQLFORM.grid(db1.machine,         csv=False, editable=False, deletable=False,\n        #query = asdasdasdasdasads\n        selectable = lambda ids :\n                        redirect(     URL(  \'maquinas\', \'configurar\', vars=dict(ids=ids)    )  )\n    )\n    grid[1][0].insert(1, test)\n    grid[1][\'_align\'] = "center" # jejeje\n    \n    #GRACIAS!!!!   https://groups.google.com/forum/#!topic/web2py/3kSpuDgo1Lw\n    x = grid[1][0].process()\n    x["_method"] =\'post\'\n    if x.accepted:\n        if x.vars.accion == "Restart":\n            redirect (URL(\'reiniciar\', vars=dict(ids= x.vars.records)))\n        else:\n            #redirect ( URL(  \'maquinas\', \'configurar\', vars=dict(accion=x.vars.accion, id= x.vars.records) ))\n            print "SE REALIZARA OTRA ACCION"\n    return locals()\n\ndef reiniciar():\n    form["_align"] = "center"\n    form = FORM(_method=\'post\').confirm(T(\'Are you sure?\'),{T(\'Back\'):URL(\'mostrar\')})\n    return locals()\n\ndef ejecutar():\n    ids = request.vars["ids"]\n    \n    filas =  db1((db1.machine.ip_machine)).select(\n        db1.machine.ip_machine\n    )\n\n    ips = []\n    for i in ids:\n        entero = int(i)-1\n        ips.append( filas[entero]["ip_machine"] )\n     \n    #se escribe el archivo\n    indentificador = auth.user_id\n    nombres = db1(db1.auth_user.id == indentificador).select(db1.auth_user.first_name, db1.auth_user.last_name)\n\n    nombre = "Ansible/" + nombres[0]["first_name"] + "_" + nombres[0]["last_name"]\n    archivo = open(os.path.join(request.folder, \'private\', nombre), \'w\')\n    \n    for ip in ips:\n        archivo.write(ip + "\\n")\n        #pass\n    #crear formulario segun\n\n    redirect(URL(\'maquinas\', \'mostrar\'))\n\nresponse._vars=response._caller(reiniciar)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py", line 85, in <module>\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py", line 55, in reiniciar\n    form["_align"] = "center"\nUnboundLocalError: local variable \'form\' referenced before assignment\n'
+p11
+s.

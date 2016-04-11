@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+<script>
+    function leerEleccion(a) {
+        /*a.options[1].value= "jajajjaa"
+        var eleccion = a.options[elemento.selectedIndex].value;
+        a.value = eleccion;
+        window.alert(a.value)
+        //console.log(eleccion)
+        return eleccion*/
+        window.alert("asdasdasd")
+        var option = document.createElement("option");
+        option.text = "Text";
+        option.value = "myvalue";
+        var select = document.getElementById("accion");
+        select.appendChild(option);
+}
+</script>
+{{=grid}}
+{{=test2}}
+{{#=BEAUTIFY(response._vars)}}

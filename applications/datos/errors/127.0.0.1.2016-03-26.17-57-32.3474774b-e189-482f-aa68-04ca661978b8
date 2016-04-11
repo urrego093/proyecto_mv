@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.KeyError'> "
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# intente algo como\ndef index():\n    cabezas = ["ip_machine", "code_course", "operative_system", "memory", "processor"]\n    filas =  db1((db1.machine.ip_machine)).select(\n        db1.machine.ip_machine, db1.machine.code_course, db1.machine.operative_system,db1.machine.memory,db1.machine.processor\n    )\n    acciones = [T("Restart"),T("Add user")]\n    return locals()\n\ndef ejecutar():\n    ids = request.vars["id"]\n\n    #query = /......\n    filas =  db1((db1.machine.ip_machine)).select(\n        db1.machine.ip_machine\n        #, db1.machine.operative_system\n    )\n    print "Filas SON: ", filas[0][0]\n    \n    \'\'\'\n    ips = []\n    for i in ids:\n        ips.append(int(filas[i]))\n    print "IPS: ", ips\n    \'\'\'\n    redirect(URL(\'maquinas\', \'mostrar\'))\n    \ndef mostrar():\n    #query = \n    #campos = [\'ip_machine\', \'code_course\',\'operative_system\',\'memory\',\'processor\']\n    grid = SQLFORM.grid(db1.machine,\n                        #query = asdasdasdasdasads\n                       selectable = lambda ids : redirect(URL(\'maquinas\', \'ejecutar\', vars=dict(id=ids))),\n                        csv=False\n                       )\n    return locals()\n\nresponse._vars=response._caller(ejecutar)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py", line 39, in <module>\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py", line 19, in ejecutar\n    print "Filas SON: ", filas[0][0]\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/packages/dal/pydal/objects.py", line 76, in __getitem__\n    raise KeyError\nKeyError\n'
+p11
+s.

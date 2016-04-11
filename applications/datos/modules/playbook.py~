@@ -1,0 +1,89 @@
+# -*- coding: utf-8 -*-
+import subprocess
+import shlex
+import os
+# libreria para correr hilos
+from threading import Thread
+import json
+
+#modificado de http://www.tutorialspoint.com/python/python_multithreading.htm
+
+'''
+  Escribir un archivo con el resultado de la ejecucion del playbook
+'''
+class Proceso_hilo(Thread):
+  '''
+    nombre: EL nombre del archivo de salida, como se va a guardar i.e. usuario_apellido_01, deberia incluir la ruta
+    playbook: La ruta al playbook
+    hosts: La ruta al inventario, por defecto se crea como nombre_apellido, asi cada usuario tiene un archivo
+    variables: la ruta del archivo con extension json o yml, yml es mas facil
+      yml:  ---
+            vaiable: foo
+            variable2: 2
+            ...
+      json:  {"variable" : "foo", "variable2" : 2}
+
+    Crear el archivo json o yml con un script externo, este script solo recibe los parametros
+    para ejecutar un playbook y guarda el resumen final de la ejecucion
+
+    PLAY RECAP *********************************************************************
+    192.168.0.108              : ok=0    changed=0    unreachable=1    failed=0   
+    192.168.0.110              : ok=0    changed=0    unreachable=1    failed=0   
+
+  '''
+  def __init__(self, nombre, playbook, hosts, variables=None ):
+    Thread.__init__(self)
+   # self.threadID = threadID
+    self.nombre = nombre
+    self.playbook = playbook
+    self.hosts = hosts
+    self.pid = -1
+    self.salida = None
+    self.variables = variables
+    #self.__dict__ = {} # para evitar que puedan retornar todas las varibales de la clase en un diccionario
+    #self.errores = None
+
+  # Guarda un archivo de texto ".txt" con el resumen de la ejecuion del playbook
+  def guardar_resumen(self, texto):
+    archivo = self.nombre + ".txt"
+    with open(archivo, "w") as a_escribir:
+      json.dump(texto, a_escribir)
+
+  #ejecuta el playbook con todos los parametros 
+  def run(self):
+    extra_vars = ""
+    if self.variables:
+      extra_vars = " --extra-vars @" + self.variables
+    comando = "ansible-playbook " + self.playbook + " -i " + self.hosts + extra_vars
+    #comando_listo = shlex.split(comando)
+    #print comando_listo
+    process = subprocess.Popen(comando, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    self.pid = process.pid
+    print "proceso es: ", self.pid
+    output = process.communicate()
+    self.salida = output[0]
+    str_salida = self.salida.split("PLAY RECAP *********************************************************************")
+    
+    self.guardar_resumen(str_salida[1])
+
+    return str_salida[1]
+
+
+
+# un hilo que ejcuta un playbook sobre un grupo de hosts, ambos pasados como parametros, 
+#hilo1= Proceso_hilo("test2", "/home/camilo/Escritorio/ping.yml", "/home/camilo/Escritorio/ejemplo/inventario")
+#salida = hilo1.start()
+#print salida
+
+'''
+hilo2= Proceso_hilo("/home/camilo/Escritorio/pruebas_ansible/test2", "/home/camilo/Escritorio/pruebas_ansible/ping_variables.yml", "/home/camilo/Escritorio/ejemplo/inventario",
+ "/home/camilo/Escritorio/pruebas_ansible/variables.yml")
+salida2 = hilo2.start()
+'''
+
+
+
+'''
+linea_prueba = "Linea de Pruebda :D \n"
+print linea_prueba
+'''

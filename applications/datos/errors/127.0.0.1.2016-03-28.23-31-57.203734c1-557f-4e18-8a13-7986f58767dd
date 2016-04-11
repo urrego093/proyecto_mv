@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.TypeError'> 'NoneType' object is not iterable"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# intente algo como\nimport os\n\'\'\'\ndef index():\n    cabezas = ["ip_machine", "code_course", "operative_system", "memory", "processor"]\n    filas =  db1((db1.machine.ip_machine)).select(\n        db1.machine.ip_machine, db1.machine.code_course, db1.machine.operative_system,db1.machine.memory,db1.machine.processor\n    )\n    acciones = [T("Restart"),T("Add user")]\n    return locals()\n\'\'\'\n\n\ndef retornar_valor(form):\n    print "In onvalidation callback"\n    print form.vars\n    form.errors= True  #this prevents the submission from completing\n\n\ndef configurar():\n    variables = request.args\n    print "VARIABLES SON ------------------: " \n    for variable in variables:\n        print variable\n        \n    ids = request.vars["id"]\n    \n    #query = /......\n    filas =  db1((db1.machine.ip_machine)).select(\n        db1.machine.ip_machine\n    )\n\n    ips = []\n    for i in ids:\n        entero = int(i)-1\n        ips.append( filas[entero]["ip_machine"] )\n\n    #crear formulario segun opcion\n\n    redirect(  URL(\'maquinas\', \'ejecutar\', vars=dict(ips=ips)) )\n\n    \ndef mostrar():\n    # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers\n    # como agregar campos a un formulario https://web2py.wordpress.com/2010/05/01/more-customization-on-forms/\n    opciones = [T("Restart"), T("Test")]\n    test = SELECT(*opciones, **dict(_name="accion", _id="accion", _onsubmit=\'\') )\n    grid = SQLFORM.grid(db1.machine,         csv=False, editable=False, deletable=False,\n        #query = asdasdasdasdasads\n        selectable = lambda ids : redirect(     URL(  \'maquinas\', \'configurar\', vars=dict(id=ids))  )\n    )\n    grid[1][0].insert(1, test)\n    grid[1][\'_align\'] = "center" # jejeje\n    grid[1][0][2]["_value"] = T("Set Parameters")\n    x = grid[1][0][1]["_value"]\n    grid[1][0][2]["_onsubmit"] = redirect(   URL(  \'maquinas\', \'configurar\', args=dict(accion=x) ) )\n    print grid[1][0][2]["_onsubmit"]\n    return locals()\n\ndef ejecutar():\n    ips = request.vars["ips"]\n    #response.vars = dict(ips=ips )\n\n    #se escribe el archivo\n    indentificador = auth.user_id\n    nombres = db1(db1.auth_user.id == indentificador).select(db1.auth_user.first_name, db1.auth_user.last_name)\n\n    nombre = "Ansible/" + nombres[0]["first_name"] + "_" + nombres[0]["last_name"]\n    archivo = open(os.path.join(request.folder, \'private\', nombre), \'w\')\n    \n    for ip in ips:\n        archivo.write(ip + "\\n")\n        #pass\n    #crear formulario segun\n\n    redirect(URL(\'maquinas\', \'mostrar\'))\n\nresponse._vars=response._caller(configurar)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py", line 79, in <module>\n  File "/home/camilo/Escritorio/repo_git/web2py/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/repo_git/web2py/applications/datos/controllers/maquinas.py", line 35, in configurar\n    for i in ids:\nTypeError: \'NoneType\' object is not iterable\n'
+p11
+s.
