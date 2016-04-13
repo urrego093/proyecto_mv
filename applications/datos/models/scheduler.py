@@ -104,6 +104,6 @@ scheduler = Scheduler(db1,
 #                        demo4=demo4,
 #                        foo=demo5
                         )
-                      )
+                      , migrate=mig)
 
 db1.job.task_id._reference = 'db1.scheduler_task'

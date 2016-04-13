@@ -31,11 +31,6 @@ def escribir_variables_yml(ruta_nombre, variables):
 
     with open(ruta_nombre, 'w') as fp:
         yaml.dump(diccionario, fp, default_flow_style=False)
-
-    #for llave in diccionario:
-        #print llave, "corresponde a ", diccionario[variable]
-        #archivo.write(variable + ':' + valor)
-		#yaml.dump(variables, f, default_flow_style=False) # si se coloca en true las variables quedan rodeadas de {}, al parecer ya no importa jajaj
     return ruta_nombre
         
 def escribir_variables_json(ruta_nombre, variables):
@@ -109,6 +104,6 @@ scheduler = Scheduler(db1,
 #                        demo4=demo4,
 #                        foo=demo5
                         )
-                      )
+                      , migrate=mig)
 
 db1.job.task_id._reference = 'db1.scheduler_task'

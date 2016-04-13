@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 #Define constants
-<<<<<<< HEAD
 STR_DAL ="postgres://udistrital:maquinas123@localhost/Universidad"
-=======
-STR_DAL ="postgres://postgres:1234@localhost/proyecto2"
->>>>>>> origin
 
 #This is for operating system use in the virtual machine
 OPERA_SYSTEM = ['Fedora','CentOs','Ubuntu','Kali','Windows', T('Other')]
