@@ -4,19 +4,19 @@
 #  vars_files:
 #    - group_vars/fedora.yml
   tasks:
-#  - name: Mostrar clave
-#    debug: var=ansible_become_pass
+  - name: Mostrar clave
+    debug: var=ansible_become_pass
 
-#  - name: Mostrar usuario
-#    debug: var=ansible_user
+  - name: Mostrar usuario
+    debug: var=ansible_user
 
   - name: reiniciar maquina
     shell: reboot
     async: 60
-    poll: 0 
+    poll: 0
     become: yes
     become_user: root
-    become_method: sudo    
+    become_method: sudo
     ignore_errors: true
 
 

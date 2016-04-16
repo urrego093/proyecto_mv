@@ -115,6 +115,8 @@
 'Controller': 'Controlador',
 'Controllers': 'Controladores',
 'controllers': 'controladores',
+'Copy Files': 'Copy Files',
+'Copy Files:': 'Copy Files:',
 'Copyright': 'Copyright',
 'Course': 'Curso',
 'Course Code': 'Código de curso',

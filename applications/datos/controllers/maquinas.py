@@ -12,11 +12,11 @@ def index():
     acciones = [T("Restart"),T("Add user")]
     return locals()
 '''
-
+@auth.requires_login()
 def mostrar():
     # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers
     # como agregar campos a un formulario https://web2py.wordpress.com/2010/05/01/more-customization-on-forms/
-    opciones = [T("Restart"), T("Create User"), T("Delete User")]
+    opciones = [T("Restart"), T("Create User"), T("Delete User"), T("Copy Files")]
     #test2 = SQLFORM.factory(
     #    Field('accion',requires=IS_IN_SET(opciones))
     #)
@@ -42,6 +42,8 @@ def mostrar():
                 redirect(URL('usuarios',vars=dict(ids= x.vars.records)))
             elif x.vars.accion == T("Delete User"):
                 redirect(URL('eliminar_usuario',vars=dict(ids= x.vars.records)))
+            elif x.vars.accion == T("Copy Files"):
+                redirect(URL('copiar_archivos',vars=dict(ids= x.vars.records)))
             else:
                 pass
         else:
@@ -51,6 +53,7 @@ def mostrar():
         #response.flash = T('Please select at leats one id')
     return locals()
 
+@auth.requires_login()
 def usuarios():
     ids = request.vars["ids"]
     form = SQLFORM.factory(
@@ -71,6 +74,7 @@ def usuarios():
 
     return dict(form=form)
 
+@auth.requires_login()
 def eliminar_usuario():
     ids = request.vars["ids"]
     form = SQLFORM.factory(
@@ -83,28 +87,60 @@ def eliminar_usuario():
         redirect(URL('ejecutar', vars= dict(ids=ids, opcion="delete_user", variables_extra = variables_extra)))
     return dict(form= form)
 
+@auth.requires_login()
 def reiniciar():
     ids = request.vars["ids"]
     form = FORM(_method='post').confirm(T('Restart'),{T('Back'):URL('mostrar#')})
     form["_align"] = "center"
+    
     pregunta = T('Do you really whish to restart the selected machines?')
-
+    
     if form.accepted:
         print "se reiniciara la maquina"
         redirect(URL('ejecutar', vars= dict(ids=ids, opcion='restart')))
         #print tarea
     return locals()
 
+@auth.requires_login()
+def copiar_archivos():
+    ids = request.vars["ids"]
+    ruta_basica = os.path.join(request.folder, 'uploads/')
+    HOSTNAME=['Carlos','centos']
+    url = URL('download')
+    # https://groups.google.com/forum/#!topic/web2py/X5xmXyTCavY Checkbox Multiple
+    form = SQLFORM.factory(  Field("archivo", "upload", uploadfolder=ruta_basica, autodelete=True), #widget=SQLFORM.widgets.upload.widget),
+    
+    #form = SQLFORM.factory( Field("archivo", widget=SQLFORM.widgets.upload.widget),
+        Field("hostname", "list:string",
+              default=HOSTNAME,widget=SQLFORM.widgets.checkboxes.widget,
+              requires=[IS_IN_SET(HOSTNAME,multiple=True),IS_NOT_EMPTY()]))
+    form.add_button(T('Back'), URL('mostrar#'))
+
+    #var_extra = dict(origen=request.vars.archivo, somelist=request.vars.hostname)
+    var_extra = ""#"origen=" +str("") + "somelist=" + str(request.vars.hostname)
+
+    print "\n\n ********************************** \n\n"
+    if request.vars.archivo:
+        var_extra = request.vars.archivo.filename
+    if form.accepts(request.vars, session):
+        #http://stackoverflow.com/questions/8008213/web2py-upload-with-original-filename todo un día intentado hacer lo que este chico me soluciono :D
+        coded_name = form.vars.archivo
+        orig_name = request.vars.archivo.filename
+        os.rename(ruta_basica + coded_name, ruta_basica + orig_name)
+        redirect(URL('ejecutar', vars= dict(ids=ids, opcion='copyFile', variables_extra=dict(origen=ruta_basica + orig_name,
+                                                                                             somelist=request.vars.hostname))))
+    return locals()
 
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
-    playbooks= dict(restart='reiniciar.yml', create_user='usuarios/linux_users.yml', delete_user='usuarios/linux_users.yml')
-
+    playbooks= dict(restart='reiniciar.yml', create_user='usuarios/linux_users.yml', delete_user='usuarios/linux_users.yml', copyFile='copiarArchivo.yml')
+     
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]
     opcion = request.vars['opcion']
     variables_extra = request.vars['variables_extra']
-
+    print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra) 
+    
     #se crea el nombre de los archivos de la tarea con primerNombre_segundoNombre
     indentificador = auth.user_id
     #nombres = db1(db1.auth_user.id == indentificador).select(db1.auth_user.first_name,      db1.auth_user.last_name)
@@ -113,6 +149,7 @@ def ejecutar():
 
     trabajos_usuario = db1(db1.job.user_id == auth.user_id).select()
     total_trabajos = len(trabajos_usuario)
+
 
     nombre = str(indentificador) + '_' + str(total_trabajos)
 
@@ -124,12 +161,14 @@ def ejecutar():
         ruta_extra=ruta_basica + "variables/" + nombre,
         variables=variables_extra
     )
+    
+    
 
     #se pide al worker o proceso en segundo plano que ejcuta el playbook en maximo 10 minutos
     tarea = scheduler.queue_task(
         "playbook", pargs=ids, pvars=variables, stop_time = None, timeout = 120 ,repeats = 1
     )
-
+    print "id " + str(tarea.id) #id de la tarea 
     #se inserta un registro de la tarea en la base de datos con la referencia al campo en la tabla scheduler_task,
     #dicha tabla maneja los estados de una tarea, registra los errores, guarda los argumentos(parametros en un arreglo)
     # y las variables(parametros en un diccionario)

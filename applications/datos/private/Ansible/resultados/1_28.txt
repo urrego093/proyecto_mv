@@ -1,2 +1,4 @@
-192.168.0.108              : ok=0    changed=0    unreachable=1    failed=0   
-192.168.0.110              : ok=0    changed=0    unreachable=1    failed=0   
+ 
+           to retry, use: --limit @/home/Carlos/linux_users.retry
+192.168.1.62               : ok=2    changed=1    unreachable=0    failed=0   
+192.168.1.63               : ok=0    changed=0    unreachable=1    failed=0   

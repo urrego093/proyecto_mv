@@ -60,6 +60,7 @@ def crear_inventario(ruta_nombre, ids):
 
 def playbook(*args, **vars):
     #recuperando datos pasados en un diccionario
+    print "entro al playbook"
     nombre = vars['nombre']
     playbook = vars['playbook']
     hosts = vars['hosts']
@@ -76,7 +77,7 @@ def playbook(*args, **vars):
         ruta_variables =  vars['ruta_extra']
         ruta_variables = escribir_variables_yml(ruta_variables, variables)
         extra_vars = " --extra-vars @" + ruta_variables
-    #print extra_vars
+    print extra_vars
     comando = "ansible-playbook " + playbook + " -i " + hosts + extra_vars
     
     #comando_listo = shlex.split(comando)
@@ -89,7 +90,8 @@ def playbook(*args, **vars):
     
     output = process.communicate()
     salida = output[0]
-    str_salida = salida.split("PLAY RECAP *********************************************************************")
+    #str_salida = salida.split("PLAY RECAP *********************************************************************") #Camilo 
+    str_salida = salida.split("PLAY RECAP ********************************************************************") #Carlos
     print output
     
    

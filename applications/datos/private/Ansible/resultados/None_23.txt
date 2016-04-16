@@ -1,0 +1,4 @@
+ 
+           to retry, use: --limit @/home/Carlos/copiarArchivo.retry
+192.168.1.62               : ok=0    changed=0    unreachable=1    failed=0   
+192.168.1.63               : ok=0    changed=0    unreachable=1    failed=0   

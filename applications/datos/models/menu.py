@@ -5,7 +5,7 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('Virtual Maquine UD'),XML('&trade;&nbsp;'),
+response.logo = A(B('VM-UD'),XML('&trade;&nbsp;'),
                   _class="navbar-brand",_href=URL('default', 'index'),
                   _id="pmv_logo")
 
@@ -42,7 +42,7 @@ response.menu += [
     (T('Machines'), False, URL('maquinas','mostrar')),
     (T('My jobs'), False, URL('tareas', 'index'))
 ]
-DEVELOPMENT_MENU = True
+DEVELOPMENT_MENU = False
 
 #########################################################################
 ## provide shortcuts for development. remove in production
