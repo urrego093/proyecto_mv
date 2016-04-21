@@ -1,0 +1,979 @@
+(dp1
+S'output'
+p2
+S"<class 'gluon.contrib.pg8000.ProgrammingError'> ('ERROR', '42P07', 'la relaci\\xc3\\xb3n \\xc2\\xabscheduler_task\\xc2\\xbb ya existe')"
+p3
+sS'layer'
+p4
+S'/home/Carlos/Descargas/web2py/applications/datos/models/scheduler.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\nfrom gluon.scheduler import Scheduler\n\n#para ejecutar los comandos remotos\nimport subprocess\n\n# para partir los comandos, no sirvio muy bien\n#import shlex \n\n#para construir la ruta a los archivos\nimport os\n\n# para sacar los resultados en una sola linea \nimport yaml\nimport json\n\n# interpreta un string como codigo python, usado para obtener el diccionario de variables que se convierte a string automaticamente\nimport ast\n\ndef guardar_resumen(nombre, texto):\n    nombre_txt = nombre + ".txt"\n    archivo = open(nombre_txt, "w+")\n    registros = texto.split(\'\\n\')\n    for registro in registros:\n        if registro != \'\':\n            archivo.write(registro + \'\\n\')\n\ndef escribir_variables_yml(ruta_nombre, variables):\n    ruta_nombre += \'.yml\'\n    diccionario = ast.literal_eval(variables)\n\n    with open(ruta_nombre, \'w\') as fp:\n        yaml.dump(diccionario, fp, default_flow_style=False)\n    return ruta_nombre\n        \ndef escribir_variables_json(ruta_nombre, variables):\n    ruta_nombre += \'.json\'\n    diccionario = ast.literal_eval(variables)\n\n    with open(ruta_nombre, \'w\') as fp:\n        json.dump(diccionario, fp)\n    return ruta_nombre\n        \ndef crear_inventario(ruta_nombre, ids):\n    #recuperando las ips segun las ids recibidas\n    filas =  db1(db1.machine).select(\n        db1.machine.id, db1.machine.ip_machine\n    )\n    ips = []\n    for identificador in ids:\n        for fila in filas:\n            if fila[\'id\'] == int(identificador):\n                ips.append( fila[\'ip_machine\'] )\n    \n    #se crea un archivo con las direcciones ip de las maquinas seleccionadas (el archivo inventario)\n    archivo = open(ruta_nombre, \'w\')\n    #print "IPS SON: ", ips\n    for ip in ips:\n        archivo.write(ip + "\\n")\n\ndef playbook(*args, **vars):\n    #recuperando datos pasados en un diccionario\n    nombre = vars[\'nombre\']\n    playbook = vars[\'playbook\']\n    hosts = vars[\'hosts\']\n    pid = -1 # no lo usamos para nada \n    salida = None\n    variables = vars[\'variables\']\n    \n    ids = args\n    crear_inventario(hosts, ids)\n    \n    #creando una parte del comando que incluye como variables extra el archivo indicado\n    extra_vars = ""\n    if variables:\n        ruta_variables =  vars[\'ruta_extra\']\n        ruta_variables = escribir_variables_yml(ruta_variables, variables)\n        extra_vars = " --extra-vars @" + ruta_variables\n    #print extra_vars\n    comando = "ansible-playbook " + playbook + " -i " + hosts + extra_vars\n    \n    #comando_listo = shlex.split(comando)\n    #print comando_listo\n    \n    \n    process = subprocess.Popen(comando, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)\n    pid = process.pid\n    #print "proceso es: ", pid\n    \n    output = process.communicate()\n    salida = output[0]\n    str_salida = salida.split("PLAY RECAP *********************************************************************")\n    print output\n    \n   \n    guardar_resumen(nombre, str_salida[1])\n    \n    return 1\n    \nscheduler = Scheduler(db1,\n    dict( playbook=playbook\n#                        demo2=demo2,\n#                        demo3=demo3,\n#                        demo4=demo4,\n#                        foo=demo5\n                        )\n                      , migrate=True)\n\ndb1.job.task_id._reference = \'db1.scheduler_task\'\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__module__'
+p12
+S"'gluon.contrib.pg8000'"
+p13
+sS'__getslice__'
+p14
+S"<method-wrapper '__getslice__' of ProgrammingError object>"
+p15
+sS'__str__'
+p16
+S"<method-wrapper '__str__' of ProgrammingError object>"
+p17
+sS'__reduce__'
+p18
+S'<built-in method __reduce__ of ProgrammingError object>'
+p19
+sS'__dict__'
+p20
+S'{}'
+p21
+sS'__sizeof__'
+p22
+S'<built-in method __sizeof__ of ProgrammingError object>'
+p23
+sS'__weakref__'
+p24
+S'None'
+p25
+sS'__init__'
+p26
+S"<method-wrapper '__init__' of ProgrammingError object>"
+p27
+sS'__setattr__'
+p28
+S"<method-wrapper '__setattr__' of ProgrammingError object>"
+p29
+sS'__reduce_ex__'
+p30
+S'<built-in method __reduce_ex__ of ProgrammingError object>'
+p31
+sS'__new__'
+p32
+S'<built-in method __new__ of type object>'
+p33
+sS'__format__'
+p34
+S'<built-in method __format__ of ProgrammingError object>'
+p35
+sS'__class__'
+p36
+S"<class 'gluon.contrib.pg8000.ProgrammingError'>"
+p37
+sS'__doc__'
+p38
+S"'Generic exception raised for programming errors....http://www.python.org/dev/peps/pep-0249/>`_.\\n    '"
+p39
+sS'__getitem__'
+p40
+S"<method-wrapper '__getitem__' of ProgrammingError object>"
+p41
+sS'__setstate__'
+p42
+S'<built-in method __setstate__ of ProgrammingError object>'
+p43
+sS'__getattribute__'
+p44
+S"<method-wrapper '__getattribute__' of ProgrammingError object>"
+p45
+sS'args'
+p46
+S"('ERROR', '42P07', 'la relaci\\xc3\\xb3n \\xc2\\xabscheduler_task\\xc2\\xbb ya existe')"
+p47
+sS'__subclasshook__'
+p48
+S'<built-in method __subclasshook__ of type object>'
+p49
+sS'__unicode__'
+p50
+S'<built-in method __unicode__ of ProgrammingError object>'
+p51
+sS'__delattr__'
+p52
+S"<method-wrapper '__delattr__' of ProgrammingError object>"
+p53
+sS'__repr__'
+p54
+S"<method-wrapper '__repr__' of ProgrammingError object>"
+p55
+sS'__hash__'
+p56
+S"<method-wrapper '__hash__' of ProgrammingError object>"
+p57
+ssS'evalue'
+p58
+S"('ERROR', '42P07', 'la relaci\\xc3\\xb3n \\xc2\\xabscheduler_task\\xc2\\xbb ya existe')"
+p59
+sS'request'
+p60
+cgluon.html
+XML_unpickle
+p61
+(S's\xe4X\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>c966282651501</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>appadmin</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-51bb8556-7118-4e8c-98a6-dd7728b2a93f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_datos</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-e7cbb82e-acbd-467f-958b-6356b3ed4d03<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>es-CO,es;q=0.8,es-AR;q=0.6,en-US;q=0.4,en;q=0.2</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-51bb8556-7118-4e8c-98a6-dd7728b2a93f; session_id_datos=127.0.0.1-e7cbb82e-acbd-467f-958b-6356b3ed4d03</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_REFERER</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/admin/default/edit/datos/controllers/maquinas.py?id=controllers__maquinas__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_WEB2PY_COMPONENT_ELEMENT</td><td style="vertical-align:top;">:</td><td><div>c966282651501</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_WEB2PY_COMPONENT_LOCATION</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/admin/default/edit/datos/controllers/maquinas.py?id=controllers__maquinas__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_X_REQUESTED_WITH</td><td style="vertical-align:top;">:</td><td><div>XMLHttpRequest</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>33876</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>localhost.localdomain</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/Carlos/Descargas/web2py/applications/admin/&#x27;, &#x27;/home/Carlos/Descargas/web2py/applications/datos/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/Carlos/Descargas/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x7f28b9c94d88: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: True, &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;localhost.localdomain&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;port&#x27;: 8000, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/Carlos/Descargas/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: &#x27;datos&#x27;, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;******&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/Carlos/Descargas/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>es-CO,es;q=0.8,es-AR;q=0.6,en-US;q=0.4,en;q=0.2</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-51bb8556-7118-4e8c-98a6-dd7728b2a93f; session_id_datos=127.0.0.1-e7cbb82e-acbd-467f-958b-6356b3ed4d03</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_referer</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/admin/default/edit/datos/controllers/maquinas.py?id=controllers__maquinas__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_web2py_component_element</td><td style="vertical-align:top;">:</td><td><div>c966282651501</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_web2py_component_location</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/admin/default/edit/datos/controllers/maquinas.py?id=controllers__maquinas__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_x_requested_with</td><td style="vertical-align:top;">:</td><td><div>XMLHttpRequest</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>::1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr><tr><td><div>localhost.localdomain</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>33876</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>localhost.localdomain</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/Carlos/Descargas/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.3-stable+timestamp.2016.03.26.23.02.02</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f28cbc181e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f28b9d366d0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f2889b72f50&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f28cbc181e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f28b9d366d0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f2889b72f50&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/Carlos/Descargas/web2py/applications/datos/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/Carlos/Descargas/web2py/applications/admin/&#x27;, &#x27;/home/Carlos/Descargas/web2py/applications/datos/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/Carlos/Descargas/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x7f28b9c94d88: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: True, &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;localhost.localdomain&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;port&#x27;: 8000, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/Carlos/Descargas/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: &#x27;datos&#x27;, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;******&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/Carlos/Descargas/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>::1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr><tr><td><div>localhost.localdomain</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.3-stable+timestamp.2016.03.26.23.02.02</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 4, 14, 14, 51, 9, 943651)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 4, 14, 19, 51, 9, 943682)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f2889b768d0&gt;</div></td></tr></table></div>'
+tRp62
+sS'frames'
+p63
+(lp64
+(dp65
+S'file'
+p66
+S'/home/Carlos/Descargas/web2py/gluon/restricted.py'
+p67
+sS'dump'
+p68
+(dp69
+S'environment'
+p70
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}"
+p71
+sS'ccode'
+p72
+S'<code object <module> at 0x7f2889b07130, file "/.../applications/datos/models/scheduler.py", line 2>'
+p73
+ssS'lnum'
+p74
+I227
+sS'lines'
+p75
+(dp76
+I224
+S'            ccode = code'
+p77
+sI225
+S'        else:'
+p78
+sI226
+S'            ccode = compile2(code, layer)'
+p79
+sI227
+S'        exec ccode in environment'
+p80
+sI228
+S'    except HTTP:'
+p81
+sI229
+S'        raise'
+p82
+sI230
+S'    except RestrictedError:'
+p83
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p84
+sI222
+S'    try:'
+p85
+sI223
+S'        if isinstance(code, types.CodeType):'
+p86
+ssS'call'
+p87
+S'(code="# -*- coding: utf-8 -*-\\nfrom gluon.scheduler imp...b1.job.task_id._reference = \'db1.scheduler_task\'\\n", environment={\'A\': <class \'gluon.html.A\'>, \'ANY_OF\': <class \'gluon.validators.ANY_OF\'>, \'ASSIGNJS\': <function ASSIGNJS>, \'AppConfig\': <function AppConfig>, \'Auth\': <class \'gluon.tools.Auth\'>, \'B\': <class \'gluon.html.B\'>, \'BEAUTIFY\': <class \'gluon.html.BEAUTIFY\'>, \'BODY\': <class \'gluon.html.BODY\'>, \'BR\': <class \'gluon.html.BR\'>, \'BUTTON\': <class \'gluon.html.BUTTON\'>, ...}, layer=\'/home/Carlos/Descargas/web2py/applications/datos/models/scheduler.py\')'
+p88
+sS'func'
+p89
+S'restricted'
+p90
+sa(dp91
+g66
+S'/home/Carlos/Descargas/web2py/applications/datos/models/scheduler.py'
+p92
+sg68
+(dp93
+S'migrate'
+p94
+S'undefined'
+p95
+sS'builtinTrue'
+p96
+S'True'
+p97
+ssg74
+I107
+sg75
+(dp98
+I100
+S'scheduler = Scheduler(db1,'
+p99
+sI101
+S'    dict( playbook=playbook'
+p100
+sI102
+S'#                        demo2=demo2,'
+p101
+sI103
+S'#                        demo3=demo3,'
+p102
+sI104
+S'#                        demo4=demo4,'
+p103
+sI105
+S'#                        foo=demo5'
+p104
+sI106
+S'                        )'
+p105
+sI107
+S'                      , migrate=True)'
+p106
+sI108
+S''
+sI109
+S"db1.job.task_id._reference = 'db1.scheduler_task'"
+p107
+ssg87
+S'()'
+p108
+sg89
+S'<module>'
+p109
+sa(dp110
+g66
+S'/home/Carlos/Descargas/web2py/gluon/scheduler.py'
+p111
+sg68
+(dp112
+S'migrate'
+p113
+g97
+sS'self'
+p114
+S'<Scheduler(Thread-31, initial daemon)>'
+p115
+sS'db'
+p116
+S'<DAL uri="postgres:******@localhost/Universidad">'
+p117
+sS'self.define_tables'
+p118
+S'<bound method Scheduler.define_tables of <Scheduler(Thread-31, initial daemon)>>'
+p119
+ssg74
+I585
+sg75
+(dp120
+I580
+S'        )  # dict holding statistics'
+p121
+sI581
+S''
+sI582
+S'        from gluon import current'
+p122
+sI583
+S'        current._scheduler = self'
+p123
+sI584
+S''
+sI585
+S'        self.define_tables(db, migrate=migrate)'
+p124
+sI586
+S''
+sI587
+S'    def __get_migrate(self, tablename, migrate=True):'
+p125
+sI588
+S'        if migrate is False:'
+p126
+sI589
+S'            return False'
+p127
+ssg87
+S'(self=<Scheduler(Thread-31, initial daemon)>, db=<DAL uri="postgres:******@localhost/Universidad">, tasks={\'playbook\': <function playbook>}, migrate=True, worker_name=None, group_names=None, heartbeat=3, max_empty_runs=0, discard_results=False, utc_time=False)'
+p128
+sg89
+g26
+sa(dp129
+g66
+S'/home/Carlos/Descargas/web2py/gluon/scheduler.py'
+p130
+sg68
+(dp131
+S'builtinformat'
+p132
+S'<built-in function format>'
+p133
+ssg74
+I653
+sg75
+(dp134
+I648
+S"            Field('times_failed', 'integer', default=0, writable=False),"
+p135
+sI649
+S"            Field('last_run_time', 'datetime', writable=False, readable=False),"
+p136
+sI650
+S"            Field('assigned_worker_name', default='', writable=False),"
+p137
+sI651
+S'            on_define=self.set_requirements,'
+p138
+sI652
+S"            migrate=self.__get_migrate('scheduler_task', migrate),"
+p139
+sI653
+S"            format='%(task_name)s')"
+p140
+sI654
+S''
+sI655
+S'        db.define_table('
+p141
+sI656
+S"            'scheduler_run',"
+p142
+sI657
+S"            Field('task_id', 'reference scheduler_task'),"
+p143
+ssg87
+S'(self=<Scheduler(Thread-31, initial daemon)>, db=<DAL uri="postgres:******@localhost/Universidad">, migrate=True)'
+p144
+sg89
+S'define_tables'
+p145
+sa(dp146
+g66
+S'/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/base.py'
+p147
+sg68
+(dp148
+S'fields'
+p149
+S'(<pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, ...)'
+p150
+sS'self'
+p151
+S'<DAL uri="postgres:******@localhost/Universidad">'
+p152
+sS'args'
+p153
+S"{'format': '%(task_name)s', 'migrate': True, 'on_define': <bound method Scheduler.set_requirements of <Scheduler(Thread-31, initial daemon)>>}"
+p154
+sS'tablename'
+p155
+S"'scheduler_task'"
+p156
+sS'table'
+p157
+g95
+sS'self.lazy_define_table'
+p158
+S'<bound method DAL.lazy_define_table of <DAL uri="postgres:******@localhost/Universidad">>'
+p159
+ssg74
+I834
+sg75
+(dp160
+I832
+S'            table = None'
+p161
+sI833
+S'        else:'
+p162
+sI834
+S'            table = self.lazy_define_table(tablename,*fields,**args)'
+p163
+sI835
+S'        if not tablename in self.tables:'
+p164
+sI836
+S'            self.tables.append(tablename)'
+p165
+sI837
+S'        return table'
+p166
+sI838
+S''
+sI829
+S'                    % (tablename,invalid_args))'
+p167
+sI830
+S'        if self._lazy_tables and tablename not in self._LAZY_TABLES:'
+p168
+sI831
+S'            self._LAZY_TABLES[tablename] = (tablename,fields,args)'
+p169
+ssg87
+S'(self=<DAL uri="postgres:******@localhost/Universidad">, tablename=\'scheduler_task\', *fields=(<pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, ...), **args={\'format\': \'%(task_name)s\', \'migrate\': True, \'on_define\': <bound method Scheduler.set_requirements of <Scheduler(Thread-31, initial daemon)>>})'
+p170
+sg89
+S'define_table'
+p171
+sa(dp172
+g66
+S'/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/base.py'
+p173
+sg68
+(dp174
+S'polymodel'
+p175
+S'None'
+p176
+ssg74
+I873
+sg75
+(dp177
+I868
+S'            try:'
+p178
+sI869
+S'                GLOBAL_LOCKER.acquire()'
+p179
+sI870
+S'                self._lastsql = self._adapter.create_table('
+p180
+sI871
+S'                    table,migrate=migrate,'
+p181
+sI872
+S'                    fake_migrate=fake_migrate,'
+p182
+sI873
+S'                    polymodel=polymodel)'
+p183
+sI874
+S'            finally:'
+p184
+sI875
+S'                GLOBAL_LOCKER.release()'
+p185
+sI876
+S'        else:'
+p186
+sI877
+S'            table._dbt = None'
+p187
+ssg87
+S'(self=<DAL uri="postgres:******@localhost/Universidad">, tablename=\'scheduler_task\', *fields=(<pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, ...), **args={\'format\': \'%(task_name)s\', \'migrate\': True, \'on_define\': <bound method Scheduler.set_requirements of <Scheduler(Thread-31, initial daemon)>>})'
+p188
+sg89
+S'lazy_define_table'
+p189
+sa(dp190
+g66
+S'/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/base.py'
+p191
+sg68
+(dp192
+S'query'
+p193
+S"'CREATE TABLE scheduler_task(\\n    id SERIAL PRIMA...MESTAMP,\\n    assigned_worker_name VARCHAR(512)\\n);'"
+p194
+sS'self'
+p195
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p196
+sS'table'
+p197
+S'<Table scheduler_task (id, application_name, tas...mes_failed, last_run_time, assigned_worker_name)>'
+p198
+sS'self.create_sequence_and_triggers'
+p199
+S'<bound method PostgreSQLAdapter.create_sequence_...ydal.adapters.postgres.PostgreSQLAdapter object>>'
+p200
+ssg74
+I482
+sg75
+(dp201
+I480
+S'                            query), table)'
+p202
+sI481
+S'            if not fake_migrate:'
+p203
+sI482
+S'                self.create_sequence_and_triggers(query, table)'
+p204
+sI483
+S'                db.commit()'
+p205
+sI484
+S'                # Postgres geom fields are added now,'
+p206
+sI485
+S'                # after the table has been created'
+p207
+sI486
+S'                for query in postcreation_fields:'
+p208
+sI477
+S'            if table._dbt:'
+p209
+sI478
+S"                self.log('timestamp: %s\\n%s\\n'"
+p210
+sI479
+S'                         % (datetime.datetime.today().isoformat(),'
+p211
+ssg87
+S'(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, table=<Table scheduler_task (id, application_name, tas...mes_failed, last_run_time, assigned_worker_name)>, migrate=True, fake_migrate=False, polymodel=None)'
+p212
+sg89
+S'create_table'
+p213
+sa(dp214
+g66
+S'/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/postgres.py'
+p215
+sg68
+(dp216
+S'query'
+p217
+S"'CREATE TABLE scheduler_task(\\n    id SERIAL PRIMA...MESTAMP,\\n    assigned_worker_name VARCHAR(512)\\n);'"
+p218
+sS'self'
+p219
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p220
+sS'self.execute'
+p221
+S'<bound method PostgreSQLAdapter.execute of <pydal.adapters.postgres.PostgreSQLAdapter object>>'
+p222
+ssg74
+I96
+sg75
+(dp223
+I96
+S'        self.execute(query)'
+p224
+sI97
+S''
+sI98
+S"    REGEX_URI = re.compile('^(?P<user>[^:@]+)(\\:(?P<password>[^@]*))?@(?P<host>\\[[^/]+\\]|[^\\:@]+)(\\:(?P<port>[0-9]+))?/(?P<db>[^\\?]+)(\\?sslmode=(?P<sslmode>.+))?$')"
+p225
+sI99
+S''
+sI100
+S"    def __init__(self, db,uri, pool_size=0, folder=None, db_codec ='UTF-8',"
+p226
+sI91
+S'    def create_sequence_and_triggers(self, query, table, **args):'
+p227
+sI92
+S'        # following lines should only be executed if table._sequence_name does not exist'
+p228
+sI93
+S"        # self.execute('CREATE SEQUENCE %s;' % table._sequence_name)"
+p229
+sI94
+S'        # self.execute("ALTER TABLE %s ALTER COLUMN %s SET DEFAULT NEXTVAL(\'%s\');" \\'
+p230
+sI95
+S'        #              % (table._tablename, table._fieldname, table._sequence_name))'
+p231
+ssg87
+S"(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, query='CREATE TABLE scheduler_task(\\n    id SERIAL PRIMA...MESTAMP,\\n    assigned_worker_name VARCHAR(512)\\n);', table=<Table scheduler_task (id, application_name, tas...mes_failed, last_run_time, assigned_worker_name)>, **args={})"
+p232
+sg89
+S'create_sequence_and_triggers'
+p233
+sa(dp234
+g66
+S'/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/postgres.py'
+p235
+sg68
+(dp236
+S'a'
+S"[u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);']"
+p237
+sS'self'
+p238
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p239
+sS'b'
+g21
+sS'BaseAdapter.execute'
+p240
+S'<unbound method BaseAdapter.execute>'
+p241
+sS'global BaseAdapter'
+p242
+S"<class 'pydal.adapters.base.BaseAdapter'>"
+p243
+ssg74
+I362
+sg75
+(dp244
+I357
+S''
+sI358
+S'    def execute(self, *a, **b):'
+p245
+sI359
+S'        if PY2 and self.driver_name == "pg8000":'
+p246
+sI360
+S'            a = list(a)'
+p247
+sI361
+S"            a[0] = a[0].decode('utf8')"
+p248
+sI362
+S'        return BaseAdapter.execute(self, *a, **b)'
+p249
+sI363
+S''
+sI364
+S''
+sI365
+S'class NewPostgreSQLAdapter(PostgreSQLAdapter):'
+p250
+sI366
+S"    drivers = ('psycopg2','pg8000')"
+p251
+ssg87
+S"(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, *a=[u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);'], **b={})"
+p252
+sg89
+S'execute'
+p253
+sa(dp254
+g66
+S'/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/base.py'
+p255
+sg68
+(dp256
+S'a'
+S"(u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);',)"
+p257
+sS'self'
+p258
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p259
+sS'b'
+g21
+sS'self.log_execute'
+p260
+S'<bound method PostgreSQLAdapter.log_execute of <pydal.adapters.postgres.PostgreSQLAdapter object>>'
+p261
+ssg74
+I1388
+sg75
+(dp262
+I1383
+S'        self.db._timings.append((command,time.time()-t0))'
+p263
+sI1384
+S'        del self.db._timings[:-TIMINGSSIZE]'
+p264
+sI1385
+S'        return ret'
+p265
+sI1386
+S''
+sI1387
+S'    def execute(self, *a, **b):'
+p266
+sI1388
+S'        return self.log_execute(*a, **b)'
+p267
+sI1389
+S''
+sI1390
+S'    def execute_test_query(self):'
+p268
+sI1391
+S'        return self.execute(self.test_query)'
+p269
+sI1392
+S''
+ssg87
+S"(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, *a=(u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);',), **b={})"
+p270
+sg89
+g253
+sa(dp271
+g66
+S'/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/base.py'
+p272
+sg68
+(dp273
+S'a'
+S"(u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);',)"
+p274
+sS'b'
+g21
+sS'self'
+p275
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p276
+sS'ret'
+p277
+g95
+sS'command'
+p278
+S"u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);'"
+p279
+sS'self.get_cursor'
+p280
+S'<bound method PostgreSQLAdapter.get_cursor of <pydal.adapters.postgres.PostgreSQLAdapter object>>'
+p281
+sS').execute'
+p282
+g95
+ssg74
+I1382
+sg75
+(dp283
+I1377
+S'            command = self.filter_sql_command(command)'
+p284
+sI1378
+S'        if self.db._debug:'
+p285
+sI1379
+S"            self.db.logger.debug('SQL: %s' % command)"
+p286
+sI1380
+S'        self.db._lastsql = command'
+p287
+sI1381
+S'        t0 = time.time()'
+p288
+sI1382
+S'        ret = self.get_cursor().execute(command, *a[1:], **b)'
+p289
+sI1383
+S'        self.db._timings.append((command,time.time()-t0))'
+p290
+sI1384
+S'        del self.db._timings[:-TIMINGSSIZE]'
+p291
+sI1385
+S'        return ret'
+p292
+sI1386
+S''
+ssg87
+S"(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, *a=(u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);',), **b={})"
+p293
+sg89
+S'log_execute'
+p294
+sa(dp295
+g66
+S'/home/Carlos/Descargas/web2py/gluon/contrib/pg8000/core.py'
+p296
+sg68
+(dp297
+S'self'
+p298
+S'<gluon.contrib.pg8000.core.Cursor instance>'
+p299
+sS'args'
+p300
+S'None'
+p301
+sS'self._c.execute'
+p302
+S'<bound method Connection.execute of <gluon.contrib.pg8000.core.Connection object>>'
+p303
+sS'self._c'
+p304
+S'<gluon.contrib.pg8000.core.Connection object>'
+p305
+sS'operation'
+p306
+S"u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);'"
+p307
+ssg74
+I573
+sg75
+(dp308
+I576
+S'                raise InterfaceError("Cursor closed")'
+p309
+sI577
+S'            elif self._c._sock is None:'
+p310
+sI568
+S'            self._c._lock.acquire()'
+p311
+sI569
+S'            self.stream = stream'
+p312
+sI570
+S''
+sI571
+S'            if not self._c.in_transaction and not self._c.autocommit:'
+p313
+sI572
+S'                self._c.execute(self, "begin transaction", None)'
+p314
+sI573
+S'            self._c.execute(self, operation, args)'
+p315
+sI574
+S'        except AttributeError:'
+p316
+sI575
+S'            if self._c is None:'
+p317
+ssg87
+S"(self=<gluon.contrib.pg8000.core.Cursor instance>, operation=u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);', args=None, stream=None)"
+p318
+sg89
+g253
+sa(dp319
+g66
+S'/home/Carlos/Descargas/web2py/gluon/contrib/pg8000/core.py'
+p320
+sg68
+(dp321
+S'cursor'
+p322
+S'<gluon.contrib.pg8000.core.Cursor instance>'
+p323
+sS'self.handle_messages'
+p324
+S'<bound method Connection.handle_messages of <gluon.contrib.pg8000.core.Connection object>>'
+p325
+sS'self'
+p326
+S'<gluon.contrib.pg8000.core.Connection object>'
+p327
+ssg74
+I1697
+sg75
+(dp328
+I1696
+S'        self._flush()'
+p329
+sI1697
+S'        self.handle_messages(cursor)'
+p330
+sI1698
+S'        if cursor.portal_suspended:'
+p331
+sI1699
+S'            if self.autocommit:'
+p332
+sI1700
+S'                raise InterfaceError('
+p333
+sI1701
+S'                    "With autocommit on, it\'s not possible to retrieve more "'
+p334
+sI1692
+S''
+sI1693
+S'        self._send_message(BIND, retval)'
+p335
+sI1694
+S'        self.send_EXECUTE(cursor)'
+p336
+sI1695
+S'        self._write(SYNC_MSG)'
+p337
+ssg87
+S"(self=<gluon.contrib.pg8000.core.Connection object>, cursor=<gluon.contrib.pg8000.core.Cursor instance>, operation=u'CREATE TABLE scheduler_task(\\n    id SERIAL PR...TAMP,\\n    assigned_worker_name VARCHAR(512)\\n);', vals=())"
+p338
+sg89
+g253
+sa(dp339
+g66
+S'/home/Carlos/Descargas/web2py/gluon/contrib/pg8000/core.py'
+p340
+sg68
+(dp341
+S'self'
+p342
+S'<gluon.contrib.pg8000.core.Connection object>'
+p343
+sS'self.error'
+p344
+S"ProgrammingError('ERROR', '42P07', 'la relaci\\xc3\\xb3n \\xc2\\xabscheduler_task\\xc2\\xbb ya existe')"
+p345
+ssg74
+I1774
+sg75
+(dp346
+I1769
+S'        except:'
+p347
+sI1770
+S'            self._close()'
+p348
+sI1771
+S'            raise'
+p349
+sI1772
+S''
+sI1773
+S'        if self.error is not None:'
+p350
+sI1774
+S'            raise self.error'
+p351
+sI1775
+S''
+sI1776
+S"    # Byte1('C') - Identifies the message as a close command."
+p352
+sI1777
+S'    # Int32 - Message length, including self.'
+p353
+sI1778
+S"    # Byte1 - 'S' for prepared statement, 'P' for portal."
+p354
+ssg87
+S'(self=<gluon.contrib.pg8000.core.Connection object>, cursor=<gluon.contrib.pg8000.core.Cursor instance>)'
+p355
+sg89
+S'handle_messages'
+p356
+sasS'pyver'
+p357
+S'Python 2.7.11: /usr/bin/python (prefix: /usr)'
+p358
+sS'session'
+p359
+g61
+(S's\x02\x0b\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ACTIONS</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>Reiniciar</div></td></tr><tr><td><div>Agregar usuario</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>3600</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>05990356-3d56-4798-99ec-9b0a32dfea2f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 4, 14, 14, 51, 9, 943651)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remember_me</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">email</td><td style="vertical-align:top;">:</td><td><div>suarezsilvestre1@gmail.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>Carlos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>1L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>Suarez</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">reset_password_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">1</td><td style="vertical-align:top;">:</td><td><div>administrador</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_orderby</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_query</td><td style="vertical-align:top;">:</td><td><div>db1.scheduler_worker.id&gt;0</div></td></tr></table></div>'
+tRp360
+sS'etype'
+p361
+S"<class 'gluon.contrib.pg8000.ProgrammingError'>"
+p362
+sS'date'
+p363
+S'Thu Apr 14 14:51:10 2016'
+p364
+sS'response'
+p365
+g61
+(S's\xcdD\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f28a8493960&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_datos</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-e7cbb82e-acbd-467f-958b-6356b3ed4d03<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>bootstrap3_inline</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="navbar-brand" href="/datos/default/index" id="pmv_logo"><b>Virtual Maquine UD</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Inicio</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Aprobacion</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Docente</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/default/agree_teacher</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Registrar</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Curso</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/default/register_course</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>SSH Tests</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Ansible</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/encendido/ansible</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Equipos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/maquinas/mostrar</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Mis tareas</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/tareas/index</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Mis Sitios</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/site</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Esta Aplicaci\xc3\xb3n</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Dise\xc3\xb1o</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/design/datos</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Controlador</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/datos/controllers/appadmin.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Vista</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/datos/views/appadmin/hooks.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Modelo BDD</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/datos/models/db.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Modelo "menu"</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/datos/models/menu.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Config.ini</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/datos/private/appconfig.ini</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Dise\xc3\xb1o de p\xc3\xa1gina</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/datos/views/layout.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Hoja de estilo</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/datos/static/css/web2py-bootstrap3.css</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Base de datos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/appadmin/index</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Errores</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/errors/datos</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Acerca de</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/about/datos</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>web2py.com</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Descargas</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/download</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Soporte</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/support</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Demostraci\xc3\xb3n</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/demo_admin</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Ejemplos R\xc3\xa1pidos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/examples/default/examples</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>FAQ</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/AlterEgo</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>V\xc3\xaddeos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/videos/</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Aplicaciones Libres</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/appliances</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/plugins</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Recetas</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2pyslices.com/</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Documentaci\xc3\xb3n</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Online book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Prefacio</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/00</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Introducci\xc3\xb3n</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/01</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Python</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/02</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Resumen</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/03</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>El N\xc3\xbacleo</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/04</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Las Vistas</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/05</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Base de datos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/06</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Formularios y validadores</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/07</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Correo electr\xc3\xb3nico y SMS</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/08</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Control de Acceso</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/09</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Servicios</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/10</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Recetas AJAX</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/11</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Componentes y Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/12</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Recetas de despliegue</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/13</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Otras Recetas</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/14</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Helping web2py</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/15</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Buy web2py\'s book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://stores.lulu.com/web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Comunidad</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Grupos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/usergroups</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Twitter</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://twitter.com/web2py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Chat en vivo</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://webchat.freenode.net/?channels=web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Carlos  &lt;suarezsilvestre1@gmail.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div>web2py, python, framework</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^appadmin/\\w+\\.py$</div></td></tr><tr><td><div>^appadmin/hooks/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/Carlos/Descargas/web2py/applications/datos/sessions/111/017/127.0.0.1-e7cbb82e-acbd-467f-958b-6356b3ed4d03&#x27;, mode &#x27;rb+&#x27; at 0x7f2889b4db70&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/Carlos/Descargas/web2py/applications/datos/sessions/127.0.0.1-e7cbb82e-acbd-467f-958b-6356b3ed4d03</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>08394c0b4884981fb57b4fdc306711ad</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-e7cbb82e-acbd-467f-958b-6356b3ed4d03</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>appadmin/hooks.html</div></td></tr></table></div>'
+tRp366
+sS'locals'
+p367
+(dp368
+S'cursor'
+p369
+S'<gluon.contrib.pg8000.core.Cursor instance>'
+p370
+sS'self'
+p371
+S'<gluon.contrib.pg8000.core.Connection object>'
+p372
+sg6
+S"'Z'"
+p373
+sS'data_len'
+p374
+S'5'
+sssS'traceback'
+p375
+S'Traceback (most recent call last):\n  File "/home/Carlos/Descargas/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/Carlos/Descargas/web2py/applications/datos/models/scheduler.py", line 107, in <module>\n    , migrate=True)\n  File "/home/Carlos/Descargas/web2py/gluon/scheduler.py", line 585, in __init__\n    self.define_tables(db, migrate=migrate)\n  File "/home/Carlos/Descargas/web2py/gluon/scheduler.py", line 653, in define_tables\n    format=\'%(task_name)s\')\n  File "/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/base.py", line 834, in define_table\n    table = self.lazy_define_table(tablename,*fields,**args)\n  File "/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/base.py", line 873, in lazy_define_table\n    polymodel=polymodel)\n  File "/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/base.py", line 482, in create_table\n    self.create_sequence_and_triggers(query, table)\n  File "/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/postgres.py", line 96, in create_sequence_and_triggers\n    self.execute(query)\n  File "/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/postgres.py", line 362, in execute\n    return BaseAdapter.execute(self, *a, **b)\n  File "/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/base.py", line 1388, in execute\n    return self.log_execute(*a, **b)\n  File "/home/Carlos/Descargas/web2py/gluon/packages/dal/pydal/adapters/base.py", line 1382, in log_execute\n    ret = self.get_cursor().execute(command, *a[1:], **b)\n  File "/home/Carlos/Descargas/web2py/gluon/contrib/pg8000/core.py", line 573, in execute\n    self._c.execute(self, operation, args)\n  File "/home/Carlos/Descargas/web2py/gluon/contrib/pg8000/core.py", line 1697, in execute\n    self.handle_messages(cursor)\n  File "/home/Carlos/Descargas/web2py/gluon/contrib/pg8000/core.py", line 1774, in handle_messages\n    raise self.error\nProgrammingError: (\'ERROR\', \'42P07\', \'la relaci\\xc3\\xb3n \\xc2\\xabscheduler_task\\xc2\\xbb ya existe\')\n'
+p376
+s.
