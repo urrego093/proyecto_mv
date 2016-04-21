@@ -1,6 +1,19 @@
 # -*- coding: utf-8 -*-
 #Define DAL object, with max 10 connection
-db1 = DAL(STR_DAL, pool_size=10)
+
+from gluon.contrib.appconfig import AppConfig
+
+db1 = DAL(STR_DAL, pool_size=10, migrate=mig)
+## once in production, remove reload=True to gain full speed
+myconf = AppConfig(reload=True)
+
+## by default give a view/generic.extension to all actions from localhost
+## none otherwise. a pattern can be 'controller/function.extension'
+response.generic_patterns = ['*'] if request.is_local else []
+## choose a style for forms
+response.formstyle = myconf.take('forms.formstyle')  # or 'bootstrap3_stacked' or 'bootstrap2' or other
+response.form_label_separator = myconf.take('forms.separator')
+
 
 #Auth
 from gluon.tools import Auth, Service, PluginManager
@@ -21,10 +34,10 @@ mail.settings.login = myconf.take('smtp.login')
 ## configure auth policy
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = True
-auth.settings.reset_password_requires_verification = False
+auth.settings.reset_password_requires_verification = True
 
 
-#Define tables off model 
+#Define tables of model 
 
 db1.define_table('course',
                 Field('code_course','integer', length=3, label = T('Course Code'),requires=IS_NOT_EMPTY()),
@@ -77,3 +90,14 @@ db1.define_table('student_x_machine',
 
 db1.student_x_machine.ip_machine.requires=IS_NOT_IN_DB(db1(db1.student_x_machine.semester==request.vars.semester),
     'student_x_machine.ip_machine')
+
+db1.define_table('job',
+    Field('name', 'string', label=T('Job Name'), requires=IS_NOT_EMPTY()),
+    Field('user_id', 'reference auth_user', label=T('Teacher'), 
+          requires=IS_IN_DB(db1, db1.auth_user.id)   ),
+    Field('task_id' ,label=T('Task ID')), migrate=mig
+                 #,
+   # Field('state', label=T('State'), type='boolean', default=False) # lo maneja la tabla scheduler_task
+)
+
+db1.job.name.requires=IS_NOT_IN_DB(db1(db1.job.name==request.vars.name), 'job.name')

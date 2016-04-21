@@ -1,0 +1,6 @@
+# -*- coding: utf-8 -*-
+# intente algo como
+def index():
+    cabeza = T("These are your machines")
+    #campis = ["campo1", "campo2"]
+    return dict()
