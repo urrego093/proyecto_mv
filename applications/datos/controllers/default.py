@@ -11,23 +11,9 @@
 
 def index():
     response.flash = T("Hello People UD")
-    '''
-    tarea = scheduler.queue_task(
-    "demo1",    
-    pargs=[1,2,3,4],
-    pvars={'a':'foo'},
-    #start_time= 'now', 		#datetime
-    #stop_time = None,		#datetime
-    #timeout = 60,               #seconds
-    #prevent_drift=False,
-    #period=60,                  #seconds
-    #immediate=False,
-    repeats = 1
-    )
-    '''
     return locals();
 
-@auth.requires_membership('admin')
+@auth.requires_membership('administrador')
 def register_course():
     form = SQLFORM(db1.course).process()
     if form.accepted:
@@ -35,8 +21,15 @@ def register_course():
         redirect(URL('index'))
     return locals()
 
+def register_machine():
+    form = SQLFORM(db1.machine).process()
+    if form.accepted:
+        session.flash = T("Course Create!")
+        redirect(URL('index'))
+    return locals()
+
 @auth.requires_login()
-@auth.requires_membership('admin')
+@auth.requires_membership('administrador')
 def agree_teacher():
     rows = db1(db1.auth_user.registration_key=='pending').select()
     return locals()
@@ -71,11 +64,28 @@ def update_group_teacher():
         form = SQLFORM(db1.auth_membership, member, showid=False)
 
         if form.process().accepted:        
-            response.flash = T ('User Agree to Teacher Group')        
+            response.flash = T ('User Agree to Teacher Group')
+            redirect(URL('agree_teacher'))
         elif form.errors:
             response.flash = T ('Group No Update')
     else:
         redirect(URL('index'))
+    return locals()
+
+def mostrar_macxuser():
+    course = db1.course(request.args(1, cast=int) or redirect(URL('index')))
+    machine = db1.machine(request.args(0, cast=int) or redirect(URL('index')))
+    c_group = db1(db1.course_group.cod_course==course.id).select()
+    return locals()
+
+def show_ports():
+    semes = request.args(0)
+    course = db1.course(request.args(2, cast=int) or redirect(URL('index')))
+    machine = db1.machine(request.args(1, cast=int) or redirect(URL('index')))
+    num_group = request.args(3) or redirect(URL('index'))
+    port_mac = db1(db1.port_machine.ip_machine==machine.id).select()
+    response.flash = T (num_group)
+
     return locals()
 
 def user():

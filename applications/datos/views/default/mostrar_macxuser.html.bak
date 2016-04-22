@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+<h1>{{=auth.user.first_name}} {{=auth.user.last_name}}</h1>
+<h1>{{=machine.ip_machine}} {{=T('of')}} {{=course.name_course}}</h1>
+
+<h2>{{=T('Select one group')}}</h2>
+
+{{for code_group in c_group:}}
+<div class="well">
+        <table>
+            <tr><td><strong><span class="votes">{{=code_group.semester}}</span></strong></td><td>+      +</td><td><strong>{{=A(code_group.cod_group, _href=URL('show_ports', args=(code_group.semester, machine.id, course.id, code_group.cod_group)))}}</strong></td></tr>
+        </table>
+</div>
+{{pass}}

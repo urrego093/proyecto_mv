@@ -103,14 +103,14 @@ def reiniciar():
 
 @auth.requires_login()
 def copiar_archivos():
+    #Recuperamos los ids
     ids = request.vars["ids"]
+    #recuperamos el path para subir los archivos 
     ruta_basica = os.path.join(request.folder, 'uploads/')
     HOSTNAME=['Carlos','centos']
-    url = URL('download')
+    #url = URL('download')
     # https://groups.google.com/forum/#!topic/web2py/X5xmXyTCavY Checkbox Multiple
     form = SQLFORM.factory(  Field("archivo", "upload", uploadfolder=ruta_basica, autodelete=True), #widget=SQLFORM.widgets.upload.widget),
-    
-    #form = SQLFORM.factory( Field("archivo", widget=SQLFORM.widgets.upload.widget),
         Field("hostname", "list:string",
               default=HOSTNAME,widget=SQLFORM.widgets.checkboxes.widget,
               requires=[IS_IN_SET(HOSTNAME,multiple=True),IS_NOT_EMPTY()]))
@@ -119,9 +119,7 @@ def copiar_archivos():
     #var_extra = dict(origen=request.vars.archivo, somelist=request.vars.hostname)
     var_extra = ""#"origen=" +str("") + "somelist=" + str(request.vars.hostname)
 
-    print "\n\n ********************************** \n\n"
-    if request.vars.archivo:
-        var_extra = request.vars.archivo.filename
+    #print "\n\n ********************************** \n\n"
     if form.accepts(request.vars, session):
         #http://stackoverflow.com/questions/8008213/web2py-upload-with-original-filename todo un día intentado hacer lo que este chico me soluciono :D
         coded_name = form.vars.archivo

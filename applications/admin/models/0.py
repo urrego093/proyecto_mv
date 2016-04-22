@@ -1,4 +1,4 @@
-0EXPIRATION = 60 * 60  # logout after 60 minutes of inactivity
+EXPIRATION = 60 * 60  # logout after 60 minutes of inactivity
 CHECK_VERSION = True
 WEB2PY_URL = 'http://web2py.com'
 WEB2PY_VERSION_URL = WEB2PY_URL + '/examples/default/version'
