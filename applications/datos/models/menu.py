@@ -31,16 +31,13 @@ response.menu = [
 
 #List of course for userid  (Ex: User_id 1, machines 192.168.1.114,192.168.1.115)
 couxuser = []
-for row in db1(db1.course_group.id_teacher==auth.user_id).select():
-    couxuser.append((T(row.cod_course.name_course), False, URL('default', '', )))
+for row in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course.name_course, db1.course.id, distinct=True):
+    couxuser.append((T(row.name_course), False, URL('default', 'show_couxuser', args=(row.id)))) #id_course
 
 macxuser = []
 for c_group in db1(db1.course_group.id_teacher==auth.user_id).select():
     for row in db1(db1.machine.code_course==c_group.cod_course).select():
         macxuser.append((T(row.ip_machine), False,URL('default', 'mostrar_macxuser',args=(row.id, c_group.cod_course)))) #/id_machine/id_course
-
-#for row in db1(db1.machine.code_course==db1.course_group.cod_course).select():
-    #macxuser.append((T(row.machine.ip_machine), False, URL('default', '', )))
 
 adminis = db1((db1.auth_membership.user_id == auth.user_id)).select()
 for row in adminis:
@@ -56,7 +53,7 @@ for row in adminis:
         response.menu += [
             (T('Courses'), False,'#',couxuser),
             (T('Machines'), False,'#',macxuser),
-            (T('Machines'), False, URL('maquinas','mostrar')),
+            (T('Commands'), False, URL('maquinas','mostrar')),
             (T('My jobs'), False, URL('tareas', 'index'))]
     else:
         response.menu += []

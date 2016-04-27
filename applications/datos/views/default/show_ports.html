@@ -1,4 +1,12 @@
 {{extend 'layout.html'}}
 <h1>{{=auth.user.first_name}} {{=auth.user.last_name}}</h1>
-<h1>{{=machine.ip_machine}} {{=T('of')}} {{=course.name_course}} {{=T('Group Number')}} {{=num_group}}</h1>
-{{=BEAUTIFY(response._vars)}}
+<h1>{{=machine.ip_machine}} {{=T('of')}} {{=course.name_course}} {{=T('Group Number')}} {{=num_group}}  {{=T('Semester')}} {{=semes}}</h1>
+{{for row_p in list_port:}}
+<div class="well">
+        <table style="width:80%">
+            <tr><th>Puerto</th><th>Hostname</th><th>Codigo Estudiante</th><th>Nombre Estudiante</th></tr>
+            <tr><td><strong><span class="votes">{{=row_p[0]}}</span></strong></td><td>{{=row_p[1]}}</td><td>{{=row_p[2]}}</td><td>{{=row_p[3]}}</td></tr>
+        </table>
+</div>
+{{pass}}
+<!---{{=BEAUTIFY(response._vars)}}--->

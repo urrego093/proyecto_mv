@@ -107,7 +107,7 @@ def copiar_archivos():
     ids = request.vars["ids"]
     #recuperamos el path para subir los archivos 
     ruta_basica = os.path.join(request.folder, 'uploads/')
-    HOSTNAME=['Carlos','centos']
+    #HOSTNAME=['Carlos','centos']
     #url = URL('download')
     # https://groups.google.com/forum/#!topic/web2py/X5xmXyTCavY Checkbox Multiple
     form = SQLFORM.factory(  Field("archivo", "upload", uploadfolder=ruta_basica, autodelete=True), #widget=SQLFORM.widgets.upload.widget),
