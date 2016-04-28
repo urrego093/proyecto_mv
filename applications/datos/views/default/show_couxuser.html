@@ -1,0 +1,18 @@
+{{extend 'layout.html'}}
+<h1>{{=auth.user.first_name}} {{=auth.user.last_name}}</h1>
+<h1>{{=course.name_course}}</h1>
+
+<h2>{{=T('Select one Machine')}}</h2>
+
+
+
+{{for code_machine in c_machine:}}
+<div class="well">
+        <table style="width:80%">
+            <tr><th>Machine</th></tr>
+            <tr><td><strong><span class="votes">{{=A(code_machine.ip_machine, _href=URL('mostrar_macxuser', args=(code_machine.id, course.id)))}}</strong></td></tr>
+        </table>
+</div>
+{{pass}}
+
+{{=BEAUTIFY(response._vars)}}
