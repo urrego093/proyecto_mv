@@ -16,7 +16,7 @@ def index():
 def mostrar():
     # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers
     # como agregar campos a un formulario https://web2py.wordpress.com/2010/05/01/more-customization-on-forms/
-    opciones = [T("Restart"), T("Create User"), T("Delete User"), T("Copy Files")]
+    opciones = [T("Restart"), T("Create User(s)"), T("Delete User(s)"),T('Change user(s) pass'), T("Copy Files") ]
     #test2 = SQLFORM.factory(
     #    Field('accion',requires=IS_IN_SET(opciones))
     #)
@@ -32,18 +32,27 @@ def mostrar():
     grid[1]['_align'] = "center" # jejeje
 
     #GRACIAS!!!!   https://groups.google.com/forum/#!topic/web2py/3kSpuDgo1Lw
+    #Si no hay maquinas se muere, ya q grid[1][0] queda siendo un div y no es posible llamar process(), corregir~! 
     x = grid[1][0].process()
     x["_method"] ='post'
     if x.accepted:
         if x.vars.records:
             if x.vars.accion == T("Restart"):
                 redirect (URL('reiniciar', vars=dict(ids= x.vars.records)))
-            elif x.vars.accion == T("Create User"):
-                redirect(URL('usuarios',vars=dict(ids= x.vars.records)))
-            elif x.vars.accion == T("Delete User"):
-                redirect(URL('eliminar_usuario',vars=dict(ids= x.vars.records)))
+                
+            elif x.vars.accion == T("Create User(s)"):
+                redirect(URL('usuarios', 'crear' ,vars=dict(ids= x.vars.records)))
+                
+            elif x.vars.accion == T("Delete User(s)"):
+                redirect(URL('usuarios','eliminar_usuario',vars=dict(ids= x.vars.records)))
+                
+            elif x.vars.accion == T('Change user(s) pass'):
+                redirect(URL('usuarios','cambiar_pass',vars=dict(ids= x.vars.records)))
+                
             elif x.vars.accion == T("Copy Files"):
                 redirect(URL('copiar_archivos',vars=dict(ids= x.vars.records)))
+                
+            
             else:
                 pass
         else:
@@ -52,40 +61,6 @@ def mostrar():
     #elif x.errors:
         #response.flash = T('Please select at leats one id')
     return locals()
-
-@auth.requires_login()
-def usuarios():
-    ids = request.vars["ids"]
-    form = SQLFORM.factory(
-        Field('user_name', label='User name', requires=IS_NOT_EMPTY()),
-        Field('password', 'password', label='Password', requires=[IS_LENGTH(minsize=6), IS_STRONG(min=6,special=0, upper=1)]),
-        Field('confirm_password', 'password', label='Confirm password', requires=[
-                IS_STRONG(min=6, special=0, upper=1), IS_EQUAL_TO(request.vars.password, error_message='passwords do not match')]),
-        Field('admin', 'boolean', label='Admin')
-    ).process()
-
-    if form.accepted:
-        name = request.vars.user_name
-        password = request.vars.password
-        admin = 'yes' if request.vars.admin else 'no'
-
-        variables_extra = dict( remote='all', username=name, password=password, admin=admin, action='create_user')
-        redirect(URL('ejecutar', vars= dict(ids=ids, opcion='create_user', variables_extra = variables_extra))) ## asi se pasan las variables ingresadas por el usuario
-
-    return dict(form=form)
-
-@auth.requires_login()
-def eliminar_usuario():
-    ids = request.vars["ids"]
-    form = SQLFORM.factory(
-        Field('user_name', label=T('User name'), requires=IS_NOT_EMPTY())
-    ).process()
-
-    if form.accepted:
-        name = request.vars.user_name
-        variables_extra = dict( remote='all', username=name, action='delete_user')
-        redirect(URL('ejecutar', vars= dict(ids=ids, opcion="delete_user", variables_extra = variables_extra)))
-    return dict(form= form)
 
 @auth.requires_login()
 def reiniciar():
@@ -128,10 +103,68 @@ def copiar_archivos():
         redirect(URL('ejecutar', vars= dict(ids=ids, opcion='copyFile', variables_extra=dict(origen=ruta_basica + orig_name,
                                                                                              somelist=request.vars.hostname))))
     return locals()
+@auth.requires_login()
+def lista_maquina_grupo():
+    indentificador = auth.user_id
+
+    mensaje = H1 (T("Please select a course"))
+    restricciones = dict(course_group = db1.course_group.id_teacher== indentificador)
+    grid = SQLFORM.smartgrid(db1.course,linked_tables=['course_group'], constraints = restricciones,
+        searchable=False,deletable=False, editable=False, details=False, csv= False, create= False,
+        links=[lambda row:A(T("Select"),_href=URL("maquinas","lista_maquina_clase",args=[row.id]))]
+    )
+    return locals()
+    
+def lista_maquina_clase():
+    id = request.agrs[0]
+    return locals()
+    
+    '''
+    user_groups = db1(db1.course_group.id_teacher == indentificador).select( ##los grupos del usuario
+        db1.course_group['cod_course']
+    )
+    print " ------------------------------ MATERIAS DEL USUARIO ------------------"
+    materias_ids = []
+    for i in user_groups:
+        materia = db1(db1.course.id == i['cod_course']).select().as_dict()
+        #print "comparando.................."
+        for llave in materia:
+            materia_id = materia[llave]['id']
+            #print materia_id[llave]['id']
+            if materia_id not in materias_ids:
+                materias_ids.append(materia_id)
+                
+    print materias_ids
+    
+    materias = db1(db1.course.id == 2).select().as_dict()
+    
+    #for llave in materias:
+        #print materias[llave]
+    #restricciones = dict(course_group= db1.course_group.id_teacher == indentificador)
+    '''
+    
+    '''
+    ids_maquinas = []
+    for id in ids:
+        maquinas = db1(db1.machine.code_course==id).select(
+            #db1.machine.ip_machine
+            db1.machine.id
+        )
+        #maquinas.append(int(maquina[0]['machine.id']))
+        for campo in maquinas:
+            ids_maquinas.append(campo['id'])
+        #print maquina[0]['ip_machine']
+        #print "------------------\n",maquina[0]['machine.id']
+    for id_maquina in ids_maquinas:
+        print id_maquina
+    #grid = db1(db1.machine.id == ids_maquinas[0]).select()
+    '''
+    
+    return locals()
 
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
-    playbooks= dict(restart='reiniciar.yml', create_user='usuarios/linux_users.yml', delete_user='usuarios/linux_users.yml', copyFile='copiarArchivo.yml')
+    playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml')
      
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]
@@ -159,14 +192,11 @@ def ejecutar():
         ruta_extra=ruta_basica + "variables/" + nombre,
         variables=variables_extra
     )
-    
-    
-
     #se pide al worker o proceso en segundo plano que ejcuta el playbook en maximo 10 minutos
     tarea = scheduler.queue_task(
         "playbook", pargs=ids, pvars=variables, stop_time = None, timeout = 120 ,repeats = 1
     )
-    print "id " + str(tarea.id) #id de la tarea 
+    print "id ", str(tarea.id) #id de la tarea 
     #se inserta un registro de la tarea en la base de datos con la referencia al campo en la tabla scheduler_task,
     #dicha tabla maneja los estados de una tarea, registra los errores, guarda los argumentos(parametros en un arreglo)
     # y las variables(parametros en un diccionario)

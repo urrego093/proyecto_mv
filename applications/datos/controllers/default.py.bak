@@ -13,7 +13,7 @@ def index():
     response.flash = T("Hello People UD")
     return locals();
 
-@auth.requires_membership('administrador')
+@auth.requires_membership('admin')
 def register_course():
     form = SQLFORM(db1.course).process()
     if form.accepted:

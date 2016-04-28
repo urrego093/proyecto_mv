@@ -1,0 +1,3 @@
+*
+192.168.0.105              : ok=4    changed=0    unreachable=0    failed=0   
+192.168.0.110              : ok=0    changed=0    unreachable=1    failed=0   
