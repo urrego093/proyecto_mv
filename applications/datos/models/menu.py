@@ -26,18 +26,39 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
-    (T('Home'), False, URL('default', 'index'), []),
-    (T('Aprobacion'), False, '#', [
-        (T('Teacher'), False, URL('default', 'agree_teacher'))]),
-    (T('To register'), False, '#', [
-        (T('Course'), False, URL('default', 'register_course'))]),
-    (T('SSH Tests'), False, '#',
-     [
-        #(T('Fabric'), False, URL('encendido', 'fabric')),
-        (T('Ansible'), False, URL('encendido', 'ansible'))
-     ])
-]
+    (T('Home'), False, URL('default', 'index'), [])]
 
+
+#List of course for userid  (Ex: User_id 1, machines 192.168.1.114,192.168.1.115)
+couxuser = []
+for row in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course.name_course, db1.course.id, distinct=True):
+    couxuser.append((T(row.name_course), False, URL('default', 'show_couxuser', args=(row.id)))) #id_course
+
+macxuser = []
+for c_group in db1(db1.course_group.id_teacher==auth.user_id).select():
+    for row in db1(db1.machine.code_course==c_group.cod_course).select():
+        macxuser.append((T(row.ip_machine), False,URL('default', 'mostrar_macxuser',args=(row.id, c_group.cod_course)))) #/id_machine/id_course
+
+adminis = db1((db1.auth_membership.user_id == auth.user_id)).select()
+for row in adminis:
+    if row.group_id.role =="administrador": #row.group_id == 1
+        response.menu += [
+            (T('Aprobacion'), False, '#', [
+                    (T('Teacher'), False, URL('default', 'agree_teacher'))]),
+            (T('To register'), False, '#', [
+                    (T('Course'), False, URL('default', 'register_course')),
+                    (T('Machine'), False, URL('default', 'register_machine'))])]
+        
+    if row.group_id.role=="docente":
+        response.menu += [
+            (T('Courses'), False,'#',couxuser),
+            (T('Machines'), False,'#',macxuser),
+            (T('Commands'), False, URL('maquinas','mostrar')),
+            (T('My jobs'), False, URL('tareas', 'index'))]
+    else:
+        response.menu += []
+
+<<<<<<< HEAD
 response.menu += [
     (T('Machines'), False, URL('maquinas','mostrar')),
     (T('My jobs'), False, URL('tareas', 'index'))
@@ -46,6 +67,8 @@ response.menu += [
 response.menu += [
     (T('My machines'), False, URL('maquinas', 'lista_maquina_grupo'))
 ]
+=======
+>>>>>>> master
 DEVELOPMENT_MENU = False
 
 #########################################################################

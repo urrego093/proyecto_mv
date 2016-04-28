@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 2016-03-16 23:45:35,968 - web2py - WARNING - GUI not available because Tk library is not installed
 2016-04-21 14:40:18,599 - web2py - WARNING - GUI not available because Tk library is not installed
 2016-04-21 14:47:32,074 - web2py - WARNING - GUI not available because Tk library is not installed
 2016-04-25 20:00:23,343 - web2py - WARNING - GUI not available because Tk library is not installed
+=======
+>>>>>>> master

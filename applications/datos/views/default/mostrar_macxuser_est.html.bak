@@ -1,0 +1,5 @@
+{{extend 'layout.html'}}
+<h1>{{=auth.user.first_name}} {{=auth.user.last_name}}</h1>
+<h1>{{=machine}} {{=T('of')}} {{=}} {{=T('Group Number')}} {{=num_group}}</h1>
+
+{{=BEAUTIFY(response._vars)}}
