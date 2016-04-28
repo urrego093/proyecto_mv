@@ -1,0 +1,3 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla maquinas/cambiar_pass.html</h1>
+{{=BEAUTIFY(response._vars)}}

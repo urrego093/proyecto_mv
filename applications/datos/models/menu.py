@@ -42,6 +42,10 @@ response.menu += [
     (T('Machines'), False, URL('maquinas','mostrar')),
     (T('My jobs'), False, URL('tareas', 'index'))
 ]
+
+response.menu += [
+    (T('My machines'), False, URL('maquinas', 'lista_maquina_grupo'))
+]
 DEVELOPMENT_MENU = False
 
 #########################################################################

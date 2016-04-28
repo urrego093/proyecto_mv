@@ -7,9 +7,12 @@
 ## - user is required for authentication and authorization
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
-
+import evaluar_expresion
 
 def index():
+    a = 'usuarioas2, usuario 15-18'
+    b = evaluar_expresion.evaluar(a)
+    print b
     response.flash = T("Hello People UD")
     '''
     tarea = scheduler.queue_task(

@@ -42,7 +42,7 @@ response.menu += [
     (T('Machines'), False, URL('maquinas','mostrar')),
     (T('My jobs'), False, URL('tareas', 'index'))
 ]
-DEVELOPMENT_MENU = True
+DEVELOPMENT_MENU = False
 
 #########################################################################
 ## provide shortcuts for development. remove in production

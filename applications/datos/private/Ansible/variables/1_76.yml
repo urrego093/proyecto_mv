@@ -1,0 +1,6 @@
+action: delete_user
+remote: all
+username:
+- fooo1
+- fooo2
+- fooo3

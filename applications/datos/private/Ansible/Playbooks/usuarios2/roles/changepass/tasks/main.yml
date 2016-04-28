@@ -1,0 +1,8 @@
+---
+- name: Change some users password
+  become: yes
+  become_user: root
+#  user: name={{item}} password={{ upassword |password_hash('sha512') }} groups=root append=yes
+  user: name={{item}} update_password=always password={{ upassword |password_hash('sha512') }}
+  with_items: "{{uusername}}"
+...

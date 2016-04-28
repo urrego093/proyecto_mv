@@ -7,21 +7,13 @@
 ## - user is required for authentication and authorization
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
-
+import evaluar_expresion
 
 def index():
-    response.flash = T("Hello People UD")
-    ids = [4,5]
-    filas =  db1(db1.machine).select(
-        db1.machine.id, db1.machine.ip_machine
-    )
-    ips = []
-    for identificador in ids:
-        for fila in filas:
-            if fila['id'] == identificador:
-                ips.append( fila['ip_machine'] )
-                
-    print ips
+    a = 'usuarioas2, usuario 15-18'
+    b = evaluar_expresion.evaluar(a)
+    response.flash = T(str(b))
+    #response.flash = T("Hello People UD")
     '''
     tarea = scheduler.queue_task(
     "demo1",    

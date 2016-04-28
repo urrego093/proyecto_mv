@@ -1,0 +1,4 @@
+action: delete_user
+remote: all
+username:
+- asda
