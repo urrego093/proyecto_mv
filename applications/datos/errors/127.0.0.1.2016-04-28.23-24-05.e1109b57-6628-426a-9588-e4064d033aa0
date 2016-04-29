@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.TypeError'> cannot concatenate 'str' and 'NoneType' objects"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/tasks.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# intente algo como\n\ndef buscar_archivo(nombre):\n    ruta = os.path.join(request.folder, \'private/Ansible/resultados\') + nombre\n    existe = T("Finished") if os.path.exists(ruta) else T("Unfinished")\n    return "Completo"\n\ndef index():\n    encabezado = T("These are your previous task")\n    \n    query_job = db1.job.user_id == auth.user_id\n    \n    campos_tarea = [db1.job.name, db1.job.action, db1.job.date, db1.scheduler_task.status]\n    \n    grid = SQLFORM.grid(query_job, fields = campos_tarea, csv=False, editable=False, deletable=False, \n        searchable=False, # No no moverlo, la busqueda no va a servir debido a q user_signature esta desativado\n        details=False, create=False, user_signature=False # Si se deja activada como es por defecto resulta en un error extrano, solo en este formulario\n        ,links=[\n            lambda row:(buscar_archivo(None)),\n            lambda row:A(T("View Resume"),_href=URL(\'tasks\', \'resumen\',args=(row.name)))\n        ]\n    )\n    return locals()\n\ndef resumen():\n    job_name = request.args(0)\n    trabajo = db1(db1.job.name == job_name)\n    volver = INPUT(_value = T(\'Back\'),_type= "button", _class="btn btn-default", _onclick= "window.history.back();")\n    descargar = INPUT(_value = T(\'Download Resume\'),_type= "button", _class="btn btn-primary")\n    return locals()\n\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/tasks.py", line 33, in <module>\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/tasks.py", line 21, in index\n    lambda row:A(T("View Resume"),_href=URL(\'tasks\', \'resumen\',args=(row.name)))\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/sqlhtml.py", line 2791, in grid\n    if link(row):\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/tasks.py", line 20, in <lambda>\n    lambda row:(buscar_archivo(None)),\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/tasks.py", line 5, in buscar_archivo\n    ruta = os.path.join(request.folder, \'private/Ansible/resultados\') + nombre\nTypeError: cannot concatenate \'str\' and \'NoneType\' objects\n'
+p11
+s.

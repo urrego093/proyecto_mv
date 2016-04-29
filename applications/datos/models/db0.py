@@ -20,6 +20,6 @@ P_HOST = ['5901','5902','5903','5904','5905','5906','5907','5908','5909','5910',
 #user for OS depending to port
 HOSTNAME = ['root','estudiante1','estudiante2','estudiante3','estudiante4','estudiante5','estudiante6','estudiante7','estudiante8','estudiante9','estudiante10','estudiante11','estudiante12','estudiante13','estudiante14','estudiante15']
 # Valor True para crear, False para ya creado
-mig = False
+mig = True
 #posibles acciones de un usuario
 session.ACTIONS = [T("Restart"),T("Add user")]

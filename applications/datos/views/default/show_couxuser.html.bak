@@ -1,10 +1,10 @@
 {{extend 'layout.html'}}
-<h1>{{=auth.user.first_name}} {{=auth.user.last_name}}</h1>
+<h1>{{#=auth.user.first_name}} 
+    {{#=auth.user.last_name}}</h1>
 <h1>{{=course.name_course}}</h1>
 
 <h2>{{=T('Select one Machine')}}</h2>
-
-
+{{=maquinas}}
 
 {{for code_machine in c_machine:}}
 <div class="well">
@@ -15,4 +15,8 @@
 </div>
 {{pass}}
 
-{{=BEAUTIFY(response._vars)}}
+<h2>
+    {{=groups_text}} {{=course.name_course}}
+</h2>
+{{=groups}}
+{{#=BEAUTIFY(response._vars)}}

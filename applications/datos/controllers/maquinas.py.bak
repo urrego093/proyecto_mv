@@ -17,23 +17,24 @@ def mostrar():
     # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers
     # como agregar campos a un formulario https://web2py.wordpress.com/2010/05/01/more-customization-on-forms/
     opciones = [T("Restart"), T("Create User(s)"), T("Delete User(s)"),T('Change user(s) pass'), T("Copy Files") ]
-    #test2 = SQLFORM.factory(
-    #    Field('accion',requires=IS_IN_SET(opciones))
-    #)
     test = SELECT(*opciones, **dict(_name="accion", _id="accion") )
 
-    grid = SQLFORM.grid(db1.machine,         csv=False, editable=False, deletable=False,
-        #query = asdasdasdasdasads
+    campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor, db1.machine.description_machine]
+    grid = SQLFORM.grid(db1.machine , fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,
+        searchable=False, # Quitar comentario si se quiere ocultar la barra de busqueda
+                           #se tiene q revisar el por que al ver un registro la linea x = grid[1][0].process() genera error si 
         selectable = lambda ids :
                         redirect(     URL(  'maquinas', 'configurar', vars=dict(ids=ids)    )  )
     )
     grid[1][0].insert(1, test)
-    #grid[1][0].insert(1, test2)
     grid[1]['_align'] = "center" # jejeje
 
     #GRACIAS!!!!   https://groups.google.com/forum/#!topic/web2py/3kSpuDgo1Lw
     #Si no hay maquinas se muere, ya q grid[1][0] queda siendo un div y no es posible llamar process(), corregir~! 
+    print "   ------------------ ///// --------------- " ,grid[1][0]
+    
     x = grid[1][0].process()
+    
     x["_method"] ='post'
     if x.accepted:
         if x.vars.records:
@@ -60,6 +61,7 @@ def mostrar():
             #redirect ( URL(  'maquinas', 'configurar', vars=dict(accion=x.vars.accion, id= x.vars.records) ))
     #elif x.errors:
         #response.flash = T('Please select at leats one id')
+     
     return locals()
 
 @auth.requires_login()
@@ -103,20 +105,28 @@ def copiar_archivos():
         redirect(URL('ejecutar', vars= dict(ids=ids, opcion='copyFile', variables_extra=dict(origen=ruta_basica + orig_name,
                                                                                              somelist=request.vars.hostname))))
     return locals()
+
 @auth.requires_login()
+@auth.requires_membership('Administrador')
 def lista_maquina_grupo():
     indentificador = auth.user_id
 
     mensaje = H1 (T("Please select a course"))
-    restricciones = dict(course_group = db1.course_group.id_teacher== indentificador)
+    restricciones = dict(
+        #course_group = db1.course_group.id_teacher== indentificador
+                         #, course = db1.course.id == 2
+                        )
     grid = SQLFORM.smartgrid(db1.course,linked_tables=['course_group'], constraints = restricciones,
-        searchable=False,deletable=False, editable=False, details=False, csv= False, create= False,
-        links=[lambda row:A(T("Select"),_href=URL("maquinas","lista_maquina_clase",args=[row.id]))]
+        #searchable=False,
+        deletable=False, editable=True, details=True, csv= False, create= False
+        #, links=[lambda row:A(T("Select"),_href=URL("maquinas","lista_maquina_clase",args=[row.id]))]
     )
     return locals()
-    
+
+@auth.requires_login()
+@auth.requires_membership('Administrador')
 def lista_maquina_clase():
-    id = request.agrs[0]
+    id = request.args[0]
     return locals()
     
     '''
@@ -162,6 +172,7 @@ def lista_maquina_clase():
     
     return locals()
 
+@auth.requires_login()
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
     playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml')
@@ -200,7 +211,7 @@ def ejecutar():
     #se inserta un registro de la tarea en la base de datos con la referencia al campo en la tabla scheduler_task,
     #dicha tabla maneja los estados de una tarea, registra los errores, guarda los argumentos(parametros en un arreglo)
     # y las variables(parametros en un diccionario)
-    db1.job.insert(name = nombre, user_id = indentificador, task_id = tarea.id)
+    db1.job.insert(name = nombre, user_id = indentificador, task_id = tarea.id, action = opcion)
 
     #db1.commit()
     redirect(URL('maquinas', 'mostrar'))

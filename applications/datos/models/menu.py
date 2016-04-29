@@ -41,34 +41,37 @@ for c_group in db1(db1.course_group.id_teacher==auth.user_id).select():
 
 adminis = db1((db1.auth_membership.user_id == auth.user_id)).select()
 for row in adminis:
-    if row.group_id.role =="administrador": #row.group_id == 1
+    if row.group_id.role =="Administrador": #row.group_id == 1
         response.menu += [
-            (T('Aprobacion'), False, '#', [
-                    (T('Teacher'), False, URL('default', 'agree_teacher'))]),
+            (T('Approval'), False, '#', [
+                (T('Teacher'), False, URL('default', 'agree_teacher'))
+            ])
+        ]
+        response.menu += [     
             (T('To register'), False, '#', [
                     (T('Course'), False, URL('default', 'register_course')),
-                    (T('Machine'), False, URL('default', 'register_machine'))])]
+                    (T('Machine'), False, URL('default', 'register_machine'))
+            ])
+        ]
+        response.menu += [
+            (T('Consult'), False, '#', [
+                 (T('Courses and Groups'), False, URL('maquinas', 'lista_maquina_grupo'))
+            ])
+        ]
+        response.menu += [
+            (T('Commands'), False, URL('maquinas','mostrar'))
+        ]
         
-    if row.group_id.role=="docente":
+    if row.group_id.role=="Docente":
         response.menu += [
             (T('Courses'), False,'#',couxuser),
             (T('Machines'), False,'#',macxuser),
             (T('Commands'), False, URL('maquinas','mostrar')),
-            (T('My jobs'), False, URL('tareas', 'index'))]
+            (T('My jobs'), False, URL('tasks', 'index'))]
     else:
         response.menu += []
 
-<<<<<<< HEAD
-response.menu += [
-    (T('Machines'), False, URL('maquinas','mostrar')),
-    (T('My jobs'), False, URL('tareas', 'index'))
-]
 
-response.menu += [
-    (T('My machines'), False, URL('maquinas', 'lista_maquina_grupo'))
-]
-=======
->>>>>>> master
 DEVELOPMENT_MENU = False
 
 #########################################################################
