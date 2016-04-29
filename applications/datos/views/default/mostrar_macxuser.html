@@ -1,5 +1,6 @@
 {{extend 'layout.html'}}
-<h1>{{=auth.user.first_name}} {{=auth.user.last_name}}</h1>
+<h1>{{#=auth.user.first_name}} 
+    {{#=auth.user.last_name}}</h1>
 <h1>{{=machine.ip_machine}} {{=T('of')}} {{=course.name_course}}</h1>
 
 <h2>{{=T('Select one group')}}</h2>

@@ -7,13 +7,17 @@
 ## - user is required for authentication and authorization
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
-
+import evaluar_expresion
 
 def index():
+    a = 'usuarioas2, usuario 15-18'
+    b = evaluar_expresion.evaluar(a)
+    print b
     response.flash = T("Hello People UD")
     return locals();
 
-@auth.requires_membership('admin')
+@auth.requires_login()
+@auth.requires_membership('Administrador')
 def register_course():
     form = SQLFORM(db1.course).process()
     if form.accepted:
@@ -21,6 +25,8 @@ def register_course():
         redirect(URL('index'))
     return locals()
 
+@auth.requires_login()
+@auth.requires_membership('Administrador')
 def register_machine():
     form = SQLFORM(db1.machine).process()
     if form.accepted:
@@ -29,13 +35,15 @@ def register_machine():
         redirect(URL('index'))
     return locals()
 
+@auth.requires_login()
+@auth.requires_membership('Administrador')
 def registrar_host(id_machine):
     for row in P_HOST:
         db1.port_machine.insert(ip_machine=id_machine, number_port=row)
         db1.commit()
     
 @auth.requires_login()
-@auth.requires_membership('administrador')
+@auth.requires_membership('Administrador')
 def agree_teacher():
     rows = db1(db1.auth_user.registration_key=='pending').select()
     return locals()
@@ -84,10 +92,30 @@ def mostrar_macxuser():
     c_group = db1((db1.course_group.cod_course==course.id)& (db1.course_group.id_teacher==auth.user_id)).select()
     return locals()
 
-
+@auth.requires_login()
+@auth.requires_membership('Docente')
 def show_couxuser():
     course = db1.course(request.args(0, cast=int) or redirect(URL('index')))
     c_machine= db1((db1.machine.code_course==course.id)).select()
+    
+    
+    query_maquinas = db1.machine.code_course==course.id
+    campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor]
+    maquinas = SQLFORM.grid(query_maquinas, fields = campos_maquina, csv=False, editable=False, deletable=False,
+        searchable=False, # No no moverlo, la busqueda no va a servir debido a q user_signature esta desativado
+        details=False, create=False, 
+        user_signature=False # Si se deja activada como es por defecto resulta en un error extrano, solo en este formulario
+        ,links=[lambda row:A(T("Select"),_href=URL('mostrar_macxuser',args=(row.id, course.id)))],
+        links_placement = 'left'
+    )
+    
+    groups_text = T("Groups of ")
+    query_grupos = db1.course_group.cod_course==course.id and db1.course_group.id_teacher == auth.user_id # eliminar la segunda condicion para q muestre todos los grupos de la materia
+    campos_grupo = [db1.course_group.cod_group, db1.course_group.semester]
+    groups = SQLFORM.grid(query_grupos, fields = campos_grupo ,
+        csv=False, editable=False, deletable=False, searchable=False, details=False,
+        create=False, user_signature=False
+    )
     return locals()
 
 def show_ports():

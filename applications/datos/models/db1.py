@@ -93,6 +93,8 @@ db1.student_x_machine.ip_machine.requires=IS_NOT_IN_DB(db1(db1.student_x_machine
 
 db1.define_table('job',
     Field('name', 'string', label=T('Job Name'), requires=IS_NOT_EMPTY()),
+    Field('action', 'string', label=T('Action') ),
+    Field('date', 'datetime', default=request.now),
     Field('user_id', 'reference auth_user', label=T('Teacher'), 
           requires=IS_IN_DB(db1, db1.auth_user.id)   ),
     Field('task_id' ,label=T('Task ID')), migrate=mig

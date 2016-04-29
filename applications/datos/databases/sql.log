@@ -1828,3 +1828,9 @@ CREATE TABLE scheduler_task(
     last_run_time TIMESTAMP,
     assigned_worker_name VARCHAR(512)
 );
+timestamp: 2016-04-28T21:06:35.902871
+ALTER TABLE job ADD action VARCHAR(512);
+success!
+timestamp: 2016-04-28T21:31:48.784059
+ALTER TABLE job ADD date TIMESTAMP;
+success!

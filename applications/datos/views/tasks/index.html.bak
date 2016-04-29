@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+<h1>
+    {{=encabezado}}
+</h1>
+{{=grid}}
+{{#=BEAUTIFY(response._vars)}}

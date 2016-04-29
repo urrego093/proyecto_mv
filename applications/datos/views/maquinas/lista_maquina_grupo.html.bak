@@ -1,5 +1,5 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla maquinas/lista_maquina_grupo.html</h1>
+<h1>{{=mensaje}}</h1>
 {{ =grid}}
 {{ #=maquinas }}
 {{#=BEAUTIFY(response._vars)}}
