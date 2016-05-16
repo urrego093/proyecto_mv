@@ -1,0 +1,19 @@
+---
+# Include variables and define needed variables.
+#- name: Include OS-specific variables.
+#  include_vars: "{{ ansible_os_family }}.yml"
+
+# Add-repo if the user aked to do it
+- include: remove-repo-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+#- include: remove-repo-Fedora-dnf.yml
+#  when: ansible_distribution == "Fedora" and {{ ansible_distribution_version | version_compare('22', '>=') }}
+
+#- include: remove-repo-Fedora-yum.yml
+#  when: ansible_distribution == "Fedora" and {{ ansible_distribution_version | version_compare('22', '<') }}
+
+- include: remove-repo-RedHat.yml
+#  when: ansible_os_family == 'RedHat' and ansible_distribution != "Fedora"
+  when: ansible_os_family == 'RedHat'
+

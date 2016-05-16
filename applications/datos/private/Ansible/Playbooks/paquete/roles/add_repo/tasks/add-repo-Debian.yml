@@ -1,0 +1,6 @@
+---
+- name: Add {{item}} to apt respositories
+  become: yes
+  apt_repository: repo='{{item}}' state=present
+  with_items: "{{ repositorios }}"
+

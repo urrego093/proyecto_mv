@@ -10,8 +10,9 @@ def index():
     
     grid = SQLFORM.grid(query_job, fields = campos_tarea, csv=False, editable=False, deletable=False, 
         searchable=False, # No no moverlo, la busqueda no va a servir debido a q user_signature esta desativado
-        details=False, create=False, user_signature=False # Si se deja activada como es por defecto resulta en un error extrano, solo en este formulario
-        ,links=[
+        details=False, create=False, user_signature=False, # Si se deja activada como es por defecto resulta en un error extrano, solo en este formulario
+        orderby=db1.job.date,
+        links=[
             dict(  header=T('Finished'), body= lambda row:(buscar_tarea_resumen(row.name)) ),
             dict(  header=T('Summary'),  body= lambda row:A(T("Open"),_href=URL('tasks', 'resumen',args=(row.name))) )
         ]

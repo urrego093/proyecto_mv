@@ -1,0 +1,4 @@
+accion: remove_repo
+remote: all
+repositorios:
+- rpms.famillecollet.com_fedora_remi-release-19.rpm

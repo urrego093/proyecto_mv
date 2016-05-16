@@ -1,0 +1,5 @@
+---
+- name: Remove {{item }} from apt repository
+  become: yes
+  apt_repository: repo='{{item}}' state=absent
+  with_items: "{{repositorios}}"

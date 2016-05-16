@@ -1,0 +1,7 @@
+---
+- name: Ensure {{item}} is not installed on Solaris.
+  become: yes  
+  pkg5:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ paquetes }}"

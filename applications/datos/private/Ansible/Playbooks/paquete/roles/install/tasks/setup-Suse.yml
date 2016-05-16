@@ -1,0 +1,7 @@
+---
+- name: Ensure {{item}} is installed on Suse.
+  become: yes  
+  zypper:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ paquetes }}"
