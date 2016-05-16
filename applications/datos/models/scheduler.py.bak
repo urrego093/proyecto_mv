@@ -45,7 +45,7 @@ def abrir_resumen(nombre):
         lineas = archivo.readlines()
     lineas_separadas = []
     for linea in lineas:
-        if linea != '' and linea != '*':
+        if linea != '' and linea != '*\n':
             datos = re.split(':|',linea)
             #print datos
             datos[1] = separar_resultados(datos[1])

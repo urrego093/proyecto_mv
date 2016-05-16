@@ -14,10 +14,11 @@ def index():
 '''
 @auth.requires_login()
 def mostrar():
-    # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers
-    # como agregar campos a un formulario https://web2py.wordpress.com/2010/05/01/more-customization-on-forms/
-    opciones = [T("Restart"), T("Create User(s)"), T("Delete User(s)"),T('Change user(s) pass'), T("Copy Files") ]
-    test = SELECT(*opciones, **dict(_name="accion", _id="accion") )
+          # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers
+          # como agregar campos a un formulario https://web2py.wordpress.com/2010/05/01/more-customization-on-forms/
+            
+    #opciones = [T("Reboot"), T("Create User(s)"), T("Delete User(s)"),T('Change user(s) pass'), T("Copy Files") ] # si se vuelve a usar arreglar para q los nombres conincidan
+    #test = SELECT(*opciones, **dict(_name="accion", _id="accion") )
 
     campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor, db1.machine.description_machine]
     grid = SQLFORM.grid(db1.machine , fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,
@@ -26,34 +27,42 @@ def mostrar():
         selectable = lambda ids :
                         redirect(     URL(  'maquinas', 'configurar', vars=dict(ids=ids)    )  )
     )
-    grid[1][0].insert(1, test)
+    #grid[1][0].insert(1, test)
     grid[1]['_align'] = "center" # jejeje
 
     #GRACIAS!!!!   https://groups.google.com/forum/#!topic/web2py/3kSpuDgo1Lw
     #Si no hay maquinas se muere, ya q grid[1][0] queda siendo un div y no es posible llamar process(), corregir~! 
-    print "   ------------------ ///// --------------- " ,grid[1][0]
+    #print "   ------------------ ///// --------------- " ,grid[1][0]
     
     x = grid[1][0].process()
     
     x["_method"] ='post'
     if x.accepted:
         if x.vars.records:
-            if x.vars.accion == T("Restart"):
-                redirect (URL('reiniciar', vars=dict(ids= x.vars.records)))
+            accion = request.vars.accion
+            if accion == T("reboot"):
+                redirect (URL('system', 'reiniciar', vars=dict(ids= x.vars.records)))
                 
-            elif x.vars.accion == T("Create User(s)"):
+            elif accion == T("create_users"):
                 redirect(URL('usuarios', 'crear' ,vars=dict(ids= x.vars.records)))
                 
-            elif x.vars.accion == T("Delete User(s)"):
+            elif accion == T("delete_user"):
                 redirect(URL('usuarios','eliminar_usuario',vars=dict(ids= x.vars.records)))
                 
-            elif x.vars.accion == T('Change user(s) pass'):
+            elif accion == T('change_users_pass'):
                 redirect(URL('usuarios','cambiar_pass',vars=dict(ids= x.vars.records)))
                 
-            elif x.vars.accion == T("Copy Files"):
+            elif accion == T("copy_files"):
                 redirect(URL('copiar_archivos',vars=dict(ids= x.vars.records)))
-                
-            
+            elif accion == T("install_package"):
+                redirect(URL('system', 'install_packages', vars=dict(ids= x.vars.records)))
+            elif accion == T("remove_package"):
+                redirect(URL('system', 'remove_packages', vars=dict(ids= x.vars.records)))
+            elif accion == T("add_repo"):
+                redirect(URL('system', 'add_repositories', vars=dict(ids= x.vars.records)))
+            elif accion == T("remove_repo"):
+                redirect(URL('system', 'remove_repositories', vars=dict(ids= x.vars.records)))
+
             else:
                 pass
         else:
@@ -64,19 +73,6 @@ def mostrar():
      
     return locals()
 
-@auth.requires_login()
-def reiniciar():
-    ids = request.vars["ids"]
-    form = FORM(_method='post').confirm(T('Restart'),{T('Back'):URL('mostrar#')})
-    form["_align"] = "center"
-    
-    pregunta = T('Do you really whish to restart the selected machines?')
-    
-    if form.accepted:
-        print "se reiniciara la maquina"
-        redirect(URL('ejecutar', vars= dict(ids=ids, opcion='restart')))
-        #print tarea
-    return locals()
 
 @auth.requires_login()
 def copiar_archivos():
@@ -175,7 +171,7 @@ def lista_maquina_clase():
 @auth.requires_login()
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
-    playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml')
+    playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml', paquete="paquete/paquete.yml")
      
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]
@@ -214,4 +210,4 @@ def ejecutar():
     db1.job.insert(name = nombre, user_id = indentificador, task_id = tarea.id, action = opcion)
 
     #db1.commit()
-    redirect(URL('maquinas', 'mostrar'))
+    redirect(URL('tasks', 'index'))
