@@ -1,0 +1,5 @@
+127.0.0.1, 2016-05-11 16:50:53, GET, /datos/default/update_group_teacher/12, HTTP/1.1, 200, 0.127898
+127.0.0.1, 2016-05-11 16:50:54, POST, /datos/default/update_group_teacher/12, HTTP/1.1, 303, 0.159395
+127.0.0.1, 2016-05-11 16:50:54, GET, /datos/default/agree_teacher, HTTP/1.1, 200, 0.130724
+127.0.0.1, 2016-05-11 16:50:57, GET, /datos/default/show_teacher/13, HTTP/1.1, 200, 0.160965
+127.0.0.1, 2016-05-11 16:51:00, POST, /datos/default/show_teacher/13, HTTP/1.1, 303, 0.138776

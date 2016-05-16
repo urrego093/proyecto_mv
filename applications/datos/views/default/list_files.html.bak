@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla default/list_files.html</h1>
+{{=BEAUTIFY(response._vars)}}
+{{for file in lstFiles:}}
+<div class="well">
+        <table style="width:80%">
+            <tr><th>File</th><th>Grupo</th></tr>
+            <tr><td><strong><span class="votes">{{=file}}</span></strong></td><td><strong>{{#=file.size}}</strong></td></tr>
+        </table>
+</div>
+{{pass}}
