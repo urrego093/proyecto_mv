@@ -21,10 +21,9 @@ def mostrar():
 
     campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor, db1.machine.description_machine]
     grid = SQLFORM.grid(db1.machine , fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,
-        searchable=False, # Quitar comentario si se quiere ocultar la barra de busqueda
+        searchable=False,# Quitar comentario si se quiere ocultar la barra de busqueda
                            #se tiene q revisar el por que al ver un registro la linea x = grid[1][0].process() genera error si 
-        selectable = lambda ids :
-                        redirect(     URL(  'maquinas', 'configurar', vars=dict(ids=ids)    )  )
+       selectable = lambda ids : redirect(URL('maquinas', 'configurar', vars=dict(ids=ids)))
     )
     grid[1][0].insert(1, test)
     grid[1]['_align'] = "center" # jejeje
@@ -83,8 +82,11 @@ def copiar_archivos():
     #Recuperamos los ids
     ids = request.vars["ids"]
     #recuperamos el path para subir los archivos 
-    ruta_basica = os.path.join(request.folder, 'uploads/')
-    #HOSTNAME=['Carlos','centos']
+    folder_user = "uploads/" + str(auth.user_id) + "/"
+    ruta_basica = os.path.join(request.folder, folder_user)
+    rows = db1(db1.port_machine.ip_machine==ids).select()
+    for row in rows:
+        HOSTNAME.append(row.hostname);
     #url = URL('download')
     # https://groups.google.com/forum/#!topic/web2py/X5xmXyTCavY Checkbox Multiple
     form = SQLFORM.factory(  Field("archivo", "upload", uploadfolder=ruta_basica, autodelete=True), #widget=SQLFORM.widgets.upload.widget),
