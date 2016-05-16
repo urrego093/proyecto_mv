@@ -1,0 +1,34 @@
+---
+# Include variables and define needed variables.
+#- name: Include OS-specific variables.
+#  include_vars: "{{ ansible_os_family }}.yml"
+
+# Setup/install tasks.
+- include: setup-Fedora-dnf.yml
+  when: ansible_distribution == "Fedora" and {{ ansible_distribution_version | version_compare('22', '>=') }}
+
+- include: setup-Fedora-yum.yml
+  when: ansible_distribution == "Fedora" and {{ ansible_distribution_version | version_compare('22', '<') }}
+
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat' and ansible_distribution != "Fedora"
+
+
+- include: setup-Suse.yml
+  when: ansible_os_family == 'Suse'
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- include: setup-Solaris.yml
+  when: ansible_os_family == 'Solaris'
+
+#Revisar q los serviciso estan ejecutandose y se inician con el sistema
+#- name: Revisar q los serviciso estan ejecutandose y se inician con el sistema
+#  service:
+#    name: "{{ item }}"
+#    state: "started"
+#    enabled: yes
+#    with_items: "{{ servicios }}"
+#  when: servicio == 'yes'
+   

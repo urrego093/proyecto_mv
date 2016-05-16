@@ -1,0 +1,6 @@
+- hosts: "{{remote}}"
+  roles:
+    - { role: install, when:  accion  == "install_packages"}
+    - { role: remove_package, when:  accion  == "remove_packages"}
+    - { role: add_repo, when: accion == "add_repo"}
+    - { role: remove_repo, when: accion == "remove_repo" }

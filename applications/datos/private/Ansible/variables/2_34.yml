@@ -1,0 +1,4 @@
+accion: add_repo
+remote: all
+repositorios:
+- ppa:nginx/stable
