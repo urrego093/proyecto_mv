@@ -48,6 +48,17 @@ def abrir_resumen(nombre):
     return lineas_separadas
 
 '''
+   Abre un archivo yaml que guarda las variables usadas para ejecutar un playbook, 
+   luego retorna un diccionario con dichas variables
+'''
+def cargar_variables(nombre):
+    ruta = os.path.join(request.folder, 'private/Ansible/variables/') + nombre + ".yml"
+    variables = dict()
+    with open(ruta, 'r') as f:
+        variables = yaml.load(f)
+    return variables
+
+'''
     Retorna un diccionario con una llave por cada posible dato que da ansible, 
     ok = tareas ejecutadas con exito
     
