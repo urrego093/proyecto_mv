@@ -10,9 +10,6 @@
 import evaluar_expresion
 
 def index():
-    a = 'usuarioas2, usuario 15-18'
-    b = evaluar_expresion.evaluar(a)
-    print b
     response.flash = T("Hello People UD")
     return locals();
 
@@ -35,13 +32,77 @@ def register_machine():
         redirect(URL('index'))
     return locals()
 
+@auth.requires_membership('Administrador')
+def register_group():
+    form = SQLFORM(db1.course_group).process()
+    if form.accepted:
+        session.flash = T("Group Create!")
+        redirect(URL('index'))
+    return locals()
+
+@auth.requires_login()
+def r_est():
+    semes = request.args(0)
+    course = db1.course(request.args(2, cast=int))
+    machine = db1.machine(request.args(1, cast=int) or redirect(URL('index')))
+    num_group = request.args(3) or redirect(URL('index'))
+    port_m = db1(db1.port_machine.ip_machine==machine.id).select()
+    list_port_usados = []
+    list_all_port = []
+    for row_mac in port_m:
+        list_all_port.append(row_mac.id)
+        for r_usados in db1((db1.student_x_machine.ip_machine==row_mac.id)).select():
+            list_port_usados.append(r_usados.ip_machine)
+            
+    for i in list_port_usados:
+        list_all_port.remove(i)
+    
+    db_machine= db1(db1.port_machine.id.belongs(list_all_port))
+    campos = [db1.port_machine.id, db1.port_machine.ip_machine, db1.port_machine.number_port, db1.port_machine.hostname]
+    
+    gs = SQLFORM.grid(db_machine, fields = campos,
+                          csv=False, editable=False, deletable=False, searchable=False,
+                          details=False,create=False, user_signature=False,
+                          links=[lambda row:A(T("Select"),_href=URL('regis_student', args=(semes, machine.id, course.id, num_group, row.id)))],
+                          links_placement = 'left'#,
+                          #selectable = lambda ids:redirect(URL('maquinas', 'configurar', vars=dict(ids=ids)))
+    )
+    
+    return locals()
+
+
+@auth.requires_login()
+def regis_student():
+    semes = request.args(0)
+    course = db1.course(request.args(2, cast=int))
+    machine = db1.machine(request.args(1, cast=int) or redirect(URL('index')))
+    num_group = request.args(3) or redirect(URL('index'))
+    id_port_mach = db1.port_machine(request.args(4) or redirect(URL('index')))
+    db1.student_x_machine.ip_machine.default = id_port_mach.id
+    db1.student_x_machine.ip_machine.writable = False
+    db1.student_x_machine.ip_machine.reable = False
+    db1.student_x_machine.semester.default = semes
+    db1.student_x_machine.semester.writable = False
+    db1.student_x_machine.semester.reable = False
+    db1.student_x_machine.course_group.default = num_group
+    db1.student_x_machine.course_group.writable = False
+    db1.student_x_machine.course_group.reable = False
+    form = SQLFORM(db1.student_x_machine).process()
+    if form.accepted:
+        response.flash = T("Student Register")
+        redirect(URL('default','index'))
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill the form'
+    return locals()
 @auth.requires_login()
 @auth.requires_membership('Administrador')
 def registrar_host(id_machine):
     for row in P_HOST:
         db1.port_machine.insert(ip_machine=id_machine, number_port=row)
         db1.commit()
-    
+
 @auth.requires_login()
 @auth.requires_membership('Administrador')
 def agree_teacher():
@@ -58,28 +119,38 @@ def show_teacher():
     db1.auth_user.last_name.reable = False
     form = SQLFORM(db1.auth_user, user, deletable=True, showid=False)
 
-    if form.process(next=URL('update_group_teacher', args=user.id)).accepted:        
-        response.flash = T ('Teacher accepted')        
+    if form.process(next=URL('update_group_teacher', args=user.id)).accepted:
+        response.flash = T ('Teacher accepted')
     elif form.errors:
         response.flash = T ('Teacher No Update')
-    
 
-    
+
+
     return locals()
 
 def update_group_teacher():
     member = db1.auth_membership(request.args(0, cast=int) or redirect(URL('index')))
+
     if member:
+        ruta_basica = os.path.join(request.folder, 'uploads/')
+        ruta_basica = ruta_basica + str(member.user_id)
+        try:
+            os.makedirs(ruta_basica)
+        except OSError:
+            pass
+        # si no podemos crear la ruta dejamos que pase
+        # si la operación resulto con éxito nos cambiamos al directorio
+        os.chdir(ruta_basica)
         member.update(group_id=2)
         db1.auth_membership.user_id.writable = False
         db1.auth_membership.user_id.reable = False
         db1.auth_membership.group_id.writable = False
-        db1.auth_membership.group_id.reable = False    
+        db1.auth_membership.group_id.reable = False
         form = SQLFORM(db1.auth_membership, member, showid=False)
+        
 
-        if form.process().accepted:        
+        if form.process(next=URL('agree_teacher')).accepted:
             response.flash = T ('User Agree to Teacher Group')
-            redirect(URL('agree_teacher'))
         elif form.errors:
             response.flash = T ('Group No Update')
     else:
@@ -89,33 +160,43 @@ def update_group_teacher():
 def mostrar_macxuser():
     course = db1.course(request.args(1, cast=int) or redirect(URL('index')))
     machine = db1.machine(request.args(0, cast=int) or redirect(URL('index')))
-    c_group = db1((db1.course_group.cod_course==course.id)& (db1.course_group.id_teacher==auth.user_id)).select()
+    #c_group = db1((db1.course_group.cod_course==course.id)& (db1.course_group.id_teacher==auth.user_id)).select()
+
+    groups_text = T("Groups of ")
+    query_grupos = ((db1.course_group.cod_course==course.id)& (db1.course_group.id_teacher==auth.user_id)) # eliminar la segunda condicion para q muestre todos los grupos de la materia
+    campos_grupo = [db1.course_group.cod_group, db1.course_group.semester]
+    groups = SQLFORM.grid(query_grupos, fields = campos_grupo,
+                          csv=False, editable=False, deletable=False, searchable=False,
+                          details=False,create=False, user_signature=False,
+                          links=[lambda row:A(T("Select"),_href=URL('show_ports', args=(row.semester, machine.id, course.id, row.cod_group)))],
+                          links_placement = 'left'
+    )
     return locals()
 
 @auth.requires_login()
 @auth.requires_membership('Docente')
 def show_couxuser():
     course = db1.course(request.args(0, cast=int) or redirect(URL('index')))
-    c_machine= db1((db1.machine.code_course==course.id)).select()
-    
-    
+    #c_machine= db1((db1.machine.code_course==course.id)).select()
+
+
     query_maquinas = db1.machine.code_course==course.id
     campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor]
     maquinas = SQLFORM.grid(query_maquinas, fields = campos_maquina, csv=False, editable=False, deletable=False,
         searchable=False, # No no moverlo, la busqueda no va a servir debido a q user_signature esta desativado
-        details=False, create=False, 
+        details=False, create=False,
         user_signature=False # Si se deja activada como es por defecto resulta en un error extrano, solo en este formulario
         ,links=[lambda row:A(T("Select"),_href=URL('mostrar_macxuser',args=(row.id, course.id)))],
         links_placement = 'left'
     )
-    
-    groups_text = T("Groups of ")
-    query_grupos = db1.course_group.cod_course==course.id and db1.course_group.id_teacher == auth.user_id # eliminar la segunda condicion para q muestre todos los grupos de la materia
-    campos_grupo = [db1.course_group.cod_group, db1.course_group.semester]
-    groups = SQLFORM.grid(query_grupos, fields = campos_grupo ,
-        csv=False, editable=False, deletable=False, searchable=False, details=False,
-        create=False, user_signature=False
-    )
+
+    #groups_text = T("Groups of ")
+    #query_grupos = db1.course_group.cod_course==course.id and db1.course_group.id_teacher == auth.user_id # eliminar la segunda condicion para q muestre todos los grupos de la materia
+    #campos_grupo = [db1.course_group.cod_group, db1.course_group.semester]
+    #groups = SQLFORM.grid(query_grupos, fields = campos_grupo ,
+     #   csv=False, editable=False, deletable=False, searchable=False, details=False,
+      #  create=False, user_signature=False
+    #)
     return locals()
 
 def show_ports():
@@ -124,16 +205,63 @@ def show_ports():
     machine = db1.machine(request.args(1, cast=int) or redirect(URL('index')))
     num_group = request.args(3) or redirect(URL('index'))
     port_mac = db1(db1.port_machine.ip_machine==machine.id).select()
-    response.flash = T (num_group)
+    response.flash = num_group
     list_port = []
-    
+
     for port_m in port_mac:
         list_est = db1((db1.student_x_machine.ip_machine==port_m.id) &
-                       (db1.student_x_machine.semester==semes)).select(db1.student_x_machine.name_student, db1.student_x_machine.code_student)
+                       (db1.student_x_machine.semester==semes) & (db1.student_x_machine.course_group==num_group)).select( db1.student_x_machine.name_student, db1.student_x_machine.code_student, db1.student_x_machine.course_group)
         for l_est in list_est:
-            list_port.append((port_m.number_port, port_m.hostname, l_est.code_student, l_est.name_student))
+            list_port.append((port_m.number_port, port_m.hostname, l_est.code_student, l_est.name_student, l_est.course_group))
+    if not list_port:
+        response.flash = T ("Currently there are no students")
+        
+    return locals()
+
+
+
+def list_files():
+    folder_user = "uploads/" + str(auth.user_id) + "/"
+    ruta_basica = os.path.join(request.folder, folder_user)
+    lstDir = os.walk(ruta_basica)
+    #Lista vacia para incluir los ficheros
+    lstFiles = []
+    #Crea una lista de los ficheros jpg que existen en el directorio y los incluye a la lista.
+    for root, dirs, files in lstDir:
+        for fichero in files:
+            (nombreFichero, extension) = os.path.splitext(fichero)
+            lstFiles.append(nombreFichero+extension)
+            
+    #res = response.stream(open(pathfilename,'rb'), chunk_size=10**6)
 
     return locals()
+
+## Reference http://www.web2py.com/AlterEgo/default/show/36
+def my_big_file_downloader():
+    import os
+    filename=request.args[0]
+    folder_user = str(auth.user_id)
+    pathfilename= os.path.join(request.folder,'uploads/'+folder_user, filename)
+    return response.stream(open(pathfilename,'rb'), chunk_size=10**6)
+
+    # the old way
+# reference http://www.web2py.com/AlterEgo/default/show/36
+def my_small_file_downloader():
+    import os
+    import gluon.contenttype
+    filename=request.args[0]
+    folder_user = str(auth.user_id)
+    response.headers['Content-Type']=gluon.contenttype.contenttype(filename)
+    pathfilename=os.path.join(request.folder,'uploads/'+folder_user, filename)
+    return open('pathfilename', 'rb').read()
+
+def register_student():
+    form = SQLFORM(db1.student_x_machine).process()
+    if form.accepted:
+        session.flash = T("Student Register")
+        #redirect(URL('index'))
+    return locals()
+
 
 def user():
     """

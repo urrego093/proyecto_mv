@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 #Define constants
 #STR_DAL ="postgres://udistrital:maquinas123@localhost/Universidad"
-STR_DAL ="postgres://postgres:1234@localhost/proyecto2"
+#STR_DAL ="postgres://postgres:1234@localhost/proyecto2"
+STR_DAL ="postgres://tester:carlos123@localhost/bdprueba"
 #This is for operating system use in the virtual machine
 OPERA_SYSTEM = ['Fedora','CentOs','Ubuntu','Kali','Windows', T('Other')]
 
@@ -18,7 +19,9 @@ SEMESTER = ['2016-I','2016-III','2017-I','2017-III','2018-I','2018-III','2019-I'
 P_HOST = ['5901','5902','5903','5904','5905','5906','5907','5908','5909','5910','5911','5912','5913','5914','5915','5916']
 
 #user for OS depending to port
-HOSTNAME = ['root','estudiante1','estudiante2','estudiante3','estudiante4','estudiante5','estudiante6','estudiante7','estudiante8','estudiante9','estudiante10','estudiante11','estudiante12','estudiante13','estudiante14','estudiante15']
+HOSTNAME = []
+GROUP = ['51','52','61','62']
+#HOSTNAME = ['root','estudiante1','estudiante2','estudiante3','estudiante4','estudiante5','estudiante6','estudiante7','estudiante8','estudiante9','estudiante10','estudiante11','estudiante12','estudiante13','estudiante14','estudiante15']
 # Valor True para crear, False para ya creado
 mig = True
 #posibles acciones de un usuario

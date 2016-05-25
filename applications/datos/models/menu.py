@@ -31,13 +31,14 @@ response.menu = [
 
 #List of course for userid  (Ex: User_id 1, machines 192.168.1.114,192.168.1.115)
 couxuser = []
-for row in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course.name_course, db1.course.id, distinct=True):
-    couxuser.append((T(row.name_course), False, URL('default', 'show_couxuser', args=(row.id)))) #id_course
+for row in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):
+    couxuser.append((T(str(row.cod_course.name_course)), False, URL('default', 'show_couxuser', args=(row.cod_course.id)))) #id_course
+
 
 macxuser = []
-for c_group in db1(db1.course_group.id_teacher==auth.user_id).select():
-    for row in db1(db1.machine.code_course==c_group.cod_course).select():
-        macxuser.append((T(row.ip_machine), False,URL('default', 'mostrar_macxuser',args=(row.id, c_group.cod_course)))) #/id_machine/id_course
+for c_group in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):
+    for row in db1(db1.machine.code_course==c_group.cod_course.id).select(db1.machine.ip_machine, db1.machine.id, distinct=True):
+        macxuser.append((row.ip_machine, False,URL('default', 'mostrar_macxuser',args=(row.id, c_group.cod_course)))) #/id_machine/id_course
 
 adminis = db1((db1.auth_membership.user_id == auth.user_id)).select()
 for row in adminis:
@@ -51,14 +52,16 @@ for row in adminis:
         response.menu += [     
             (T('To register'), False, '#', [
                     (T('Course'), False, URL('default', 'register_course')),
-                    (T('Machine'), False, URL('default', 'register_machine'))
+                    (T('Machine'), False, URL('default', 'register_machine')),
+                    (T('Group'), False, URL('default', 'register_group'))
             ])
         ]
         
         response.menu += [
             (T('Consult'), False, '#', [
                  (T('Courses and Groups'), False, URL('maquinas', 'lista_maquina_grupo')),
-                 (T('Teachers'), False, URL('admin', 'teachers'))
+                 (T('Teachers'), False, URL('admin', 'teachers')),
+                 (T('Files'), False, URL('default', 'list_files'))
             ])
         ]
         
@@ -75,14 +78,20 @@ for row in adminis:
             (T('Courses'), False,'#',couxuser),
             (T('Machines'), False,'#',macxuser),
             #(T('Commands'), False, URL('maquinas','mostrar')),
-            (T('My jobs'), False, URL('tasks', 'index'))]
+           ]
         
         response.menu += [
             (T('Commands'), False, '#', [
                 (T('Users'), False,  URL('commands','users')),
                 (T('System'), False, URL('commands', 'system')),
-                (T('Files'), False, URL('commands', 'files'))
-            ])
+                (T('Files'), False, URL('commands', 'files')),
+            ]),
+            (T('Consult'), False, '#', [
+                            (T('Files'), False, URL('default', 'list_files')),
+                            (T('My jobs'), False, URL('tasks', 'index'))])#,
+            #(T('Students'), False, '#', [
+            #                (T('Register'), False, URL('default', 'register_student')),
+            #                (T('List'), False, URL('tasks', 'index'))])
         ]
         
     else:
