@@ -29,7 +29,7 @@ def mostrar():
     campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor, db1.machine.description_machine]
     grid = SQLFORM.grid(db_machine, fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,
         searchable=False, # Quitar comentario si se quiere ocultar la barra de busqueda
-                           #se tiene q revisar el por que al ver un registro la linea x = grid[1][0].process() genera error si
+                           #se tiene q revisar el por que al ver un registro la linea x = grid[1][0].process() genera error si 
         selectable = lambda ids :
                         redirect(     URL(  'maquinas', 'configurar', vars=dict(ids=ids)    )  )
     )
@@ -37,27 +37,27 @@ def mostrar():
     grid[1]['_align'] = "center" # jejeje
 
     #GRACIAS!!!!   https://groups.google.com/forum/#!topic/web2py/3kSpuDgo1Lw
-    #Si no hay maquinas se muere, ya q grid[1][0] queda siendo un div y no es posible llamar process(), corregir~!
+    #Si no hay maquinas se muere, ya q grid[1][0] queda siendo un div y no es posible llamar process(), corregir~! 
     #print "   ------------------ ///// --------------- " ,grid[1][0]
-
+    
     x = grid[1][0].process()
-
+    
     x["_method"] ='post'
     if x.accepted:
         if x.vars.records:
             accion = request.vars.accion
             if accion == T("reboot"):
                 redirect (URL('system', 'reiniciar', vars=dict(ids= x.vars.records)))
-
+                
             elif accion == T("create_users"):
                 redirect(URL('usuarios', 'crear' ,vars=dict(ids= x.vars.records)))
-
+                
             elif accion == T("delete_user"):
                 redirect(URL('usuarios','eliminar_usuario',vars=dict(ids= x.vars.records)))
-
+                
             elif accion == T('change_users_pass'):
                 redirect(URL('usuarios','cambiar_pass',vars=dict(ids= x.vars.records)))
-
+                
             elif accion == T("copy_files"):
                 redirect(URL('copiar_archivos',vars=dict(ids= x.vars.records)))
             elif accion == T("re_copy_files"):
@@ -79,9 +79,8 @@ def mostrar():
             #redirect ( URL(  'maquinas', 'configurar', vars=dict(accion=x.vars.accion, id= x.vars.records) ))
     #elif x.errors:
         #response.flash = T('Please select at leats one id')
-
+     
     return locals()
-
 
 
 @auth.requires_login()
@@ -163,7 +162,7 @@ def lista_maquina_grupo():
 def lista_maquina_clase():
     id = request.args[0]
     return locals()
-
+    
     '''
     user_groups = db1(db1.course_group.id_teacher == indentificador).select( ##los grupos del usuario
         db1.course_group['cod_course']
@@ -178,16 +177,16 @@ def lista_maquina_clase():
             #print materia_id[llave]['id']
             if materia_id not in materias_ids:
                 materias_ids.append(materia_id)
-
+                
     print materias_ids
-
+    
     materias = db1(db1.course.id == 2).select().as_dict()
-
+    
     #for llave in materias:
         #print materias[llave]
     #restricciones = dict(course_group= db1.course_group.id_teacher == indentificador)
     '''
-
+    
     '''
     ids_maquinas = []
     for id in ids:
@@ -204,20 +203,20 @@ def lista_maquina_clase():
         print id_maquina
     #grid = db1(db1.machine.id == ids_maquinas[0]).select()
     '''
-
+    
     return locals()
 
 @auth.requires_login()
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
     playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml', paquete="paquete/paquete.yml")
-
+     
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]
     opcion = request.vars['opcion']
     variables_extra = request.vars['variables_extra']
-    print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra)
-
+    print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra) 
+    
     #se crea el nombre de los archivos de la tarea con primerNombre_segundoNombre
     indentificador = auth.user_id
     #nombres = db1(db1.auth_user.id == indentificador).select(db1.auth_user.first_name,      db1.auth_user.last_name)
@@ -242,7 +241,7 @@ def ejecutar():
     tarea = scheduler.queue_task(
         "playbook", pargs=ids, pvars=variables, stop_time = None, timeout = 120 ,repeats = 1
     )
-    print "id ", str(tarea.id) #id de la tarea
+    print "id ", str(tarea.id) #id de la tarea 
     #se inserta un registro de la tarea en la base de datos con la referencia al campo en la tabla scheduler_task,
     #dicha tabla maneja los estados de una tarea, registra los errores, guarda los argumentos(parametros en un arreglo)
     # y las variables(parametros en un diccionario)
