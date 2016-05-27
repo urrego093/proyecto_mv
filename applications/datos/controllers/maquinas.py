@@ -14,45 +14,64 @@ def index():
 '''
 @auth.requires_login()
 def mostrar():
-    # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers
-    # como agregar campos a un formulario https://web2py.wordpress.com/2010/05/01/more-customization-on-forms/
-    opciones = [T("Restart"), T("Create User(s)"), T("Delete User(s)"),T('Change user(s) pass'), T("Copy Files") ]
-    #test2 = SQLFORM.factory(
-    #    Field('accion',requires=IS_IN_SET(opciones))
-    #)
-    test = SELECT(*opciones, **dict(_name="accion", _id="accion") )
+    macxuser = []
+    for c_group in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):
+        for row in db1(db1.machine.code_course==c_group.cod_course.id).select(db1.machine.ip_machine, db1.machine.id, distinct=True):
+            macxuser.append(row.id) #/id_machine/id_course
+    adminis = db1((db1.auth_membership.user_id == auth.user_id)).select()
+    for row in adminis:
+        if row.group_id.role =="Administrador":
+            db_machine = db1.machine
+        elif row.group_id.role=="Docente":
+            db_machine = db1(db1.machine.id.belongs(macxuser)) #http://web2py.com/books/default/chapter/29/6#belongs
 
-    grid = SQLFORM.grid(db1.machine,         csv=False, editable=False, deletable=False,
-        #query = asdasdasdasdasads
+
+    campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor, db1.machine.description_machine]
+    grid = SQLFORM.grid(db_machine, fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,
+        searchable=False, # Quitar comentario si se quiere ocultar la barra de busqueda
+                           #se tiene q revisar el por que al ver un registro la linea x = grid[1][0].process() genera error si
         selectable = lambda ids :
                         redirect(     URL(  'maquinas', 'configurar', vars=dict(ids=ids)    )  )
     )
-    grid[1][0].insert(1, test)
-    #grid[1][0].insert(1, test2)
+    #grid[1][0].insert(1, test)
     grid[1]['_align'] = "center" # jejeje
 
     #GRACIAS!!!!   https://groups.google.com/forum/#!topic/web2py/3kSpuDgo1Lw
-    #Si no hay maquinas se muere, ya q grid[1][0] queda siendo un div y no es posible llamar process(), corregir~! 
+    #Si no hay maquinas se muere, ya q grid[1][0] queda siendo un div y no es posible llamar process(), corregir~!
+    #print "   ------------------ ///// --------------- " ,grid[1][0]
+
     x = grid[1][0].process()
+
     x["_method"] ='post'
     if x.accepted:
         if x.vars.records:
-            if x.vars.accion == T("Restart"):
-                redirect (URL('reiniciar', vars=dict(ids= x.vars.records)))
-                
-            elif x.vars.accion == T("Create User(s)"):
+            accion = request.vars.accion
+            if accion == T("reboot"):
+                redirect (URL('system', 'reiniciar', vars=dict(ids= x.vars.records)))
+
+            elif accion == T("create_users"):
                 redirect(URL('usuarios', 'crear' ,vars=dict(ids= x.vars.records)))
-                
-            elif x.vars.accion == T("Delete User(s)"):
+
+            elif accion == T("delete_user"):
                 redirect(URL('usuarios','eliminar_usuario',vars=dict(ids= x.vars.records)))
-                
-            elif x.vars.accion == T('Change user(s) pass'):
+
+            elif accion == T('change_users_pass'):
                 redirect(URL('usuarios','cambiar_pass',vars=dict(ids= x.vars.records)))
-                
-            elif x.vars.accion == T("Copy Files"):
+
+            elif accion == T("copy_files"):
                 redirect(URL('copiar_archivos',vars=dict(ids= x.vars.records)))
-                
-            
+            elif accion == T("re_copy_files"):
+                redirect(URL('copiar_archivos_subidos',vars=dict(ids= x.vars.records, archi = request.vars.archi), ))
+
+            elif accion == T("install_package"):
+                redirect(URL('system', 'install_packages', vars=dict(ids= x.vars.records)))
+            elif accion == T("remove_packages"):
+                redirect(URL('system', 'remove_packages', vars=dict(ids= x.vars.records)))
+            elif accion == T("add_repo"):
+                redirect(URL('system', 'add_repositories', vars=dict(ids= x.vars.records)))
+            elif accion == T("remove_repo"):
+                redirect(URL('system', 'remove_repositories', vars=dict(ids= x.vars.records)))
+
             else:
                 pass
         else:
@@ -60,29 +79,21 @@ def mostrar():
             #redirect ( URL(  'maquinas', 'configurar', vars=dict(accion=x.vars.accion, id= x.vars.records) ))
     #elif x.errors:
         #response.flash = T('Please select at leats one id')
+
     return locals()
 
-@auth.requires_login()
-def reiniciar():
-    ids = request.vars["ids"]
-    form = FORM(_method='post').confirm(T('Restart'),{T('Back'):URL('mostrar#')})
-    form["_align"] = "center"
-    
-    pregunta = T('Do you really whish to restart the selected machines?')
-    
-    if form.accepted:
-        print "se reiniciara la maquina"
-        redirect(URL('ejecutar', vars= dict(ids=ids, opcion='restart')))
-        #print tarea
-    return locals()
+
 
 @auth.requires_login()
 def copiar_archivos():
     #Recuperamos los ids
     ids = request.vars["ids"]
-    #recuperamos el path para subir los archivos 
-    ruta_basica = os.path.join(request.folder, 'uploads/')
-    #HOSTNAME=['Carlos','centos']
+    #recuperamos el path para subir los archivos
+    folder_user = "uploads/" + str(auth.user_id) + "/"
+    ruta_basica = os.path.join(request.folder, folder_user)
+    rows = db1(db1.port_machine.ip_machine==ids).select()
+    for row in rows:
+        HOSTNAME.append(row.hostname);
     #url = URL('download')
     # https://groups.google.com/forum/#!topic/web2py/X5xmXyTCavY Checkbox Multiple
     form = SQLFORM.factory(  Field("archivo", "upload", uploadfolder=ruta_basica, autodelete=True), #widget=SQLFORM.widgets.upload.widget),
@@ -103,22 +114,56 @@ def copiar_archivos():
         redirect(URL('ejecutar', vars= dict(ids=ids, opcion='copyFile', variables_extra=dict(origen=ruta_basica + orig_name,
                                                                                              somelist=request.vars.hostname))))
     return locals()
+
+
+
 @auth.requires_login()
+def copiar_archivos_subidos():
+    #Recuperamos los ids
+    ids = request.vars["ids"]
+    #recuperamos el path para subir los archivos
+    folder_user = "uploads/" + str(auth.user_id) + "/"
+    ruta_basica = os.path.join(request.folder, folder_user)
+    orig_name =  request.vars.archi
+    rows = db1(db1.port_machine.ip_machine==ids).select()
+    for row in rows:
+        HOSTNAME.append(row.hostname);
+    #url = URL('download')
+    # https://groups.google.com/forum/#!topic/web2py/X5xmXyTCavY Checkbox Multiple
+    form = SQLFORM.factory(  Field("archivo", "string", default = orig_name, writable= False), #widget=SQLFORM.widgets.upload.widget),
+        Field("hostname", "list:string",
+              default=HOSTNAME,widget=SQLFORM.widgets.checkboxes.widget,
+              requires=[IS_IN_SET(HOSTNAME,multiple=True),IS_NOT_EMPTY()]))
+    form.add_button(T('Back'), URL('mostrar#'))
+
+    if form.accepts(request.vars, session):
+        redirect(URL('ejecutar', vars= dict(ids=ids, opcion='copyFile', variables_extra=dict(origen=ruta_basica + orig_name,
+                                                                                             somelist=request.vars.hostname))))
+    return locals()
+
+@auth.requires_login()
+@auth.requires_membership('Administrador')
 def lista_maquina_grupo():
     indentificador = auth.user_id
 
     mensaje = H1 (T("Please select a course"))
-    restricciones = dict(course_group = db1.course_group.id_teacher== indentificador)
+    restricciones = dict(
+        #course_group = db1.course_group.id_teacher== indentificador
+                         #, course = db1.course.id == 2
+                        )
     grid = SQLFORM.smartgrid(db1.course,linked_tables=['course_group'], constraints = restricciones,
-        searchable=False,deletable=False, editable=False, details=False, csv= False, create= False,
-        links=[lambda row:A(T("Select"),_href=URL("maquinas","lista_maquina_clase",args=[row.id]))]
+        #searchable=False,
+        deletable=False, editable=True, details=True, csv= False, create= False
+        #, links=[lambda row:A(T("Select"),_href=URL("maquinas","lista_maquina_clase",args=[row.id]))]
     )
     return locals()
-    
+
+@auth.requires_login()
+@auth.requires_membership('Administrador')
 def lista_maquina_clase():
     id = request.args[0]
     return locals()
-    
+
     '''
     user_groups = db1(db1.course_group.id_teacher == indentificador).select( ##los grupos del usuario
         db1.course_group['cod_course']
@@ -133,16 +178,16 @@ def lista_maquina_clase():
             #print materia_id[llave]['id']
             if materia_id not in materias_ids:
                 materias_ids.append(materia_id)
-                
+
     print materias_ids
-    
+
     materias = db1(db1.course.id == 2).select().as_dict()
-    
+
     #for llave in materias:
         #print materias[llave]
     #restricciones = dict(course_group= db1.course_group.id_teacher == indentificador)
     '''
-    
+
     '''
     ids_maquinas = []
     for id in ids:
@@ -159,19 +204,20 @@ def lista_maquina_clase():
         print id_maquina
     #grid = db1(db1.machine.id == ids_maquinas[0]).select()
     '''
-    
+
     return locals()
 
+@auth.requires_login()
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
-    playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml')
-     
+    playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml', paquete="paquete/paquete.yml")
+
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]
     opcion = request.vars['opcion']
     variables_extra = request.vars['variables_extra']
-    print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra) 
-    
+    print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra)
+
     #se crea el nombre de los archivos de la tarea con primerNombre_segundoNombre
     indentificador = auth.user_id
     #nombres = db1(db1.auth_user.id == indentificador).select(db1.auth_user.first_name,      db1.auth_user.last_name)
@@ -196,11 +242,11 @@ def ejecutar():
     tarea = scheduler.queue_task(
         "playbook", pargs=ids, pvars=variables, stop_time = None, timeout = 120 ,repeats = 1
     )
-    print "id ", str(tarea.id) #id de la tarea 
+    print "id ", str(tarea.id) #id de la tarea
     #se inserta un registro de la tarea en la base de datos con la referencia al campo en la tabla scheduler_task,
     #dicha tabla maneja los estados de una tarea, registra los errores, guarda los argumentos(parametros en un arreglo)
     # y las variables(parametros en un diccionario)
-    db1.job.insert(name = nombre, user_id = indentificador, task_id = tarea.id)
+    db1.job.insert(name = nombre, user_id = indentificador, task_id = tarea.id, action = opcion)
 
     #db1.commit()
-    redirect(URL('maquinas', 'mostrar'))
+    redirect(URL('tasks', 'index'))

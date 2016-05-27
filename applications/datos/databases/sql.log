@@ -1828,3 +1828,208 @@ CREATE TABLE scheduler_task(
     last_run_time TIMESTAMP,
     assigned_worker_name VARCHAR(512)
 );
+timestamp: 2016-04-28T21:06:35.902871
+ALTER TABLE job ADD action VARCHAR(512);
+success!
+timestamp: 2016-04-28T21:31:48.784059
+ALTER TABLE job ADD date TIMESTAMP;
+success!
+timestamp: 2016-05-16T15:44:30.740821
+CREATE TABLE auth_user(
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512)
+);
+success!
+timestamp: 2016-05-16T15:44:31.335767
+CREATE TABLE auth_group(
+    id SERIAL PRIMARY KEY,
+    role VARCHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-05-16T15:44:31.544723
+CREATE TABLE auth_membership(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-05-16T15:44:31.695523
+CREATE TABLE auth_permission(
+    id SERIAL PRIMARY KEY,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
+    name VARCHAR(512),
+    table_name VARCHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2016-05-16T15:44:31.853805
+CREATE TABLE auth_event(
+    id SERIAL PRIMARY KEY,
+    time_stamp TIMESTAMP,
+    client_ip VARCHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    origin VARCHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-05-16T15:44:32.019292
+CREATE TABLE auth_cas(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    created_on TIMESTAMP,
+    service VARCHAR(512),
+    ticket VARCHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2016-05-16T15:44:32.193365
+CREATE TABLE course(
+    id SERIAL PRIMARY KEY,
+    code_course INTEGER,
+    name_course VARCHAR(60),
+    description_course TEXT,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-05-16T15:44:32.427305
+CREATE TABLE machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine VARCHAR(512),
+    code_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    operative_system VARCHAR(512),
+    memory VARCHAR(512),
+    processor VARCHAR(512),
+    description_machine TEXT,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-05-16T15:44:32.652470
+CREATE TABLE port_machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine INTEGER REFERENCES machine (id) ON DELETE CASCADE  ,
+    number_port VARCHAR(512),
+    hostname VARCHAR(512),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-05-16T15:44:32.884395
+CREATE TABLE course_group(
+    id SERIAL PRIMARY KEY,
+    cod_group INTEGER,
+    id_teacher INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    cod_course INTEGER REFERENCES course (id) ON DELETE CASCADE  ,
+    semester VARCHAR(512),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-05-16T15:44:33.900407
+CREATE TABLE student_x_machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine INTEGER REFERENCES port_machine (id) ON DELETE CASCADE  ,
+    code_student VARCHAR(512),
+    name_student VARCHAR(512),
+    semester VARCHAR(512),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-05-16T15:44:34.117546
+CREATE TABLE job(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(512),
+    action VARCHAR(512),
+    date TIMESTAMP,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    task_id VARCHAR(512)
+);
+success!
+timestamp: 2016-05-16T15:44:34.464631
+CREATE TABLE scheduler_task(
+    id SERIAL PRIMARY KEY,
+    application_name VARCHAR(512),
+    task_name VARCHAR(512),
+    group_name VARCHAR(512),
+    status VARCHAR(512),
+    function_name VARCHAR(512),
+    uuid VARCHAR(255) UNIQUE,
+    args TEXT,
+    vars TEXT,
+    enabled CHAR(1),
+    start_time TIMESTAMP,
+    next_run_time TIMESTAMP,
+    stop_time TIMESTAMP,
+    repeats INTEGER,
+    retry_failed INTEGER,
+    period INTEGER,
+    prevent_drift CHAR(1),
+    timeout INTEGER,
+    sync_output INTEGER,
+    times_run INTEGER,
+    times_failed INTEGER,
+    last_run_time TIMESTAMP,
+    assigned_worker_name VARCHAR(512)
+);
+success!
+timestamp: 2016-05-16T15:44:34.790867
+CREATE TABLE scheduler_run(
+    id SERIAL PRIMARY KEY,
+    task_id INTEGER REFERENCES scheduler_task (id) ON DELETE CASCADE  ,
+    status VARCHAR(512),
+    start_time TIMESTAMP,
+    stop_time TIMESTAMP,
+    run_output TEXT,
+    run_result TEXT,
+    traceback TEXT,
+    worker_name VARCHAR(512)
+);
+success!
+timestamp: 2016-05-16T15:44:35.048890
+CREATE TABLE scheduler_worker(
+    id SERIAL PRIMARY KEY,
+    worker_name VARCHAR(255) UNIQUE,
+    first_heartbeat TIMESTAMP,
+    last_heartbeat TIMESTAMP,
+    status VARCHAR(512),
+    is_ticker CHAR(1),
+    group_names TEXT,
+    worker_stats JSON
+);
+success!
+timestamp: 2016-05-16T15:44:35.299004
+CREATE TABLE scheduler_task_deps(
+    id SERIAL PRIMARY KEY,
+    job_name VARCHAR(512),
+    task_parent INTEGER,
+    task_child INTEGER REFERENCES scheduler_task (id) ON DELETE CASCADE  ,
+    can_visit CHAR(1)
+);
+success!
+timestamp: 2016-05-24T11:55:24.228601
+ALTER TABLE student_x_machine ADD course_group VARCHAR(512);
+success!

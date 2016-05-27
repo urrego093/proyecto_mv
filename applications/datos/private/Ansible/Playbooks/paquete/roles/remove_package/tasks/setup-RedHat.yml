@@ -1,0 +1,8 @@
+---
+- name: Ensure {{item}} is not installed on RHEL.
+  become: yes  
+  yum:
+    name: "{{ item }}"
+    state: absent
+    enablerepo: "{{ apache_enablerepo }}"
+  with_items: "{{ paquetes }}"

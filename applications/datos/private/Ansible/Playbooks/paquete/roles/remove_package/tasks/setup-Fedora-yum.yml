@@ -1,0 +1,7 @@
+---
+- name: Ensure {{item}} is installed on RHEL.
+  become: yes  
+  yum: name='{{ item }}' state=absent
+  with_items: "{{ paquetes }}"
+#yum: name= "{{ item }}" state= installed enablerepo="{{ repositorio }}"
+#  with_items: "{{ paquetes }}"

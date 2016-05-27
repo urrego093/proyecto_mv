@@ -13,7 +13,7 @@ response.title = request.application.replace('_',' ').title()
 response.subtitle = ''
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
-response.meta.author = 'Carlos  <suarezsilvestre1@gmail.com>'
+response.meta.author = 'Carlos  <suarezsilvestre1@gmail.com> Camilo <urrego@outlook.com>'
 response.meta.description = 'a cool new app'
 response.meta.keywords = 'web2py, python, framework'
 response.meta.generator = 'Web2py Web Framework'
@@ -28,43 +28,76 @@ response.google_analytics_id = None
 response.menu = [
     (T('Home'), False, URL('default', 'index'), [])]
 
-<<<<<<< HEAD
-response.menu += [
-    (T('Machines'), False, URL('maquinas','mostrar')),
-    (T('My jobs'), False, URL('tareas', 'index'))
-]
-=======
 
 #List of course for userid  (Ex: User_id 1, machines 192.168.1.114,192.168.1.115)
 couxuser = []
-for row in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course.name_course, db1.course.id, distinct=True):
-    couxuser.append((T(row.name_course), False, URL('default', 'show_couxuser', args=(row.id)))) #id_course
+for row in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):
+    couxuser.append((T(str(row.cod_course.name_course)), False, URL('default', 'show_couxuser', args=(row.cod_course.id)))) #id_course
+
 
 macxuser = []
-for c_group in db1(db1.course_group.id_teacher==auth.user_id).select():
-    for row in db1(db1.machine.code_course==c_group.cod_course).select():
-        macxuser.append((T(row.ip_machine), False,URL('default', 'mostrar_macxuser',args=(row.id, c_group.cod_course)))) #/id_machine/id_course
+for c_group in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):
+    for row in db1(db1.machine.code_course==c_group.cod_course.id).select(db1.machine.ip_machine, db1.machine.id, distinct=True):
+        macxuser.append((row.ip_machine, False,URL('default', 'mostrar_macxuser',args=(row.id, c_group.cod_course)))) #/id_machine/id_course
 
 adminis = db1((db1.auth_membership.user_id == auth.user_id)).select()
 for row in adminis:
-    if row.group_id.role =="administrador": #row.group_id == 1
+    if row.group_id.role =="Administrador": #row.group_id == 1
         response.menu += [
-            (T('Aprobacion'), False, '#', [
-                    (T('Teacher'), False, URL('default', 'agree_teacher'))]),
+            (T('Approval'), False, '#', [
+                (T('Teacher'), False, URL('default', 'agree_teacher'))
+            ])
+        ]
+        
+        response.menu += [     
             (T('To register'), False, '#', [
                     (T('Course'), False, URL('default', 'register_course')),
-                    (T('Machine'), False, URL('default', 'register_machine'))])]
+                    (T('Machine'), False, URL('default', 'register_machine')),
+                    (T('Group'), False, URL('default', 'register_group'))
+            ])
+        ]
         
-    if row.group_id.role=="docente":
+        response.menu += [
+            (T('Consult'), False, '#', [
+                 (T('Courses and Groups'), False, URL('maquinas', 'lista_maquina_grupo')),
+                 (T('Teachers'), False, URL('admin', 'teachers')),
+                 (T('Files'), False, URL('default', 'list_files'))
+            ])
+        ]
+        
+        response.menu += [
+            (T('Commands'), False, '#', [
+                (T('Users'), False,  URL('commands','users')),
+                (T('System'), False, URL('commands', 'system')),
+                (T('Files'), False, URL('commands', 'files'))
+            ])
+        ]
+        
+    if row.group_id.role=="Docente":
         response.menu += [
             (T('Courses'), False,'#',couxuser),
             (T('Machines'), False,'#',macxuser),
-            (T('Commands'), False, URL('maquinas','mostrar')),
-            (T('My jobs'), False, URL('tareas', 'index'))]
+            #(T('Commands'), False, URL('maquinas','mostrar')),
+           ]
+        
+        response.menu += [
+            (T('Commands'), False, '#', [
+                (T('Users'), False,  URL('commands','users')),
+                (T('System'), False, URL('commands', 'system')),
+                (T('Files'), False, URL('commands', 'files')),
+            ]),
+            (T('Consult'), False, '#', [
+                            (T('Files'), False, URL('default', 'list_files')),
+                            (T('My jobs'), False, URL('tasks', 'index'))])#,
+            #(T('Students'), False, '#', [
+            #                (T('Register'), False, URL('default', 'register_student')),
+            #                (T('List'), False, URL('tasks', 'index'))])
+        ]
+        
     else:
         response.menu += []
 
->>>>>>> master
+
 DEVELOPMENT_MENU = False
 
 #########################################################################

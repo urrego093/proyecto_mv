@@ -1,0 +1,8 @@
+---
+- name: Remove {{item}} from repository
+  become: yes
+  shell: "rm -rf /etc/yum.repos.d/{{item}}.repo"
+  with_items: "{{repositorios}}"
+
+#- name: Show system version
+#  debug: var=ansible_distribution_version

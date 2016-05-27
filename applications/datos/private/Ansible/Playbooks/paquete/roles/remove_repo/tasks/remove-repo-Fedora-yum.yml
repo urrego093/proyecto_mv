@@ -1,0 +1,11 @@
+---
+- name: Remove {{item}} from repository
+  become: yes
+  shell: "rm -rf /etc/yum.repos.d/{{item}}.repo"
+  with_items: "{{repositorios}}"
+
+
+#    description: EPEL YUM repo
+#    baseurl: "{{repositorio}}"
+#http://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+

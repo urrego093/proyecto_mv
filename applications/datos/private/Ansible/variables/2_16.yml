@@ -1,0 +1,4 @@
+accion: install
+paquetes:
+- apache
+remote: all

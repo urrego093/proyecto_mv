@@ -1,0 +1,83 @@
+{{extend 'layout.html'}}
+
+<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h1 class="modal-title">Tarea {{=job_name}}</h1>
+</div>
+
+
+<div class="modal-body">
+    <h3>
+        {{=texto_summary}}
+    </h3>
+    {{=grid}}
+    <br>
+    <h3>
+        {{=texto_summary_per_host}}
+    </h3>
+    
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>IP</th>
+            <th>OK</th>
+            <th>Changed</th>
+            <th>Unreachable</th>
+            <th>Failed</th>
+          </tr>
+        </thead>
+        {{if existe_resumen == T('Yes'):}}
+        <tbody>
+            {{for pareja in resultados:}}
+            <tr>
+                <td>{{=pareja[0]}}</td>
+                <th>{{=pareja[1]["ok"]}}</th>
+                <th>{{=pareja[1]["changed"]}}</th>
+                <th>{{=pareja[1]["unreachable"]}}</th>
+                <th>{{=pareja[1]["failed"]}}</th>
+          </tr>
+          {{pass}}
+        </tbody>
+        {{else:}}
+            <tr>
+                <td>{{=resultados}}</td>
+            </tr>
+    {{pass}}
+    </table> <! Fin del resumen por maquina -->
+    
+    
+    <br>
+    <h3>
+        {{=texto_vars}}
+    </h3>
+    
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        {{if existe_resumen == T('Yes'):}}
+        <tbody>
+            {{for campo in variables:}}
+            <tr>
+                <td>{{=diccionario[campo]}}</td>
+                <th>{{=variables[campo]}}</th>
+          </tr>
+          {{pass}}
+        </tbody>
+        {{else:}}
+            <tr>
+                <td>{{=variables}}</td>
+            </tr>
+    {{pass}}
+    </table>
+</div>
+
+
+<div class="modal-footer">
+    {{=boton_volver}}
+    {{=boton_descargar}}
+</div>
+{{#=BEAUTIFY(response._vars)}}
