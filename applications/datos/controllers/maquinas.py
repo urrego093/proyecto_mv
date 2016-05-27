@@ -12,6 +12,10 @@ def index():
     acciones = [T("Restart"),T("Add user")]
     return locals()
 '''
+
+def foo(row):
+    pass
+
 @auth.requires_login()
 def mostrar():
           # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers
@@ -24,8 +28,7 @@ def mostrar():
     grid = SQLFORM.grid(db1.machine , fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,
         searchable=False, # Quitar comentario si se quiere ocultar la barra de busqueda
                            #se tiene q revisar el por que al ver un registro la linea x = grid[1][0].process() genera error si 
-        selectable = lambda ids :
-                        redirect(     URL(  'maquinas', 'configurar', vars=dict(ids=ids)    )  )
+        selectable =  lambda row: foo(row.id)
     )
     #grid[1][0].insert(1, test)
     grid[1]['_align'] = "center" # jejeje
@@ -36,9 +39,9 @@ def mostrar():
     
     x = grid[1][0].process()
     
-    x["_method"] ='post'
     if x.accepted:
-        if x.vars.records:
+        
+        if x.vars.records != None:
             accion = request.vars.accion
             if accion == T("reboot"):
                 redirect (URL('system', 'reiniciar', vars=dict(ids= x.vars.records)))
@@ -46,7 +49,7 @@ def mostrar():
             elif accion == T("create_users"):
                 redirect(URL('usuarios', 'crear' ,vars=dict(ids= x.vars.records)))
                 
-            elif accion == T("delete_user"):
+            elif accion == T("delete_users"):
                 redirect(URL('usuarios','eliminar_usuario',vars=dict(ids= x.vars.records)))
                 
             elif accion == T('change_users_pass'):
@@ -200,6 +203,9 @@ def ejecutar():
         variables=variables_extra
     )
     #se pide al worker o proceso en segundo plano que ejcuta el playbook en maximo 10 minutos
+    ids = [ids] if type(ids)==str else ids
+    print " =========TIPO DE LAS IDS ES ======== = " ,type(ids)
+    
     tarea = scheduler.queue_task(
         "playbook", pargs=ids, pvars=variables, stop_time = None, timeout = 120 ,repeats = 1
     )
