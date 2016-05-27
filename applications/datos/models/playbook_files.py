@@ -137,10 +137,17 @@ def crear_inventario(ruta_nombre, ids):
         db1.machine.id, db1.machine.ip_machine
     )
     ips = []
+    '''
+    if type(ids) == str:
+        for fila in filas:
+            if fila['id'] == int(ids):
+                ips.append( fila['ip_machine'] )
+    '''
     for identificador in ids:
         for fila in filas:
             if fila['id'] == int(identificador):
                 ips.append( fila['ip_machine'] )
+    
     
     #se crea un archivo con las direcciones ip de las maquinas seleccionadas (el archivo inventario)
     archivo = open(ruta_nombre, 'w')
