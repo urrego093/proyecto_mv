@@ -52,7 +52,7 @@ def mostrar():
             elif accion == T("create_users"):
                 redirect(URL('usuarios', 'crear' ,vars=dict(ids= x.vars.records)))
                 
-            elif accion == T("delete_user"):
+            elif accion == T("delete_users"):
                 redirect(URL('usuarios','eliminar_usuario',vars=dict(ids= x.vars.records)))
                 
             elif accion == T('change_users_pass'):
@@ -60,15 +60,19 @@ def mostrar():
                 
             elif accion == T("copy_files"):
                 redirect(URL('copiar_archivos',vars=dict(ids= x.vars.records)))
+                
             elif accion == T("re_copy_files"):
                 redirect(URL('copiar_archivos_subidos',vars=dict(ids= x.vars.records, archi = request.vars.archi), ))
 
             elif accion == T("install_package"):
                 redirect(URL('system', 'install_packages', vars=dict(ids= x.vars.records)))
+                
             elif accion == T("remove_packages"):
                 redirect(URL('system', 'remove_packages', vars=dict(ids= x.vars.records)))
+                
             elif accion == T("add_repo"):
                 redirect(URL('system', 'add_repositories', vars=dict(ids= x.vars.records)))
+                
             elif accion == T("remove_repo"):
                 redirect(URL('system', 'remove_repositories', vars=dict(ids= x.vars.records)))
 
@@ -213,6 +217,7 @@ def ejecutar():
      
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]
+    ids = [ids] if type(ids)==str else ids
     opcion = request.vars['opcion']
     variables_extra = request.vars['variables_extra']
     print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra) 
@@ -237,6 +242,7 @@ def ejecutar():
         ruta_extra=ruta_basica + "variables/" + nombre,
         variables=variables_extra
     )
+    
     #se pide al worker o proceso en segundo plano que ejcuta el playbook en maximo 10 minutos
     tarea = scheduler.queue_task(
         "playbook", pargs=ids, pvars=variables, stop_time = None, timeout = 120 ,repeats = 1

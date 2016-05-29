@@ -2033,3 +2033,11 @@ success!
 timestamp: 2016-05-24T11:55:24.228601
 ALTER TABLE student_x_machine ADD course_group VARCHAR(512);
 success!
+timestamp: 2016-05-28T22:15:35.234888
+ALTER TABLE student_x_machine ADD course_group VARCHAR(512);
+timestamp: 2016-05-28T22:16:02.289838
+ALTER TABLE student_x_machine ADD course_group VARCHAR(512);
+timestamp: 2016-05-28T22:17:04.152638
+ALTER TABLE student_x_machine ADD course_group VARCHAR(512);
+timestamp: 2016-05-28T22:18:03.404296
+ALTER TABLE student_x_machine ADD course_group VARCHAR(512);

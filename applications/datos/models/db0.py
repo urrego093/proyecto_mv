@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #Define constants
 #STR_DAL ="postgres://udistrital:maquinas123@localhost/Universidad"
-#STR_DAL ="postgres://postgres:1234@localhost/proyecto2"
-STR_DAL ="postgres://tester:carlos123@localhost/bdprueba"
+STR_DAL ="postgres://postgres:1234@localhost/proyecto2"
+#STR_DAL ="postgres://tester:carlos123@localhost/bdprueba"
 #This is for operating system use in the virtual machine
 OPERA_SYSTEM = ['Fedora','CentOs','Ubuntu','Kali','Windows', T('Other')]
 
