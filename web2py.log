@@ -5,3 +5,53 @@
 2016-04-25 20:00:23,343 - web2py - WARNING - GUI not available because Tk library is not installed
 =======
 >>>>>>> master
+2016-06-13 16:43:34,598 - Rocket.Errors.Thread-5 - ERROR - Traceback (most recent call last):
+
+  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/rocket.py", line 1846, in run_app
+    sections = len(output)
+
+TypeError: object of type 'type' has no len()
+
+2016-06-13 16:43:37,799 - Rocket.Errors.Thread-9 - ERROR - Traceback (most recent call last):
+
+  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/rocket.py", line 1846, in run_app
+    sections = len(output)
+
+TypeError: object of type 'type' has no len()
+
+2016-06-13 16:43:46,695 - Rocket.Errors.Thread-3 - ERROR - Traceback (most recent call last):
+
+  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/rocket.py", line 1846, in run_app
+    sections = len(output)
+
+TypeError: object of type 'type' has no len()
+
+2016-06-13 16:43:48,320 - Rocket.Errors.Thread-11 - ERROR - Traceback (most recent call last):
+
+  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/rocket.py", line 1846, in run_app
+    sections = len(output)
+
+TypeError: object of type 'type' has no len()
+
+2016-06-18 19:17:01,747 - Rocket.Errors.Port8000 - ERROR - Socket 0.0.0.0:8000 in use by other process and it won't share.
+2016-06-18 19:17:01,765 - Rocket.Errors.Port8000 - WARNING - Listener started when not ready.
+2016-06-18 19:17:36,062 - Rocket.Errors.Port8000 - ERROR - Socket 0.0.0.0:8000 in use by other process and it won't share.
+2016-06-18 19:17:36,069 - Rocket.Errors.Port8000 - WARNING - Listener started when not ready.
+2016-06-29 19:22:09,482 - Rocket.Errors.Port8000 - ERROR - Socket p:8000 in use by other process and it won't share.
+2016-06-29 19:22:09,499 - Rocket.Errors.Port8000 - WARNING - Listener started when not ready.
+2016-06-29 19:22:13,625 - Rocket.Errors.Port8000 - ERROR - Socket p:8000 in use by other process and it won't share.
+2016-06-29 19:22:13,632 - Rocket.Errors.Port8000 - WARNING - Listener started when not ready.
+2016-06-29 19:22:28,557 - Rocket.Errors.Port8000 - ERROR - Socket p:8000 in use by other process and it won't share.
+2016-06-29 19:22:28,563 - Rocket.Errors.Port8000 - WARNING - Listener started when not ready.
