@@ -21,11 +21,13 @@ def playbook(*args, **vars):
     #recuperando datos pasados en un diccionario
     #print "entro al playbook"
     nombre = vars['nombre']
+    debug = vars['debug']
     playbook = vars['playbook']
     hosts = vars['hosts']
     pid = -1 # no lo usamos para nada 
     salida = None
     variables = vars['variables']
+    is_debug = vars["is_debug"]
     
     ids = args
     crear_inventario(hosts, ids)
@@ -38,6 +40,7 @@ def playbook(*args, **vars):
         extra_vars = " --extra-vars @" + ruta_variables
     #print extra_vars
     comando = "ansible-playbook " + playbook + " -i " + hosts + extra_vars
+    print "- - - - - -- COMANDO ES ------ "
     print comando
     
     #comando_listo = shlex.split(comando)
@@ -49,13 +52,23 @@ def playbook(*args, **vars):
     
     output = process.communicate()
     salida = output[0]
+    print salida
     #str_salida = salida.split("PLAY RECAP *********************************************************************") #Camilo 
     str_salida = salida.split("PLAY RECAP *********************************************************************") #Carlos
-    print output
-    
-   
     guardar_resumen(nombre, str_salida[1])
-    
+    #print " ----------------------------------------  la salida es ------------------------------"
+    #print str_salida
+    #print output
+    if is_debug:
+        debug_feo = salida.split("TASK [check : debug] ***********************************************************")
+        #print "--------------- DEBUG FEOOOOO -------------"
+        #print debug_feo
+        if len(debug_feo) > 1:
+            debug_bonito = debug_feo[1].split("PLAY RECAP")
+            #print "------------------ DEBBUG BONITO ------------------"
+            #print debug_bonito
+            guardar_resumen(debug, debug_bonito[0])
+
     return 1
     
 scheduler = Scheduler(db1,

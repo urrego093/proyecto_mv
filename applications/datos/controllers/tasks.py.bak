@@ -24,6 +24,10 @@ def index():
 def resumen():
     #Mensajes de la pagina
     job_name = request.args(0)
+    
+    fila_accion = db1(db1.job.name == job_name).select(db1.job.action)
+    accion = fila_accion[0]['action']
+    
     texto_summary = T("Global Summary")
     texto_summary_per_host = T("Summary per host")
     texto_vars = T("Variables")
@@ -31,13 +35,15 @@ def resumen():
     job_user_id = int(re.split("_", job_name)[0])
     user_id = int(auth.user_id)
     
-    
     existe_resumen = T('No')
     
     #Tablas Nulas
     grid = T("You're not authorized to see this Job!")
     resultados = []
-    variables = []
+    variables = dict()
+    debug = dict()
+    cabezas = []
+    datos = {}
     
     #botones del pie de la pagina1
     boton_volver = INPUT(_value = T('Back'),_type= "button", _class="btn btn-default", _onclick= "window.history.back();")
@@ -63,10 +69,30 @@ def resumen():
             resultados = abrir_resumen(job_name)
             #variables = dict(ips=range(0,10), datos= "ajajajajjajaa", otros_datos="Otros datos")
             variables = cargar_variables(job_name)
+            print " ------------- LAS VARIABLES SON  ---------"
+            print variables
             #diccionario = dict(ips = T("IP Directions"), datos=T("Data"), otros_datos=T("Other data"))
-            diccionario = dict(action=T("Action"), admin= T("Aministrator"), password=T("Password"), remote=T("Hosts"), username=T("User Name"), origen=T("Source"), somelist=T("Users List"), accion=T("Action"), paquetes=T("Packages"))
-            cargar_variables(job_name)
         else:
             resultados = T("Job not finished yet")
+            
+        
+        existe_debug = buscar_tarea_debug(job_name)
+
+        
+        if existe_debug == T('Yes'):
+            if accion == "services":
+                debug = leer_debug_servicios(job_name)
+                
+                cabezas = debug["cabezas"]
+                datos = debug["datos"]
+            elif accion == "ports":
+                debug = leer_debug_puertos(job_name)
+                
+                cabezas = debug["cabezas"]
+                datos = debug["datos"]
+            else:
+                pass
+        else:
+            pass
     #print lineas
     return locals()

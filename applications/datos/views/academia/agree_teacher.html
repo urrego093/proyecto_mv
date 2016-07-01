@@ -3,10 +3,16 @@
     Aprobacion Registro Docente
 </h2>
 <table class="table">
-    {{for r in rows:}}
-    <tr>
-        <td><a href="{{=URL('show_teacher',args=r.id)}}">{{=r.first_name}} {{=r.last_name}}</a></td><td>Estado Registro {{=r.registration_key}}</td>
+    {{if rows:}}
+        {{for r in rows:}}
+        <tr>
+            <td><a href="{{=URL('show_teacher',args=r.id)}}">{{=r.first_name}} {{=r.last_name}}</a></td><td>Estado Registro {{=r.registration_key}}</td>
 
-    </tr>
+        </tr>
+        {{pass}}
+    {{else:}}
+        <h3>
+            {{=T('There are no teachers left to accept')}}
+        </h3>
     {{pass}}
 </table>

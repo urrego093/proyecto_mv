@@ -12,23 +12,26 @@ def index():
     acciones = [T("Restart"),T("Add user")]
     return locals()
 '''
-
-def foo(row):
-    pass
-
 @auth.requires_login()
 def mostrar():
-          # Crear un campo pasando un arreglo para los campos http://web2py.com/books/default/chapter/29/05/the-views#HTML-helpers
-          # como agregar campos a un formulario https://web2py.wordpress.com/2010/05/01/more-customization-on-forms/
-            
-    #opciones = [T("Reboot"), T("Create User(s)"), T("Delete User(s)"),T('Change user(s) pass'), T("Copy Files") ] # si se vuelve a usar arreglar para q los nombres conincidan
-    #test = SELECT(*opciones, **dict(_name="accion", _id="accion") )
+    macxuser = []
+    for c_group in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):
+        for row in db1(db1.machine.code_course==c_group.cod_course.id).select(db1.machine.ip_machine, db1.machine.id, distinct=True):
+            macxuser.append(row.id) #/id_machine/id_course
+    adminis = db1((db1.auth_membership.user_id == auth.user_id)).select()
+    for row in adminis:
+        if row.group_id.role =="Administrador":
+            db_machine = db1.machine
+        elif row.group_id.role=="Docente":
+            db_machine = db1(db1.machine.id.belongs(macxuser)) #http://web2py.com/books/default/chapter/29/6#belongs
+
 
     campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor, db1.machine.description_machine]
-    grid = SQLFORM.grid(db1.machine , fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,
+    grid = SQLFORM.grid(db_machine, fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,
         searchable=False, # Quitar comentario si se quiere ocultar la barra de busqueda
                            #se tiene q revisar el por que al ver un registro la linea x = grid[1][0].process() genera error si 
-        selectable =  lambda row: foo(row.id)
+        selectable = lambda ids :
+                        redirect(     URL(  'maquinas', 'configurar', vars=dict(ids=ids)    )  )
     )
     #grid[1][0].insert(1, test)
     grid[1]['_align'] = "center" # jejeje
@@ -39,13 +42,15 @@ def mostrar():
     
     x = grid[1][0].process()
     
+    x["_method"] ='post'
     if x.accepted:
-        
-        if x.vars.records != None:
+        if x.vars.records:
             accion = request.vars.accion
+#### General
             if accion == T("reboot"):
                 redirect (URL('system', 'reiniciar', vars=dict(ids= x.vars.records)))
-                
+            
+#### Users and passwords                
             elif accion == T("create_users"):
                 redirect(URL('usuarios', 'crear' ,vars=dict(ids= x.vars.records)))
                 
@@ -54,18 +59,57 @@ def mostrar():
                 
             elif accion == T('change_users_pass'):
                 redirect(URL('usuarios','cambiar_pass',vars=dict(ids= x.vars.records)))
-                
+
+#### Files                
             elif accion == T("copy_files"):
-                redirect(URL('copiar_archivos',vars=dict(ids= x.vars.records)))
+                ids= x.vars.records
+                if type(ids) == str:  
+                    redirect(URL('copiar_archivos',vars=dict(ids = ids)))
+                else:
+                    response.flash = T("For this task, please select just one machine")
+                
+            elif accion == T("re_copy_files"):
+                ids= x.vars.records
+                if type(ids) == str:  
+                    redirect(URL('copiar_archivos_subidos',vars=dict(ids= ids, archi = request.vars.archi), ))
+                else:
+                    response.flash = T("For this task, please select just one machine")
+                
+#### Packages and repositories
             elif accion == T("install_package"):
                 redirect(URL('system', 'install_packages', vars=dict(ids= x.vars.records)))
+                
             elif accion == T("remove_packages"):
                 redirect(URL('system', 'remove_packages', vars=dict(ids= x.vars.records)))
+                
             elif accion == T("add_repo"):
                 redirect(URL('system', 'add_repositories', vars=dict(ids= x.vars.records)))
+                
             elif accion == T("remove_repo"):
                 redirect(URL('system', 'remove_repositories', vars=dict(ids= x.vars.records)))
 
+#### Servicios
+            elif accion == T("services"):
+                redirect(URL('system', 'services', vars=dict(ids= x.vars.records)))
+            
+            elif accion == T("start_services"):
+                redirect(URL('system', 'start_services', vars=dict(ids= x.vars.records)))
+                
+            elif accion == T("stop_services"):
+                redirect(URL('system', 'stop_services', vars=dict(ids= x.vars.records)))
+                
+            elif accion == T("restart_services"):
+                redirect(URL('system', 'restart_services', vars=dict(ids= x.vars.records)))
+                
+            elif accion == T("reload_services"):
+                redirect(URL('system', 'reload_services', vars=dict(ids= x.vars.records)))
+
+#### Ports
+            elif accion == T('ports'):
+                redirect(URL('system', 'ports', vars=dict(ids= x.vars.records)))
+#### Cron tasks
+            elif accion == T("tasks_cron"):
+                redirect(URL('system','tasks_cron', vars=dict(ids= x.vars.records)))
             else:
                 pass
         else:
@@ -81,9 +125,12 @@ def mostrar():
 def copiar_archivos():
     #Recuperamos los ids
     ids = request.vars["ids"]
-    #recuperamos el path para subir los archivos 
-    ruta_basica = os.path.join(request.folder, 'uploads/')
-    #HOSTNAME=['Carlos','centos']
+    #recuperamos el path para subir los archivos
+    folder_user = "uploads/" + str(auth.user_id) + "/"
+    ruta_basica = os.path.join(request.folder, folder_user)
+    rows = db1(db1.port_machine.ip_machine==ids).select()
+    for row in rows:
+        HOSTNAME.append(row.hostname);
     #url = URL('download')
     # https://groups.google.com/forum/#!topic/web2py/X5xmXyTCavY Checkbox Multiple
     form = SQLFORM.factory(  Field("archivo", "upload", uploadfolder=ruta_basica, autodelete=True), #widget=SQLFORM.widgets.upload.widget),
@@ -101,6 +148,32 @@ def copiar_archivos():
         coded_name = form.vars.archivo
         orig_name = request.vars.archivo.filename
         os.rename(ruta_basica + coded_name, ruta_basica + orig_name)
+        redirect(URL('ejecutar', vars= dict(ids=ids, opcion='copyFile', variables_extra=dict(origen=ruta_basica + orig_name,
+                                                                                             somelist=request.vars.hostname))))
+    return locals()
+
+
+
+@auth.requires_login()
+def copiar_archivos_subidos():
+    #Recuperamos los ids
+    ids = request.vars["ids"]
+    #recuperamos el path para subir los archivos
+    folder_user = "uploads/" + str(auth.user_id) + "/"
+    ruta_basica = os.path.join(request.folder, folder_user)
+    orig_name =  request.vars.archi
+    rows = db1(db1.port_machine.ip_machine==ids).select()
+    for row in rows:
+        HOSTNAME.append(row.hostname);
+    #url = URL('download')
+    # https://groups.google.com/forum/#!topic/web2py/X5xmXyTCavY Checkbox Multiple
+    form = SQLFORM.factory(  Field("archivo", "string", default = orig_name, writable= False), #widget=SQLFORM.widgets.upload.widget),
+        Field("hostname", "list:string",
+              default=HOSTNAME,widget=SQLFORM.widgets.checkboxes.widget,
+              requires=[IS_IN_SET(HOSTNAME,multiple=True),IS_NOT_EMPTY()]))
+    form.add_button(T('Back'), URL('mostrar#'))
+
+    if form.accepts(request.vars, session):
         redirect(URL('ejecutar', vars= dict(ids=ids, opcion='copyFile', variables_extra=dict(origen=ruta_basica + orig_name,
                                                                                              somelist=request.vars.hostname))))
     return locals()
@@ -174,13 +247,20 @@ def lista_maquina_clase():
 @auth.requires_login()
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
-    playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml', paquete="paquete/paquete.yml")
+    playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml', paquete="paquete/paquete.yml", 
+                    services="services/services.yml", ports="ports/ports.yml")
      
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]
+    ids = [ids] if type(ids)==str else ids
     opcion = request.vars['opcion']
+    
+    #para_evitar_errores ccon los playbook de servicios y puertos, que hacian un parseo para
+    # mostrar la salida de un comando incluso cuando este no era para revisar el estado actual
+    is_debug = True if request.vars["is_debug"] else False
+    
     variables_extra = request.vars['variables_extra']
-    print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra) 
+    #print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra) 
     
     #se crea el nombre de los archivos de la tarea con primerNombre_segundoNombre
     indentificador = auth.user_id
@@ -200,12 +280,12 @@ def ejecutar():
         playbook=ruta_basica + "Playbooks/" +  playbooks[opcion],
         hosts= ruta_basica + '' + nombre,
         ruta_extra=ruta_basica + "variables/" + nombre,
-        variables=variables_extra
+        debug = ruta_basica + "debug/" + nombre,
+        variables=variables_extra,
+        is_debug= is_debug
     )
-    #se pide al worker o proceso en segundo plano que ejcuta el playbook en maximo 10 minutos
-    ids = [ids] if type(ids)==str else ids
-    print " =========TIPO DE LAS IDS ES ======== = " ,type(ids)
     
+    #se pide al worker o proceso en segundo plano que ejcuta el playbook en maximo 10 minutos
     tarea = scheduler.queue_task(
         "playbook", pargs=ids, pvars=variables, stop_time = None, timeout = 120 ,repeats = 1
     )
@@ -214,6 +294,6 @@ def ejecutar():
     #dicha tabla maneja los estados de una tarea, registra los errores, guarda los argumentos(parametros en un arreglo)
     # y las variables(parametros en un diccionario)
     db1.job.insert(name = nombre, user_id = indentificador, task_id = tarea.id, action = opcion)
-
+   
     #db1.commit()
-    redirect(URL('tasks', 'index'))
+    redirect(URL('tasks', 'resumen/'+nombre))

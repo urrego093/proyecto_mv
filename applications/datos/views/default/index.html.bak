@@ -1,6 +1,8 @@
 {{extend 'layout.html'}}
 <h2>
-    {{T('Welcome')}}
-    Holaaaaaa
+    {{=T('Welcome')}}
+    
 </h2>
-{{=grid}}
+<body>
+ <img src="/home/Carlos/Descargas/web2py/applications/datos/static/images/fondo1.jpg" alt="fondo" style="width:128px;height:128px;"> 
+</body>

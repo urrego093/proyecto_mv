@@ -3,7 +3,9 @@
 
 from gluon.contrib.appconfig import AppConfig
 
-db1 = DAL(STR_DAL, pool_size=10, migrate=mig)
+#db1 = DAL(STR_DAL, pool_size=10, migrate=mig)
+db1 = DAL(STR_DAL, pool_size=10)
+
 ## once in production, remove reload=True to gain full speed
 myconf = AppConfig(reload=True)
 
@@ -82,11 +84,13 @@ db1.course_group.cod_group.requires=[IS_NOT_IN_DB(courses(db1.course_group.semes
 
 
 db1.define_table('student_x_machine',
-               Field('ip_machine', 'reference port_machine', requires=IS_IN_DB(db1,db1.port_machine.id, '%(ip_machine)s','%(number_port)s', zero = T('Select One'))),
+               Field('ip_machine', 'reference port_machine', label = T('Id Machine:Port'), requires=IS_IN_DB(db1,db1.port_machine.id, '%(id)s', zero = T('Select One'))),
                Field('code_student','string', requires=IS_NOT_EMPTY()),
                Field('name_student','string', requires=IS_NOT_EMPTY()),
                Field('semester', 'string', label = T('Semester'), requires=IS_IN_SET(SEMESTER, zero = T('Select One'), error_message='You no choose one')),
-                 auth.signature)
+               Field('course_group', 'string', label = T('Group'), requires=IS_IN_SET(GROUP, zero = T('Select One'), error_message='You no choose one')),
+               auth.signature,migrate=False
+)
 
 db1.student_x_machine.ip_machine.requires=IS_NOT_IN_DB(db1(db1.student_x_machine.semester==request.vars.semester),
     'student_x_machine.ip_machine')
