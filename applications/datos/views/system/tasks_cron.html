@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+<h1>{{=T('Select one configuration of auto-tasks update')}}</h1>
+{{=form}}
+
+<h2>{{=T('Option "*" is all elements')}}</h2>
+
+{{#=BEAUTIFY(response._vars)}}

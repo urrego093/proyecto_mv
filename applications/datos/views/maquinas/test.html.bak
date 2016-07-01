@@ -1,0 +1,4 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla maquinas/test.html</h1>
+{{=form}}
+{{=BEAUTIFY(response._vars)}}

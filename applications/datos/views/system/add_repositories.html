@@ -1,0 +1,38 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla system/add_repositories.html</h1>
+
+{{=form}}
+
+<h2>
+    {{=T("Notes")}}
+</h2>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#general" data-toggle="tab">General</a></li>
+    <li><a href="#redhat" data-toggle="tab">Red-Hat Family</a></li>
+    <li><a href="#debian" data-toggle="tab">Debian Family</a></li>
+    <li><a href="#solarissuse" data-toggle="tab">Solaris and Suse</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="general" class="tab-pane active">
+      <h3>{{=T("Remember that some repositories may have different names according to the distribution and version")}}</h3>
+        <h4> {{=T("Remi Repository")}} </h4>
+          <pre>Fedora 23 -> http://rpms.famillecollet.com/fedora/remi-<b>release-23</b>.rpm</pre>
+          <pre>Fedora 22 -> http://rpms.famillecollet.com/fedora/remi-<b>release-22</b>.rpm</pre>
+          <pre>Centos or Red Hat 7 -> http://dl.fedoraproject.org/pub/epel/<b>7/x86_64/e/epel-release-7-6</b>.noarch.rpm</pre>
+    </div>
+    <div id="redhat" class="tab-pane">
+       <h3> {{=T("Support for DNF in Fedora >= 22 distributions included!")}}</h3>
+        <br>
+       <h3> {{#=T("With YUM and DNF you can use URL's instead of package names")}}</h3>
+    </div>
+    <div id="debian" class="tab-pane">
+       <h3>{{=T("PPA repositories like ppa:nginx/stable  will work in Ubuntu but not in Debian")}}</h3>
+    </div>
+    <div id="solarissuse" class="tab-pane">
+      <h3>{{=T("Support for these distributions is not implemented yet")}}</h3>
+    </div>
+  </div><!-- /.tab-content -->
+</div><!-- /.tabbable -->
+
+{{#=BEAUTIFY(response._vars)}}

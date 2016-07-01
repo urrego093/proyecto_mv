@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="DataModelerTesis" id="AE6A359C-BDDA-6100-2AEA-B9B127B053DC" version="3.5">
+<createdBy>root</createdBy>
+<createdTime>2016-03-28 15:20:53 UTC</createdTime>
+<ownerDesignName>DataModelerTesis</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>AE6A359C-BDDA-6100-2AEA-B9B127B053DC</designId>
+</OSDM_Design>

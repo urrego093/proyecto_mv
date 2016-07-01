@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+
+<h2>{{=encabezado}}</h2>
+<p>
+    asdasdas
+</p>

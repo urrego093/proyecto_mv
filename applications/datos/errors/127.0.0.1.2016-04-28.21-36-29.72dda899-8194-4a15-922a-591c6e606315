@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'grid' is not defined"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/tasks.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# intente algo como\ndef index():\n    encabezado = T("These are your previous task")\n    \n    query_job = db1.job.user_id == auth.user_id\n    \n    campos_tarea = [db1.job.name, db1.job.action, db1.job.date]\n    \n    maquinas = SQLFORM.grid(query_job, fields = campos_tarea, csv=False, editable=False, deletable=False, \n        searchable=False, # No no moverlo, la busqueda no va a servir debido a q user_signature esta desativado\n        details=False, create=False, user_signature=False # Si se deja activada como es por defecto resulta en un error extrano, solo en este formulario\n        #,links=[lambda row:A(T("Select"),_href=URL(\'mostrar_macxuser\',args=(row.id, course.id)))]\n    )\n    return dict(grid = grid)\n\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/tasks.py", line 17, in <module>\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/tasks.py", line 15, in index\n    return dict(grid = grid)\nNameError: global name \'grid\' is not defined\n'
+p11
+s.

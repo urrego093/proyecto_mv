@@ -1,0 +1,6 @@
+---
+
+- name: Deleating user "{{ uusername }}"
+  become: yes
+  become_user: root
+  user: name="{{ uusername }}" state=absent remove=yes

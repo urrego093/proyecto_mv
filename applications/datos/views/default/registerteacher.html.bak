@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+<h2>
+    Registrar Docente
+</h2>
+<table class="table">
+    {{for r in rows:}}
+    <tr>
+        <td><a href="{{=URL('show_teacher',args=r.id)}}">{{=r.title}}</a></td>
+        <td>{{=r.created_on}}</td>
+    </tr>
+    {{pass}}
+</table>

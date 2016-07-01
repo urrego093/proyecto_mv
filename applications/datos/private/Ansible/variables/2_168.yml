@@ -1,0 +1,4 @@
+action: stop
+remote: all
+services:
+- apache2

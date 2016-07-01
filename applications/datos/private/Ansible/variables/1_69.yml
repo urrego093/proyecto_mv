@@ -1,0 +1,7 @@
+action: create_user
+admin: 'no'
+password: Ab1234
+remote: all
+username:
+- foo1
+- foo2

@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+<h1>Está es la plantilla administrar_maquinas.html</h1>
+<h2>
+     asdasdadsd
+</h2>
+{{=BEAUTIFY(response._vars)}}

@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+  - name: Copiar archivo a una maquina
+    copy: src="{{origen}}" dest="/home/{{item}}/Documents"
+            owner={{item}} mode=0644
+    with_items: "{{somelist}}"
+

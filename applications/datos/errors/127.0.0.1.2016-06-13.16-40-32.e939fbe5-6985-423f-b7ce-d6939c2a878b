@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'args' is not defined"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/consult.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# intente algo como\ndef index(): return dict(message="hello from consult.py")\n\ndef machines():\n    #form = "lalalala"\n    macxuser = []\n    for c_group in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):\n        for row in db1(db1.machine.code_course==c_group.cod_course.id).select(db1.machine.ip_machine, db1.machine.id, distinct=True):\n            macxuser.append(row.id) #/id_machine/id_course\n    adminis = db1((db1.auth_membership.user_id == auth.user_id)).select()\n    for row in adminis:\n        if row.group_id.role =="Administrador":\n            db_machine = db1.machine\n        elif row.group_id.role=="Docente":\n            db_machine = db1(db1.machine.id.belongs(macxuser)) #http://web2py.com/books/default/chapter/29/6#belongs\n    print " -------------------- asdasd --------------"\n    print db_machine\n    print " -------------------- asdasd --------------"\n\n    campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor, db1.machine.description_machine]\n    grid = SQLFORM.grid(db_machine, fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,\n        searchable=False, # Quitar comentario si se quiere ocultar la barra de busqueda\n                           #se tiene q revisar el por que al ver un registro la linea x = grid[1][0].process() genera error si \n        links=[\n            dict(  header=T(\'Running services\'),  body= lambda row:A(T("Show"),_href=URL(\'consult\', \'services\',args=(row.id))) )\n        ]                  \n    )\n    \n    return dict(grid=grid)\n\ndef services():\n    identificador = args[0]\n    #servicios = "asdasd"\n    return locals()\n\nresponse._vars=response._caller(services)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/consult.py", line 37, in <module>\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/consult.py", line 33, in services\n    identificador = args[0]\nNameError: global name \'args\' is not defined\n'
+p11
+s.

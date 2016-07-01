@@ -1,0 +1,59 @@
+# -*- coding: utf-8 -*-
+# intente algo como
+import subprocess
+import shlex
+
+def index():
+    return dict(message=T("Index"))
+
+def fabric():
+
+    comando = " fab -f /home/camilo/Escritorio/archivo.py taskA"
+    #comando = "python /home/camilo/Escritorio/subproceso_prueba.py"
+    comando_listo = shlex.split(comando)
+    #print comando_listo
+
+    process = subprocess.Popen(comando_listo, stdout=subprocess.PIPE, stderr=None, shell=False)
+
+    #Launch the shell command:
+    output = process.communicate()
+
+    salida = output[0]
+    #prueba = "".join([x for x in salida])
+    #print prueba
+
+    #return dict(message=salida)
+    return dict(message=T("Hola ") + auth.user.first_name)
+  #  return dict(message="hello from encendido.py")
+
+def ansible():
+    #Prueba sencilla de ping 
+    #comando = "ansible all -m ping -u  ubuntu "
+
+    #Prueba usando el inventario por defecto en /etc/ansible/hosts
+    #comando = "ansible all -m ping -u  ubuntu "
+
+
+    #playbook sencillo
+    #comando = "ansible-playbook /home/camilo/Escritorio/prueba.yml"
+
+    #Pruab de un playbook que hace ping a los host especificados
+    comando = "ansible-playbook /home/camilo/Escritorio/ping.yml -i /home/camilo/Escritorio/inventario"
+
+    comando_listo = shlex.split(comando)
+    #print comando_listo
+
+    process = subprocess.Popen(comando_listo, stdout=subprocess.PIPE, stderr=None, shell=False)
+
+    #Launch the shell command:
+    output = process.communicate()
+
+    salida = output[0]
+    #prueba = "".join([x for x in salida])
+    #print prueba
+
+    return dict(message=salida)
+    #return dict(mensaje='Ansible')
+
+def salt():
+    return dict(mensaje='Salt')

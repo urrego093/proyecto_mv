@@ -1,0 +1,212 @@
+# -*- coding: utf-8 -*-
+# this file is released under public domain and you can use without limitations
+
+#########################################################################
+## This is a sample controller
+## - index is the default action of any application
+## - user is required for authentication and authorization
+## - download is for downloading files uploaded in the db (does streaming)
+#########################################################################
+import evaluar_expresion
+
+def index():
+    response.flash = T("Hello People UD")
+    return locals();
+
+@auth.requires_login()
+@auth.requires_membership('Administrador')
+def register_course():
+    form = SQLFORM(db1.course).process()
+    if form.accepted:
+        session.flash = T("Course Create!")
+        redirect(URL('index'))
+    return locals()
+
+@auth.requires_login()
+@auth.requires_membership('Administrador')
+def register_machine():
+    form = SQLFORM(db1.machine).process()
+    if form.accepted:
+        registrar_host(form.vars.id)
+        session.flash = T(" Machine Create!")
+        redirect(URL('index'))
+    return locals()
+
+@auth.requires_membership('Administrador')
+def register_group():
+    form = SQLFORM(db1.course_group).process()
+    if form.accepted:
+        session.flash = T("Group Create!")
+        redirect(URL('index'))
+    return locals()
+
+@auth.requires_login()
+@auth.requires_membership('Administrador')
+def registrar_host(id_machine):
+    for row in P_HOST:
+        db1.port_machine.insert(ip_machine=id_machine, number_port=row)
+        db1.commit()
+    
+@auth.requires_login()
+@auth.requires_membership('Administrador')
+def agree_teacher():
+    rows = db1(db1.auth_user.registration_key=='pending').select()
+    return locals()
+
+
+def show_teacher():
+    user = db1.auth_user(request.args(0, cast=int))
+    user.update(registration_key='')
+    db1.auth_user.first_name.writable = False
+    db1.auth_user.first_name.reable = False
+    db1.auth_user.last_name.writable = False
+    db1.auth_user.last_name.reable = False
+    form = SQLFORM(db1.auth_user, user, deletable=True, showid=False)
+
+    if form.process(next=URL('update_group_teacher', args=user.id)).accepted:        
+        response.flash = T ('Teacher accepted')        
+    elif form.errors:
+        response.flash = T ('Teacher No Update')
+    
+
+    
+    return locals()
+
+def update_group_teacher():
+    member = db1.auth_membership(request.args(0, cast=int) or redirect(URL('index')))
+
+    if member:
+        ruta_basica = os.path.join(request.folder, 'uploads/')
+        ruta_basica = ruta_basica + str(member.user_id)
+        try:
+            os.makedirs(ruta_basica)
+        except OSError:
+            pass
+        # si no podemos crear la ruta dejamos que pase
+        # si la operación resulto con éxito nos cambiamos al directorio 
+        os.chdir(ruta_basica)
+        member.update(group_id=2)
+        db1.auth_membership.user_id.writable = False
+        db1.auth_membership.user_id.reable = False
+        db1.auth_membership.group_id.writable = False
+        db1.auth_membership.group_id.reable = False
+        form = SQLFORM(db1.auth_membership, member, showid=False)
+
+        if form.process(next=URL('agree_teacher')).accepted:
+            response.flash = T ('User Agree to Teacher Group')
+        elif form.errors:
+            response.flash = T ('Group No Update')
+    else:
+        redirect(URL('index'))
+    return locals()
+
+def mostrar_macxuser():
+    course = db1.course(request.args(1, cast=int) or redirect(URL('index')))
+    machine = db1.machine(request.args(0, cast=int) or redirect(URL('index')))
+    c_group = db1((db1.course_group.cod_course==course.id)& (db1.course_group.id_teacher==auth.user_id)).select()
+    
+    groups_text = T("Groups of ")
+    query_grupos = ((db1.course_group.cod_course==course.id)& (db1.course_group.id_teacher==auth.user_id)) # eliminar la segunda condicion para q muestre todos los grupos de la materia
+    campos_grupo = [db1.course_group.cod_group, db1.course_group.semester]
+    groups = SQLFORM.grid(query_grupos, fields = campos_grupo,
+                          csv=False, editable=False, deletable=False, searchable=False, 
+                          details=False,create=False, user_signature=False,
+                          links=[lambda row:A(T("Select"),_href=URL('show_ports', args=(row.semester, machine.id, course.id, row.cod_group))))
+    return locals()
+
+@auth.requires_login()
+@auth.requires_membership('Docente')
+def show_couxuser():
+    #course = db1.course(request.args(0, cast=int) or redirect(URL('index')))
+    #c_machine= db1((db1.machine.code_course==course.id)).select()
+    
+    
+    query_maquinas = db1.machine.code_course==course.id
+    campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor]
+    maquinas = SQLFORM.grid(query_maquinas, fields = campos_maquina, csv=False, editable=False, deletable=False,
+        searchable=False, # No no moverlo, la busqueda no va a servir debido a q user_signature esta desativado
+        details=False, create=False, 
+        user_signature=False # Si se deja activada como es por defecto resulta en un error extrano, solo en este formulario
+        ,links=[lambda row:A(T("Select"),_href=URL('mostrar_macxuser',args=(row.id, course.id)))],
+        links_placement = 'left'
+    )
+    
+    #groups_text = T("Groups of ")
+    #query_grupos = db1.course_group.cod_course==course.id and db1.course_group.id_teacher == auth.user_id # eliminar la segunda condicion para q muestre todos los grupos de la materia
+    #campos_grupo = [db1.course_group.cod_group, db1.course_group.semester]
+    #groups = SQLFORM.grid(query_grupos, fields = campos_grupo ,
+     #   csv=False, editable=False, deletable=False, searchable=False, details=False,
+      #  create=False, user_signature=False
+    #)
+    return locals()
+
+def show_ports():
+    semes = request.args(0)
+    course = db1.course(request.args(2, cast=int) or redirect(URL('index')))
+    machine = db1.machine(request.args(1, cast=int) or redirect(URL('index')))
+    num_group = request.args(3) or redirect(URL('index'))
+    port_mac = db1(db1.port_machine.ip_machine==machine.id).select()
+    response.flash = T (num_group)
+    list_port = []
+    
+    for port_m in port_mac:
+        list_est = db1((db1.student_x_machine.ip_machine==port_m.id) &
+                       (db1.student_x_machine.semester==semes)).select(db1.student_x_machine.name_student, db1.student_x_machine.code_student)
+        for l_est in list_est:
+            list_port.append((port_m.number_port, port_m.hostname, l_est.code_student, l_est.name_student))
+
+    return locals()
+
+
+
+def list_files():
+    folder_user = "uploads/" + str(auth.user_id) + "/"
+    ruta_basica = os.path.join(request.folder, folder_user)
+    lstDir = os.walk(ruta_basica)
+    #Lista vacia para incluir los ficheros
+    lstFiles = []
+    #Crea una lista de los ficheros jpg que existen en el directorio y los incluye a la lista.
+    for root, dirs, files in lstDir:
+        for fichero in files:
+            (nombreFichero, extension) = os.path.splitext(fichero)
+            lstFiles.append(nombreFichero+extension)
+    return locals()
+
+
+
+def user():
+    """
+    exposes:
+    http://..../[app]/default/user/login
+    http://..../[app]/default/user/logout
+    http://..../[app]/default/user/register
+    http://..../[app]/default/user/profile
+    http://..../[app]/default/user/retrieve_password
+    http://..../[app]/default/user/change_password
+    http://..../[app]/default/user/bulk_register
+    use @auth.requires_login()
+        @auth.requires_membership('group name')
+        @auth.requires_permission('read','table name',record_id)
+    to decorate functions that need access control
+    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
+    """
+    return dict(form=auth())
+
+
+@cache.action()
+def download():
+    """
+    allows downloading of uploaded files
+    http://..../[app]/default/download/[filename]
+    """
+    return response.download(request, db)
+
+
+def call():
+    """
+    exposes services. for example:
+    http://..../[app]/default/call/jsonrpc
+    decorate with @services.jsonrpc the functions to expose
+    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
+    """
+    return service()

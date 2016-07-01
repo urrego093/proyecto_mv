@@ -1,0 +1,5 @@
+action: change_pass
+password: Ab1234
+remote: all
+username:
+- asd
