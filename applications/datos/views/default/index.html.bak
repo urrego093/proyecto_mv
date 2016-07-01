@@ -1,7 +1,6 @@
 {{extend 'layout.html'}}
 <h2>
-    {{T('Welcome')}}
-    Holaaaaaa
+    {{=T('Welcome')}}
     
 </h2>
 <body>

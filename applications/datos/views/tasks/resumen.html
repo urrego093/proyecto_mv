@@ -58,22 +58,62 @@
             <th>Valor</th>
           </tr>
         </thead>
-        {{if existe_resumen == T('Yes'):}}
+        {{if variables != dict():}}
         <tbody>
             {{for campo in variables:}}
             <tr>
-                <td>{{=diccionario[campo]}}</td>
+                <td>{{=T(campo)}}</td>
                 <th>{{=variables[campo]}}</th>
           </tr>
           {{pass}}
         </tbody>
         {{else:}}
             <tr>
-                <td>{{=variables}}</td>
+                <td>{{=T("There were no variables set for this job")}}</td>
             </tr>
     {{pass}}
     </table>
 </div>
+
+
+{{if debug != dict():}}
+ <br>
+    <h3>
+        {{=T("Job Output")}}
+    </h3>
+    {{for ip in datos:}}
+        <div class="panel panel-success" id="system">
+            <div class="panel-heading">
+                <h2 class="panel-title">{{=ip}}</h2>
+            </div>
+            <div class="panel-body">
+                 <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        {{for cabeza in cabezas:}}
+                          <th>{{=cabeza}}</th>
+                        {{pass}}
+                      </tr>
+                    </thead>
+                     
+                     {{lineas = datos[ip]}}
+                    <tbody>
+                        {{for linea in lineas:}}
+                        <tr>
+                            {{for campo in linea:}}
+                                <td>{{=campo}}</td>
+                            {{pass}}
+                        </tr>
+                        {{pass}}
+                    </tbody>
+                {{#pass}}
+                </table>
+            </div>            
+        </div>
+    {{pass}}
+
+{{pass}}
+
 
 
 <div class="modal-footer">

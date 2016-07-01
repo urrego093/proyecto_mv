@@ -1,0 +1,8 @@
+---
+- name: muestra los servicios en un sistema
+   shell: systemctl list-units --type=service
+   register: estado
+
+- debug: msg="{{ estado.stdout_lines }}"
+
+...

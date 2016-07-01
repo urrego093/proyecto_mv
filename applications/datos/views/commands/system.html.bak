@@ -1,0 +1,77 @@
+{{extend 'layout.html'}}
+
+<div class="container" >
+  <div class="jumbotron" align='center'>
+    <h1>{{=T('System')}}</h1> 
+</div>
+
+
+
+<div class="panel panel-success" id="system">
+    <div class="panel-heading">
+        <h2 class="panel-title">{{=T('What do you want to do?')}}</h2>
+    </div>
+     <div class="panel-body">
+         
+         <h3>
+             {{=T('General')}}
+         </h3>
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'reboot'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Reboot')}} </button>
+         </a>
+       
+         <br><br>
+         <h3>
+             {{=T('Packages and repositories')}}
+         </h3>
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'install_package'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Install Packages')}} </button>
+         </a>
+         
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'remove_packages'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Remove packages')}} </button>
+         </a>
+         
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'add_repo'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Add Repositories')}} </button>
+         </a>
+         
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'remove_repo'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Remove Repositories')}} </button>
+         </a>
+         
+         <br><br>
+          <h3>
+             {{=T('Services')}}
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'start_services'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Start services')}} </button>
+         </a>
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'stop_services'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Stop services')}} </button>
+         </a>
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'restart_services'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Restart services')}} </button>
+         </a>
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'reload_services'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Reload services')}} </button>
+         </a>
+         
+         
+         <br><br>
+          <h3>
+             {{=T('Ports')}}
+         </h3>
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'ports'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T("Don't click, it's just a test")}} </button>
+         </a>
+         
+          <br><br>
+          <h3>
+             {{=T('Cron tasks')}}
+         </h3>
+          <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'tasks_cron'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Schedule an upgrade')}} </button>
+         </a>
+    </div>
+</div>
+{{=BEAUTIFY(response._vars)}}

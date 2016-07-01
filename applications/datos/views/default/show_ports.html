@@ -1,28 +1,12 @@
 {{extend 'layout.html'}}
-<div class="container" >
-  <div class="jumbotron" align='center'>
-    <h1>{{=course.name_course}} <br> {{=T('Machine')}} : {{=machine.ip_machine}} <br> {{=T('Group Number')}} {{=num_group}}  {{=T('Semester')}} {{=semes}}</h1>
-</div>
-
-
-<div class="panel panel-success" id='list_estud'>
-    <table style="width:100%">
-        <div class="panel-heading">
-            <tr><th><h2>{{=T('Port')}}</h2></th><th><h2>{{=T('Hostname')}}</h2></th><th><h2>{{=T('Code Student')}}</h2></th><th><h2>{{=T('Name Student')}}</h2></th><th><h2>{{=T('Group')}}</h2></th></tr>
-        </div>
-        <div class="panel-body">
-            {{for row_p in list_port:}}
-                <tr><td><strong><span class="votes">{{=row_p[0]}}</span></strong></td>
-                    <td><strong><span class="votes">{{=row_p[1]}}</span></strong></td>
-                    <td><strong><span class="votes">{{=row_p[2]}}</span></strong></td>
-                    <td><strong><span class="votes">{{=row_p[3]}}</span></strong></td>
-                    <td><strong><span class="votes">{{=row_p[4]}}</span></strong></td></tr>
-            {{pass}}
-        </div>
-    </table>
-
-</div>
+<h1>{{=auth.user.first_name}} {{=auth.user.last_name}}</h1>
+<h1>{{=machine.ip_machine}} {{=T('of')}} {{=course.name_course}} {{=T('Group Number')}} {{=num_group}}  {{=T('Semester')}} {{=semes}}</h1>
+{{for row_p in list_port:}}
 <div class="well">
-    <a href="{{=URL('default','r_est', args=(semes,machine.id,course.id,num_group))}}"><button> {{=T('Register Student')}} </button>
-    </a>
+        <table style="width:80%">
+            <tr><th>Puerto</th><th>Hostname</th><th>Codigo Estudiante</th><th>Nombre Estudiante</th></tr>
+            <tr><td><strong><span class="votes">{{=row_p[0]}}</span></strong></td><td>{{=row_p[1]}}</td><td>{{=row_p[2]}}</td><td>{{=row_p[3]}}</td></tr>
+        </table>
 </div>
+{{pass}}
+<!---{{=BEAUTIFY(response._vars)}}--->

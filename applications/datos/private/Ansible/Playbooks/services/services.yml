@@ -1,0 +1,9 @@
+---
+- hosts: "{{ remote }}"
+  roles:
+    - { role: manage, when: action == "stop" } 
+    - { role: manage, when: action == "start" } 
+    - { role: manage, when: action == "restart" } 
+    - { role: manage, when: action == "reload"}
+    - { role: check , when: action == "check" }
+...

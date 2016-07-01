@@ -1,0 +1,2 @@
+192.168.0.101              : ok=0    changed=0    unreachable=1    failed=0   
+192.168.0.103              : ok=0    changed=0    unreachable=1    failed=0   

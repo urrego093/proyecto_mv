@@ -1,0 +1,9 @@
+---
+- name: muestra los servicios en un sistema
+#  shell: service --status-all
+  shell: netstat -lpn
+  register: estado
+
+- debug: msg="{{ estado.stdout_lines }}"
+
+...

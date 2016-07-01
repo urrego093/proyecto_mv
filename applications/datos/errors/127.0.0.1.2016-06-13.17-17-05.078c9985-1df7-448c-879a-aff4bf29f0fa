@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.AttributeError'> 'NoneType' object has no attribute 'first_name'"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/encendido.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# intente algo como\nimport subprocess\nimport shlex\n\ndef index():\n    return dict(message=T("Index"))\n\ndef fabric():\n\n    comando = " fab -f /home/camilo/Escritorio/archivo.py taskA"\n    #comando = "python /home/camilo/Escritorio/subproceso_prueba.py"\n    comando_listo = shlex.split(comando)\n    #print comando_listo\n\n    process = subprocess.Popen(comando_listo, stdout=subprocess.PIPE, stderr=None, shell=False)\n\n    #Launch the shell command:\n    output = process.communicate()\n\n    salida = output[0]\n    #prueba = "".join([x for x in salida])\n    #print prueba\n\n    #return dict(message=salida)\n    return dict(message=T("Hola ") + auth.user.first_name)\n  #  return dict(message="hello from encendido.py")\n\ndef ansible():\n    #Prueba sencilla de ping \n    #comando = "ansible all -m ping -u  ubuntu "\n\n    #Prueba usando el inventario por defecto en /etc/ansible/hosts\n    #comando = "ansible all -m ping -u  ubuntu "\n\n\n    #playbook sencillo\n    #comando = "ansible-playbook /home/camilo/Escritorio/prueba.yml"\n\n    #Pruab de un playbook que hace ping a los host especificados\n    comando = "ansible-playbook /home/camilo/Escritorio/ping.yml -i /home/camilo/Escritorio/inventario"\n\n    comando_listo = shlex.split(comando)\n    #print comando_listo\n\n    process = subprocess.Popen(comando_listo, stdout=subprocess.PIPE, stderr=None, shell=False)\n\n    #Launch the shell command:\n    output = process.communicate()\n\n    salida = output[0]\n    #prueba = "".join([x for x in salida])\n    #print prueba\n\n    return dict(message=salida)\n    #return dict(mensaje=\'Ansible\')\n\ndef salt():\n    return dict(mensaje=\'Salt\')\n\nresponse._vars=response._caller(fabric)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/encendido.py", line 61, in <module>\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/repo_git/proyecto_mv/applications/datos/controllers/encendido.py", line 26, in fabric\n    return dict(message=T("Hola ") + auth.user.first_name)\nAttributeError: \'NoneType\' object has no attribute \'first_name\'\n'
+p11
+s.

@@ -1,0 +1,69 @@
+{{extend 'layout.html'}}
+
+<div class="modal-header" align='center'>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h1 class="modal-title">{{=ip}}</h1>
+</div>
+
+<h2 align='center'>
+    {{=T('Services')}}
+</h2>
+
+<div class="modal-body">
+    <h3>
+        {{=T('Active services')}}
+    </h3>
+    <br>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>{{=T('Name')}}</th>
+          </tr>
+        </thead>
+        {{if activos:}}
+        <tbody>
+            {{for servicio in activos:}}
+            <tr>
+                <td>{{=servicio}}</td>
+            </tr>
+          {{pass}}
+        
+        {{else:}}
+             <tr>
+                <td>{{=T('There are no active services')}}</td>
+            </tr>
+        {{pass}}
+            </tbody>
+    </table>
+    <br>
+</div>
+
+<div class="modal-body">
+    <h3>
+        {{=T('Inactive services')}}
+    </h3>
+    <br>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>{{=T('Name')}}</th>
+          </tr>
+        </thead>
+        {{if inactivos:}}
+        <tbody>
+            {{for servicio in inactivos:}}
+            <tr>
+                <td>{{=servicio}}</td>
+            </tr>
+          {{pass}}
+        
+        {{else:}}
+             <tr>
+                <td>{{=T('There are no active services')}}</td>
+            </tr>
+        {{pass}}
+            </tbody>
+    </table>
+    <br>
+</div>
+{{#=BEAUTIFY(response._vars)}}
