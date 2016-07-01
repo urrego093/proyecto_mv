@@ -46,9 +46,11 @@ def mostrar():
     if x.accepted:
         if x.vars.records:
             accion = request.vars.accion
+#### General
             if accion == T("reboot"):
                 redirect (URL('system', 'reiniciar', vars=dict(ids= x.vars.records)))
-                
+            
+#### Users and passwords                
             elif accion == T("create_users"):
                 redirect(URL('usuarios', 'crear' ,vars=dict(ids= x.vars.records)))
                 
@@ -57,13 +59,23 @@ def mostrar():
                 
             elif accion == T('change_users_pass'):
                 redirect(URL('usuarios','cambiar_pass',vars=dict(ids= x.vars.records)))
-                
+
+#### Files                
             elif accion == T("copy_files"):
-                redirect(URL('copiar_archivos',vars=dict(ids= x.vars.records)))
+                ids= x.vars.records
+                if type(ids) == str:  
+                    redirect(URL('copiar_archivos',vars=dict(ids = ids)))
+                else:
+                    response.flash = T("For this task, please select just one machine")
                 
             elif accion == T("re_copy_files"):
-                redirect(URL('copiar_archivos_subidos',vars=dict(ids= x.vars.records, archi = request.vars.archi), ))
-
+                ids= x.vars.records
+                if type(ids) == str:  
+                    redirect(URL('copiar_archivos_subidos',vars=dict(ids= ids, archi = request.vars.archi), ))
+                else:
+                    response.flash = T("For this task, please select just one machine")
+                
+#### Packages and repositories
             elif accion == T("install_package"):
                 redirect(URL('system', 'install_packages', vars=dict(ids= x.vars.records)))
                 
@@ -76,6 +88,28 @@ def mostrar():
             elif accion == T("remove_repo"):
                 redirect(URL('system', 'remove_repositories', vars=dict(ids= x.vars.records)))
 
+#### Servicios
+            elif accion == T("services"):
+                redirect(URL('system', 'services', vars=dict(ids= x.vars.records)))
+            
+            elif accion == T("start_services"):
+                redirect(URL('system', 'start_services', vars=dict(ids= x.vars.records)))
+                
+            elif accion == T("stop_services"):
+                redirect(URL('system', 'stop_services', vars=dict(ids= x.vars.records)))
+                
+            elif accion == T("restart_services"):
+                redirect(URL('system', 'restart_services', vars=dict(ids= x.vars.records)))
+                
+            elif accion == T("reload_services"):
+                redirect(URL('system', 'reload_services', vars=dict(ids= x.vars.records)))
+
+#### Ports
+            elif accion == T('ports'):
+                redirect(URL('system', 'ports', vars=dict(ids= x.vars.records)))
+#### Cron tasks
+            elif accion == T("tasks_cron"):
+                redirect(URL('system','tasks_cron', vars=dict(ids= x.vars.records)))
             else:
                 pass
         else:
@@ -213,14 +247,20 @@ def lista_maquina_clase():
 @auth.requires_login()
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
-    playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml', paquete="paquete/paquete.yml")
+    playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml', paquete="paquete/paquete.yml", 
+                    services="services/services.yml", ports="ports/ports.yml")
      
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]
     ids = [ids] if type(ids)==str else ids
     opcion = request.vars['opcion']
+    
+    #para_evitar_errores ccon los playbook de servicios y puertos, que hacian un parseo para
+    # mostrar la salida de un comando incluso cuando este no era para revisar el estado actual
+    is_debug = True if request.vars["is_debug"] else False
+    
     variables_extra = request.vars['variables_extra']
-    print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra) 
+    #print str(ids)+ "opcion " + str(playbooks[opcion]) + str(variables_extra) 
     
     #se crea el nombre de los archivos de la tarea con primerNombre_segundoNombre
     indentificador = auth.user_id
@@ -240,7 +280,9 @@ def ejecutar():
         playbook=ruta_basica + "Playbooks/" +  playbooks[opcion],
         hosts= ruta_basica + '' + nombre,
         ruta_extra=ruta_basica + "variables/" + nombre,
-        variables=variables_extra
+        debug = ruta_basica + "debug/" + nombre,
+        variables=variables_extra,
+        is_debug= is_debug
     )
     
     #se pide al worker o proceso en segundo plano que ejcuta el playbook en maximo 10 minutos
@@ -252,6 +294,6 @@ def ejecutar():
     #dicha tabla maneja los estados de una tarea, registra los errores, guarda los argumentos(parametros en un arreglo)
     # y las variables(parametros en un diccionario)
     db1.job.insert(name = nombre, user_id = indentificador, task_id = tarea.id, action = opcion)
-
+   
     #db1.commit()
-    redirect(URL('tasks', 'index'))
+    redirect(URL('tasks', 'resumen/'+nombre))
