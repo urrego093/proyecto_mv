@@ -1,0 +1,12 @@
+---
+- name: muestra los servicios en un sistema
+#  shell: service --status-all
+  shell: systemctl list-units --type=service
+#  shell: netstat -lpn
+#  register: ip={ansible_eth0.ipv4.address}
+  register: estado
+
+- debug: msg="{{ estado.stdout_lines }}"
+
+...
+

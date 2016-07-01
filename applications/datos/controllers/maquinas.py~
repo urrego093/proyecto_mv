@@ -49,7 +49,6 @@ def mostrar():
 #### General
             if accion == T("reboot"):
                 redirect (URL('system', 'reiniciar', vars=dict(ids= x.vars.records)))
-            
 #### Users and passwords                
             elif accion == T("create_users"):
                 redirect(URL('usuarios', 'crear' ,vars=dict(ids= x.vars.records)))
@@ -59,26 +58,12 @@ def mostrar():
                 
             elif accion == T('change_users_pass'):
                 redirect(URL('usuarios','cambiar_pass',vars=dict(ids= x.vars.records)))
-
 #### Files                
             elif accion == T("copy_files"):
-                ids= x.vars.records
-                if type(ids) == str:  
-                    redirect(URL('copiar_archivos',vars=dict(ids = ids)))
-                else:
-                    response.flash = T("For this task, please select just one machine")
+                redirect(URL('copiar_archivos',vars=dict(ids= x.vars.records)))
                 
             elif accion == T("re_copy_files"):
-                ids= x.vars.records
-                if type(ids) == str:  
-                    redirect(URL('copiar_archivos_subidos',vars=dict(ids= ids, archi = request.vars.archi), ))
-                else:
-                    response.flash = T("For this task, please select just one machine")
-                    
-            elif accion == T("limpiar"):
-                print "------------------ FOOOOOOOOOOOOOOOOOOOOOOO --------"
-                redirect(URL('files','clean_machines',vars=dict(ids= x.vars.records)))
-                
+                redirect(URL('copiar_archivos_subidos',vars=dict(ids= x.vars.records, archi = request.vars.archi), ))
 #### Packages and repositories
             elif accion == T("install_package"):
                 redirect(URL('system', 'install_packages', vars=dict(ids= x.vars.records)))
@@ -91,7 +76,6 @@ def mostrar():
                 
             elif accion == T("remove_repo"):
                 redirect(URL('system', 'remove_repositories', vars=dict(ids= x.vars.records)))
-
 #### Servicios
             elif accion == T("services"):
                 redirect(URL('system', 'services', vars=dict(ids= x.vars.records)))
@@ -111,8 +95,8 @@ def mostrar():
 #### Ports
             elif accion == T('ports'):
                 redirect(URL('system', 'ports', vars=dict(ids= x.vars.records)))
-#### Cron tasks
-            elif accion == T("tasks_cron"):
+
+ 	    elif accion == T("tasks_cron"):
                 redirect(URL('system','tasks_cron', vars=dict(ids= x.vars.records)))
             else:
                 pass
@@ -252,7 +236,7 @@ def lista_maquina_clase():
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
     playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml', paquete="paquete/paquete.yml", 
-                    services="services/services.yml", ports="ports/ports.yml", clean = "limpiar.yml")
+                    services="services/services.yml", ports="ports/ports.yml")
      
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]

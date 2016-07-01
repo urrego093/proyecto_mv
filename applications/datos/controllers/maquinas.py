@@ -74,6 +74,10 @@ def mostrar():
                     redirect(URL('copiar_archivos_subidos',vars=dict(ids= ids, archi = request.vars.archi), ))
                 else:
                     response.flash = T("For this task, please select just one machine")
+                    
+            elif accion == T("limpiar"):
+                print "------------------ FOOOOOOOOOOOOOOOOOOOOOOO --------"
+                redirect(URL('files','clean_machines',vars=dict(ids= x.vars.records)))
                 
 #### Packages and repositories
             elif accion == T("install_package"):
@@ -248,7 +252,7 @@ def lista_maquina_clase():
 def ejecutar():
     #un diccionario con los nombres de los playbooks segun la opcion elegida
     playbooks= dict(restart='reiniciar.yml', user='usuarios2/linux_users.yml', copyFile='copiarArchivo.yml', paquete="paquete/paquete.yml", 
-                    services="services/services.yml", ports="ports/ports.yml")
+                    services="services/services.yml", ports="ports/ports.yml", limpiar = "limpiar.yml")
      
     #los ids de las maquinas selccionadas y la opcion elegida
     ids = request.vars["ids"]

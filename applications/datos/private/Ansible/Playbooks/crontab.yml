@@ -1,0 +1,30 @@
+--- #funciona bien para centos y lo corre sobre el root
+- hosts: all
+  become: true
+  tasks:
+  - name: Remover tarea anterior
+    cron: name="actualizacion" state=absent
+
+  - name: Crear tarea en Ubuntu
+    cron: name="actualizacion" minute="{{minute}}" hour="{{hour}}" day="{{day}}" month="{{month}}" weekday="{{weekday}}" job="sudo apt-get upgrade -y"
+    #become: true
+    #become_user: sudo
+    when: ansible_distribution=="Ubuntu"
+
+  - name: Crear tarea en Centos
+    cron: name="actualizacion" minute="{{minute}}" hour="{{hour}}" day="{{day}}" month="{{month}}" weekday="{{weekday}}" job="yum -y update"
+    #become: true
+    #become_user: sudo
+    when: ansible_distribution=="CentOS"
+
+  - name: Crear tarea en Fedora 22
+    cron: name="actualizacion" minute="{{minute}}" hour="{{hour}}" day="{{day}}" month="{{month}}" weekday="{{weekday}}" job="dnf -y update"
+    #become: true
+    #become_user: sudo
+    when: ansible_distribution=="Fedora" and {{ ansible_distribution_version | version_compare('22', '>=') }}
+
+  - name: Crear tarea en Fedora < 22
+    cron: name="actualizacion" minute="{{minute}}" hour="{{hour}}" day="{{day}}" month="{{month}}" weekday="{{weekday}}" job="yum -y update"
+    #become: true
+    #become_user: sudo
+    when: ansible_distribution=="Fedora" and {{ ansible_distribution_version | version_compare('22', '<') }}

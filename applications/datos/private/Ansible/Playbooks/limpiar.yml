@@ -1,0 +1,49 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    ingles:
+      - Downloads
+      - NetBeansProjects
+      - Public
+      - Videos
+      - Documents
+      - Music
+      - Pictures
+      - Templates
+      - workspace
+      - Desktop
+    espanol:
+      - Descargas
+      - NetBeansProjects
+      - Público
+      - Vídeos
+      - Documentos
+      - Música
+      - Imágenes
+      - Plantillas
+      - workspace
+      - Escritorio
+
+  tasks:
+  - name: Eliminar archivos de usuario (En ingles)
+    shell: "rm -rf /home/*/{{item}}/*"
+#    file: 
+#     path: "/home/*/{item}/*.path" 
+#      state: absent
+    with_items: "{{ingles}}"
+
+  - name: Eliminar archivos de usuario (En espanol)
+    shell: "rm -rf /home/*/{{item}}/*"
+#    file: 
+#      path: "/home/*/{item}/*" 
+#      state: absent
+    with_items: "{{espanol}}"
+
+#  - name: Eliminar archivos de usuario en la papelera
+#    become: yes 
+#    shell: "/home/*/.local/share/Trash/files" 
+#    file: 
+#      path: "/home/*/.local/share/Trash/files/*" 
+#     state: absent
+ 

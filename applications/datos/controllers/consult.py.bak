@@ -1,0 +1,48 @@
+# -*- coding: utf-8 -*-
+# intente algo como
+def index(): return dict(message="hello from consult.py")
+
+def machines():
+    #form = "lalalala"
+    macxuser = []
+    for c_group in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):
+        for row in db1(db1.machine.code_course==c_group.cod_course.id).select(db1.machine.ip_machine, db1.machine.id, distinct=True):
+            macxuser.append(row.id) #/id_machine/id_course
+    adminis = db1((db1.auth_membership.user_id == auth.user_id)).select()
+    for row in adminis:
+        if row.group_id.role =="Administrador":
+            db_machine = db1.machine
+        elif row.group_id.role=="Docente":
+            db_machine = db1(db1.machine.id.belongs(macxuser)) #http://web2py.com/books/default/chapter/29/6#belongs
+    print " -------------------- asdasd --------------"
+    print db_machine
+    print " -------------------- asdasd --------------"
+
+    campos_maquina = [db1.machine.ip_machine, db1.machine.operative_system, db1.machine.memory, db1.machine.processor, db1.machine.description_machine]
+    grid = SQLFORM.grid(db_machine, fields = campos_maquina ,csv=False, editable=False, deletable=False, create=False, details=False,
+        searchable=False, # Quitar comentario si se quiere ocultar la barra de busqueda
+                           #se tiene q revisar el por que al ver un registro la linea x = grid[1][0].process() genera error si 
+        links=[
+            dict(  header=T('Running services'),  body= lambda row:A(T("Show"),_href=URL('consult', 'services', args=(row.id))) )
+        ]                  
+    )
+    
+    return dict(grid=grid)
+
+def services():
+    identificador = request.args
+    filas =  db1(db1.machine).select(
+        db1.machine.id, db1.machine.ip_machine
+    )
+    ip = []
+    for identificador in identificador:
+        for fila in filas:
+            if fila['id'] == int(identificador):
+                ip =  fila['ip_machine'] 
+    activos = ["abc" , "def"]
+    inactivos = ["abc" , "def"]
+
+    
+                
+    #servicios = "asdasd"
+    return dict( ip = ip, activos = activos)

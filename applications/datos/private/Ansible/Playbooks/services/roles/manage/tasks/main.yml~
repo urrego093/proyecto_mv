@@ -1,0 +1,26 @@
+---
+- name: "Iniciar los servicios {{item}}"
+  service: name={{item}} state=started
+  become: yes
+  with_items: "{{servicios}}"
+  when: action == "start"
+
+- name: "Terminar los servicios {{item}}"
+  service: name={{item}} state=stopped
+  become: yes
+  with_items: "{{servicios}}"
+  when: action == "stop"
+
+- name: "Reiniciar los servicios {{item}}"
+  service: name={{item}} state=restarted
+  become: yes
+  with_items: "{{servicios}}"
+  when: action == "restart"
+
+- name: "Recargar los servicios {{item}}"
+  service: name={{item}} state=reloaded
+  become: yes
+  with_items: "{{servicios}}"
+  when: action == "reload"
+
+...
