@@ -183,12 +183,22 @@ def tasks_cron():
     nombre_dias = ["*"]
     nombre_dias += ['sun','mon','tue','wed','thu','fri','sat']
     
+<<<<<<< HEAD
+=======
+    nombre_mes = ["*"]
+    nombre_mes += ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+    
+>>>>>>> camilo4_4
     #Recuperamos los ids
     ids = request.vars["ids"]
     form = SQLFORM.factory(Field('minute', label=T('Minute'), requires=IS_IN_SET(minutos, zero='Select one', error_message=T('Too small or too big!'))),
                            Field('hour', label=T('Hour'), requires=IS_IN_SET(horas, zero='Select one',error_message=T('Too small or too big!'))),
                            Field('day', label=T('Day of Month'),requires=IS_IN_SET(dias, zero='Select one',error_message=T('Too small or too big!'))),
+<<<<<<< HEAD
                            Field('month', requires=IS_IN_SET(('*','jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'),
+=======
+                           Field('month', requires=IS_IN_SET(nombre_mes,
+>>>>>>> camilo4_4
                                                             zero='Select one' ,error_message=T('¡Error!'))),
                            Field('weekday', label=T('Weekday'), requires=IS_IN_SET(nombre_dias, 
                                                                zero='Select one', error_message=T('error')))
