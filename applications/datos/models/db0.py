@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 #Define constants
 #STR_DAL ="postgres://udistrital:maquinas123@localhost/Universidad"
-STR_DAL ="postgres://postgres:1234@localhost/proyecto2"
-#STR_DAL ="postgres://tester:carlos123@localhost/bdprueba"
+#Camilo
+#STR_DAL ="postgres://postgres:1234@localhost/proyecto2"
+STR_DAL ="postgres://tester:carlos123@localhost/bdprueba"
 #This is for operating system use in the virtual machine
-OPERA_SYSTEM = ['Fedora','CentOs','Ubuntu','Kali','Windows', T('Other')]
+OPERA_SYSTEM = ['Fedora','CentOS','Ubuntu','Kali','Windows', T('Other')]
 
 #Possible Memory RAM for VM
 RAM_MEMORY = ['512MB','1024MB','2048MB','3072MB','4096MB','5120MB','6144MB','7168MB','8192MB','9216MB','10240MB', T('Other MB')]
@@ -23,6 +24,6 @@ HOSTNAME = []
 GROUP = ['51','52','61','62']
 #HOSTNAME = ['root','estudiante1','estudiante2','estudiante3','estudiante4','estudiante5','estudiante6','estudiante7','estudiante8','estudiante9','estudiante10','estudiante11','estudiante12','estudiante13','estudiante14','estudiante15']
 # Valor True para crear, False para ya creado
-mig = True
+mig = False
 #posibles acciones de un usuario
 session.ACTIONS = [T("Restart"),T("Add user")]

@@ -3,8 +3,8 @@
 
 from gluon.contrib.appconfig import AppConfig
 
-#db1 = DAL(STR_DAL, pool_size=10, migrate=mig)
-db1 = DAL(STR_DAL, pool_size=10)
+db1 = DAL(STR_DAL, pool_size=10, migrate=mig)
+#db1 = DAL(STR_DAL, pool_size=10)
 
 ## once in production, remove reload=True to gain full speed
 myconf = AppConfig(reload=True)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # intente algo como
 #def index(): return dict(message="hello from usuarios.py")
+import evaluar_expresion
 
 @auth.requires_login()
 def crear():
@@ -16,7 +17,7 @@ def crear():
     if form.accepted:
         name = request.vars.user_name
         name = evaluar_expresion.evaluar(name)
-
+        registrar_host(ids, name)
         password = request.vars.password
         admin = 'yes' if request.vars.admin else 'no'
 
@@ -62,3 +63,25 @@ def cambiar_pass():
         #redirect(URL('mostrar'))
         redirect(URL('maquinas', 'ejecutar', vars= dict(ids=ids, opcion='user', variables_extra = variables_extra))) ## asi se pasan las variables ingresadas por el usuario
     return locals()
+
+@auth.requires_login()
+@auth.requires_membership('Administrador')
+def registrar_host(ids,hosts):
+    ids = [ids] if type(ids)==str else ids
+    for i in ids:
+        last_port = db1(db1.port_machine.ip_machine==i).select().last()
+        if last_port:
+            nexts = int(last_port.number_port)
+            for n in hosts:
+                nexts += 1
+                print "ANTIGUO", i, "port", nexts, "host", n
+                db1.port_machine.insert(ip_machine=i, number_port=nexts, hostname=n)
+                db1.commit()
+
+        else:
+            nexts = 5901
+            for n in hosts:
+                nexts += 1
+                print "NUEVO", i, "port", nexts, "host", n
+                db1.port_machine.insert(ip_machine=i, number_port=nexts, hostname=n)
+                db1.commit()

@@ -11,24 +11,22 @@ def register_course():
 
 def create_hostvars_yml(idmachine, systemOpe):
     datos = dict()
-    if systemOpe == "Ubuntu":
+    if systemOpe=="Ubuntu":
         datos = dict(ansible_become_pass="reverse", ansible_user="ubuntu")
     elif systemOpe == "CentOS":
         datos = dict(ansible_become_pass="reverse", ansible_user="root")
-    elif systemOpe == "Fedora":
-        datos = dict(ansible_become_pass="reverse", ansible_user="root")
-    
-    ruta_basica = os.path.join(request.folder, 'private/Ansible/host_vars/')
-    file_path = ruta_basica + idmachine
-    escribir_host_yml(file_path,datos)
+    user_path = 'private/Ansible/host_vars/'+idmachine
+    ruta_basica = os.path.join(request.folder, user_path)
+    escribir_variables_yml(ruta_basica,datos)
         
 @auth.requires_login()
 @auth.requires_membership('Administrador')
 def register_machine():
     form = SQLFORM(db1.machine).process()
     if form.accepted:
-        registrar_host([1,2], ['est1','est2'])
+        registrar_host(form.vars.id)
         create_hostvars_yml(str(form.vars.ip_machine), str(form.vars.operative_system))
+        print "HOLAAAAAAAAAAAAAA", str(form.vars.ip_machine), str(form.vars.operative_system)
         session.flash = T(" Machine Create!")
         redirect(URL('default','index'))
     return locals()
@@ -110,33 +108,12 @@ def regis_student():
     else:
         response.flash = 'please fill the form'
     return locals()
-
-
 @auth.requires_login()
 @auth.requires_membership('Administrador')
-def registrar_host(ids,hosts):
-    for i in ids:
-        last_port = db1(db1.port_machine.ip_machine==i).select().last()
-        if last_port:
-            nexts = int(last_port.number_port)
-            for n in hosts:
-                nexts += 1
-                print "ANTIGUO", i, "port", nexts, "host", n
-                db1.port_machine.insert(ip_machine=i, number_port=nexts, hostname=n)
-                db1.commit()
-
-        else:
-            nexts = 5901
-            for n in hosts:
-                nexts += 1
-                print "NUEVO", i, "port", nexts, "host", n
-                db1.port_machine.insert(ip_machine=i, number_port=nexts, hostname=n)
-                db1.commit()
-
-        
-    #for row in P_HOST:
-     #   db1.port_machine.insert(ip_machine=id_machine, number_port=row)
-      #  db1.commit()
+def registrar_host(id_machine):
+    for row in P_HOST:
+        db1.port_machine.insert(ip_machine=id_machine, number_port=row)
+        db1.commit()
 
 @auth.requires_login()
 @auth.requires_membership('Administrador')

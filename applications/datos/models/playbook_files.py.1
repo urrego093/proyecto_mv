@@ -160,10 +160,12 @@ def escribir_variables_yml(ruta_nombre, variables):
 def escribir_host_yml(ruta_nombre, variables):
     ruta_nombre += '.yml'
     diccionario = variables
+    print "diccionario", diccionario
     
     with open(ruta_nombre, 'w') as fp:
         yaml.dump(diccionario, fp, default_flow_style=False)
-    
+    return ruta_nombre
+
 
 
 '''
