@@ -4,13 +4,19 @@
 #  shell: python -c 'import crypt; print crypt.crypt("{{ upassword }}", "$6$random_salt")'
 #  register: genpass
 
-- name: Creating user {{item}} with admin access
+- name: Creating user {{item}} with admin access in Debian family (Debian/Ubuntu)
   become: yes
   become_user: root  
-  user: name={{item}} password={{ upassword |password_hash('sha512') }} groups=root append=yes
-  when:  assigned_role  == "yes"
+  user: name={{item}} password={{ upassword |password_hash('sha512') }} groups=sudo append=yes
+  when:  assigned_role  == "yes" and  ansible_os_family == 'Debian'
   with_items: "{{uusername}}"
 
+- name: Creating user {{item}} with admin access in RedHat Family (RedHat, Fedora, Centos, Orcale.....)
+  become: yes
+  become_user: root  
+  user: name={{item}} password={{ upassword |password_hash('sha512') }} groups=wheel append=yes
+  when:  assigned_role  == "yes" and  ansible_os_family == 'RedHat'
+  with_items: "{{uusername}}"
 
 - name: Creating users {{item}} without admin access
   become: yes
