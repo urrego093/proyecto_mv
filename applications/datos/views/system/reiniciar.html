@@ -1,4 +1,10 @@
 {{extend 'layout.html'}}
-<h1>{{=pregunta}}</h1>
-{{=form}}
+<div class="alert alert-warning center">
+  <strong>{{=T("Hey there! ")}}</strong>{{= T('Do you really want to restart the selected machines?') }}
+</div>
+ <ul class="pager">
+     {{=form}}
+  
+</ul>
+
 {{#=BEAUTIFY(response._vars)}}

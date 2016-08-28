@@ -1,4 +1,28 @@
 ---
 
-- name: Deleating user "{{ uusername }}"
-  user: name="{{ uusername }}" state=absent remove=yes
+#- name: Detener servicio de VNC
+#  become: true
+#  shell: "systemctl stop vncserver.service"
+
+#- name: Stop VNC Service
+#  service: 
+#    name: vncserver 
+#    pattern: /etc/init.d/vncserver
+#    state: stopped
+
+- name: Deleating user {{item}}
+  become: yes
+#  become_user: root
+  user: name={{item}} state=absent remove=yes force=yes
+  with_items: "{{uusername}}"
+
+
+#- name: Iniciar servicio de VNC
+#  become: true
+#  shell: "systemctl restart vncserver.service"
+
+- name: Restart VNC Service
+  service: 
+    name: vncserver 
+    pattern: /etc/init.d/vncserver
+    state: restarted

@@ -1,6 +1,6 @@
 import re
 
-def evaluar(entrada):
+def evaluar_expresion(entrada):
 	arreglo = []
 	arreglo2 = []
 	arreglo3 = []
@@ -15,7 +15,7 @@ def evaluar(entrada):
 			no_espacio = re.sub('^\s+',"",x) # al principio
 			no_espacio = re.sub("\s+\Z","",x) # al final
 
-			split = re.split(" ",no_espacio) # separar por espacios entre palabra e intervalos
+			split = re.split(" ",no_espacio) # separar por espacios entre palabras e intervalos
 			agregar = split if len(split)>1 else no_espacio # guardar arreglo o palabra
 			arreglo2.append(agregar)
 		#print 'SEGUNDO SPLIT', arreglo2
@@ -45,7 +45,7 @@ def evaluar(entrada):
 		return arreglo4
 	else:
 		arreglo = re.split(" ",entrada) # separar por espacios entre palabra e intervalos
-		if len(arreglo)>1:
+		if len(arreglo)>1 and arreglo[1] != "":
 			nombre = arreglo[0]
 			numeros = re.split('-', arreglo[1])
 			lim_inferior = int(numeros[0])
@@ -54,8 +54,32 @@ def evaluar(entrada):
 			for i in lista:
 					arreglo2.append(nombre + str(i))
 			arreglo = arreglo2
-		return arreglo
+			return arreglo
+	return entrada
 
+def separar_x_comas(entrada):
+	arreglo = []
+	arreglo2 = []
+	arreglo3 = []
+	arreglo4 = []
+
+	arreglo = re.split(', |,|', entrada) # separar por comas
+#print "PRIMER SPLIT" , arreglo
+
+	if len(arreglo) > 1: 
+		for x in arreglo: 
+			# remover espacios en blanco
+			no_espacio = re.sub('^\s+',"",x) # al principio
+			no_espacio = re.sub("\s+\Z","",x) # al final
+
+			arreglo2.append(no_espacio)
+
+		for i in arreglo2: 
+			if i != '': #ignorando espacios nulos
+				arreglo3.append(i)
+		return arreglo3
+	else:
+		return entrada
 #a = ',usuarioa , usuariob , usuario 1-5, usuarioc,asdasd, otrousuario 1-3 ,'
 #b = 'usuarioa,usuariob,usuario 1-5,usuarioc'
 #c = 'usuario1'

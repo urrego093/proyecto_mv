@@ -4,6 +4,8 @@
   command: "yum-config-manager --add-repo {{item}}"
   with_items: "{{ repositorios }}"
 
+- name: upgrade all packages
+  yum: name=* state=latest
 #    description: EPEL YUM repo
 #    baseurl: "{{repositorio}}"
 #http://download.fedoraproject.org/pub/epel/$releasever/$basearch/

@@ -1,7 +1,12 @@
 ---
-
 - name: Deleating user {{item}}
   become: yes
 #  become_user: root
-  user: name={{item}} state=absent remove=yes
+  user: name={{item}} state=absent remove=yes force=yes
   with_items: "{{uusername}}"
+
+#- name: Restart VNC Service
+#  service: 
+#    name: vncserver 
+#    pattern: /etc/init.d/vncserver
+#    state: restarted

@@ -145,7 +145,8 @@ def guardar_debug(nombre, texto):
 def escribir_variables_yml(ruta_nombre, variables):
     ruta_nombre += '.yml'
     print ruta_nombre
-    print "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa", variables
+    print " ----------- VARIABLES SON ----------"
+    print variables
     diccionario = ast.literal_eval(variables)
     print "diccionario", diccionario
     

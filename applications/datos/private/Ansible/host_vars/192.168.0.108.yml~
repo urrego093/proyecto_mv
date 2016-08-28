@@ -1,3 +1,2 @@
----
-ansible_become_pass: "reverse"
-...
+ansible_become_pass: reverse
+ansible_user: centos

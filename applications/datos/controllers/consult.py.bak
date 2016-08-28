@@ -45,4 +45,4 @@ def services():
     
                 
     #servicios = "asdasd"
-    return dict( ip = ip, activos = activos)
+    return dict( ip = ip, activos = activos, inactivos = inactivos)

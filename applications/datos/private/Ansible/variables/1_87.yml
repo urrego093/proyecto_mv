@@ -1,7 +1,0 @@
-action: change_pass
-password: Abc1234
-remote: all
-username:
-- user1
-- user2
-- user3

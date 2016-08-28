@@ -1,5 +1,0 @@
-action: restart
-remote: all
-services:
-- apache2
-- httpd

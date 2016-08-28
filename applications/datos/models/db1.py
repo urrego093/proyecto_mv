@@ -107,3 +107,8 @@ db1.define_table('job',
 )
 
 db1.job.name.requires=IS_NOT_IN_DB(db1(db1.job.name==request.vars.name), 'job.name')
+
+
+if mig:
+    db1.auth_group.bulk_insert([dict(role='Administrador', description='Es el administrador del sistema')])
+    db1.auth_group.bulk_insert([dict(role='Docente', description='Para los docentes del sistema el alcance se limita a las máquinas de los grupos que él dirige')])

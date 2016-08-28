@@ -2,6 +2,7 @@
 # intente algo como
 def index(): return dict(message="hello from consult.py")
 
+@auth.requires_login()
 def machines():
     #form = "lalalala"
     macxuser = []
@@ -29,6 +30,7 @@ def machines():
     
     return dict(grid=grid)
 
+@auth.requires_login()
 def services():
     identificador = request.args
     filas =  db1(db1.machine).select(

@@ -4,5 +4,9 @@
   shell: "dnf config-manager --add-repo {{item}}"
   with_items: "{{ repositorios }}"
 
+
+- name: upgrade all packages
+  dnf: name=* state=latest
+
 #- name: Show system version
 #  debug: var=ansible_distribution_version

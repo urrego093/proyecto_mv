@@ -5,73 +5,137 @@
     <h1>{{=T('System')}}</h1> 
 </div>
 
-
-
 <div class="panel panel-success" id="system">
     <div class="panel-heading">
         <h2 class="panel-title">{{=T('What do you want to do?')}}</h2>
+</div>
+
+<div class="panel-body" align="center" >
+<div class="container-fluid">
+    
+<!--- Primera Fila: General y manejo de paquetes  -->
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  {{=T('Basic Commands')}}
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu" >
+            <li class="dropdown-header">  {{=T('General')}}  </li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'reboot'))}}">  {{=T("Reboot System")}}  </a></li>
+            <li class="divider"></li>
+        </div>  
+      </div>
+
+           <div class="col-sm-6">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  {{=T('SSH And VNC')}}
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">  {{=T('Installation')}}  </li>
+                 <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'first_time'))}}">  {{=T('Enable SSH access and install vnc')}}  </a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">  {{=T("Configuration")}}  </li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'enable_vnc_ports'))}}">  {{=T('Enable vnc (First create users)')}}  </a></li>
+        </div>  
+      </div>
+    </div>    
+    <br>
+<!-- Fin Primera Fila -->
+
+
+
+
+<!--- Segunda Fila: Servicios y puertos  -->
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  {{=T('Packages and repositories')}}
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">{{=T('Packages')}}</li>
+                  <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'install_package'))}}">  {{=T('Install Packages')}}  </a></li>
+                  <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'remove_packages'))}}">  {{=T('Remove Packages')}}   </a></li>
+
+                <li class="divider"></li>
+
+              <li class="dropdown-header">{{=T("Repositories")}}</li>
+                    <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'add_repo'))}}">     {{=T('Add Repositories')}}     </a></li>
+                    <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'remove_repo'))}}">  {{=T('Remove Repositories')}}  </a></li>
+            </ul>
+        </div>      
+      </div>  
+        
+      <div class="col-sm-6">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  {{=T('Services Management')}}
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">  {{=T('Consult')}}  </li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'services'))}}">  {{=T("Running Services")}}</a></li>
+
+            <li class="divider"></li>
+
+            <li class="dropdown-header">{{=T("Management")}}</li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'start_services'))}}"  >  {{=T('Start Services')}}   </a></li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'stop_services'))}}"   >  {{=T('Stop Services')}}    </a></li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'restart_services'))}}">  {{=T('Restart Services')}} </a></li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'reload_services'))}}" >  {{=T('Reload Services')}}   </a></li>
+
+        </div>  
+      </div>
+
+      
     </div>
-     <div class="panel-body">
-         
-         <h3>
-             {{=T('General')}}
-         </h3>
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'reboot'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Reboot')}} </button>
-         </a>
-       
-         <br><br>
-         <h3>
-             {{=T('Packages and repositories')}}
-         </h3>
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'install_package'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Install Packages')}} </button>
-         </a>
-         
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'remove_packages'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Remove packages')}} </button>
-         </a>
-         
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'add_repo'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Add Repositories')}} </button>
-         </a>
-         
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'remove_repo'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Remove Repositories')}} </button>
-         </a>
-         
-         <br><br>
-          <h3>
-             {{=T('Services')}}
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'start_services'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Start services')}} </button>
-         </a>
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'stop_services'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Stop services')}} </button>
-         </a>
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'restart_services'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Restart services')}} </button>
-         </a>
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'reload_services'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Reload services')}} </button>
-         </a>
-         
-         
-         <br><br>
-          <h3>
-             {{=T('Ports')}}
-         </h3>
-         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'ports'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T("Don't click, it's just a test")}} </button>
-         </a>
-         
-          <br><br>
-          <h3>
-             {{=T('Cron tasks')}}
-         </h3>
-          <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'tasks_cron'))}}">
-            <button class= 'btn btn-default btn-lg'> {{=T('Schedule an upgrade')}} </button>
-         </a>
+    <br>
+<!-- Fin Segunda Fila -->
+
+        
+        
+<!--- Tercera Fila: Crontab y VNC  -->
+    <div class="row">
+        
+      <div class="col-sm-6">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  {{=T('Ports Management')}}
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">  {{=T('Consult')}}  </li>
+                  <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'ports'))}}">  {{=T('Currently Open')}}  </a></li>
+
+                <li class="divider"></li>
+
+              <li class="dropdown-header">{{=T("Management")}}</li>
+                IN PROGRESS
+                    <li class="disabled"><a href="#">{{=T('Open Ports')}}</a></li>
+                    <li class="disabled"><a href="#">{{=T('Close Ports')}}</a></li>
+            </ul>
+        </div>      
+      </div>
+        
+        
+      <div class="col-sm-6">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  {{=T('Crontab Tasks')}}
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">  {{=T('Quick')}}  </li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'update_packges'))}}">  {{=T("Schedule Packages Upgrade")}}</a></li>
+
+            <li class="divider"></li>
+
+            <li class="dropdown-header">{{=T("Custom tasks")}}</li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'custom_task'))}}">  {{=T('Create Task')}}   </a></li>
+                <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'delete_task'))}}">  {{=T('Delete Tasks by name')}}    </a></li>
+
+        </div>  
+      </div>
+
+    </div>
+    <br>
+<!-- Fin Segunda Fila -->        
+        
+        
+</div>
     </div>
 </div>
 {{=BEAUTIFY(response._vars)}}

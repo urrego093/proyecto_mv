@@ -1,4 +1,0 @@
-action: start
-remote: all
-services:
-- apache2

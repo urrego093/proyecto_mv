@@ -1,3 +1,6 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla academia/register_group.html</h1>
-{{=BEAUTIFY(response._vars)}}
+<h2>
+    {{=T('Register Group')}}
+</h2>
+{{=form}}
+{{#=BEAUTIFY(response._vars)}}

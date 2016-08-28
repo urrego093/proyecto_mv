@@ -1,4 +1,1 @@
- 
-           to retry, use: --limit @/home/Carlos/reiniciar.retry
-192.168.1.62               : ok=3    changed=0    unreachable=2    failed=0   
-192.168.1.63               : ok=0    changed=0    unreachable=1    failed=0   
+10.20.251.91               : ok=3    changed=1    unreachable=0    failed=0   

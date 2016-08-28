@@ -1,5 +1,16 @@
-action: create_user
-admin: 'no'
-password: Crema112
-remote: all
-username: Carlos
+vnc_users:
+- name: user1
+  vnc_num: 1
+  vnc_port: 5901
+- name: user2
+  vnc_num: 2
+  vnc_port: 5902
+- name: carlos1
+  vnc_num: 3
+  vnc_port: 5903
+- name: carlos2
+  vnc_num: 4
+  vnc_port: 5904
+- name: carlos3
+  vnc_num: 5
+  vnc_port: 5905

@@ -3,4 +3,4 @@
     {{=T('Register Machine')}}
 </h2>
 {{=form}}
-{{=BEAUTIFY(response._vars)}}
+{{#=BEAUTIFY(response._vars)}}

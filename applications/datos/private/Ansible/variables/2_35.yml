@@ -1,4 +1,0 @@
-accion: remove_repo
-remote: all
-repositorios:
-- ppa:nginx/stable

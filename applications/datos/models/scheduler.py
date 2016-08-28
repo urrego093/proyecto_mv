@@ -51,8 +51,15 @@ def playbook(*args, **vars):
     #print "proceso es: ", pid
     
     output = process.communicate()
+    
     salida = output[0]
+    print "- - - - - - - -  SALIDA ES - - - - - - - "
     print salida
+    
+    errores = output[1]
+    print "-----------------LOS ERRORES SON ------------"
+    print errores
+    
     #str_salida = salida.split("PLAY RECAP *********************************************************************") #Camilo 
     str_salida = salida.split("PLAY RECAP *********************************************************************") #Carlos
     guardar_resumen(nombre, str_salida[1])

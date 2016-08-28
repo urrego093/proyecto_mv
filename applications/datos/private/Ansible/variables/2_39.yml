@@ -1,4 +1,0 @@
-accion: install_packages
-paquetes:
-- apache2
-remote: all

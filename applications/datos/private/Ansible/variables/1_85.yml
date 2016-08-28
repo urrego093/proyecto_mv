@@ -1,4 +1,0 @@
-action: delete_user
-remote: all
-username:
-- user1

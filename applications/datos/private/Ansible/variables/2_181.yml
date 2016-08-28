@@ -1,4 +1,0 @@
-accion: install_packages
-paquetes:
-- firewalld
-remote: all

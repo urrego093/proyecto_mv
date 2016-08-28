@@ -14,4 +14,5 @@
         <h3>
             {{=T('There are no teachers left to accept')}}
         </h3>
+    {{pass}}
 </table>

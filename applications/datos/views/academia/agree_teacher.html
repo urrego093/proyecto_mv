@@ -1,8 +1,11 @@
 {{extend 'layout.html'}}
-<h2>
-    Aprobacion Registro Docente
-</h2>
-<table class="table">
+
+<div class="modal-header" align="center">
+    
+    <h1 class="modal-title">{{=T("Teacher register approval")}}</h1>
+</div>
+<div class="modal-body">
+    <table class="table">
     {{if rows:}}
         {{for r in rows:}}
         <tr>
@@ -16,3 +19,5 @@
         </h3>
     {{pass}}
 </table>
+
+</div>

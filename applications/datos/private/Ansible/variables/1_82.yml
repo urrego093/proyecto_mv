@@ -1,7 +1,0 @@
-action: delete_user
-remote: all
-username:
-- usuario1
-- usuario2
-- usuario3
-- usuario4

@@ -1,4 +1,2 @@
----
-ansible_become_pass: "reverse"
-ansible_user: "fedora"
-...
+ansible_become_pass: reverse
+ansible_user: ubuntu

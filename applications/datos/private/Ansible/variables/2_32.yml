@@ -1,4 +1,0 @@
-accion: add_repo
-remote: all
-repositorios:
-- http://rpms.famillecollet.com/fedora/remi-release-19.rpm

@@ -9,8 +9,14 @@
 #########################################################################
 import evaluar_expresion
 
+
 def index():
-    response.flash = T("Hello People UD")
+    #ruta_logo = os.path.join(request.folder, 'static') + "/images/logo.png"
+#    ruta_logo = os.path.join(request.folder, 'static') + "/images/background.jpg"
+    ruta_logo = "/datos/static/images/logo.png"
+
+    
+    response.flash = T("Wellcome")
     return locals();
 
 def user():

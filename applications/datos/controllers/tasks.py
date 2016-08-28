@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 # intente algo como
-
+@auth.requires_login()
 def index():
-    encabezado = T("These are your previous task")
-    
     query_job = db1.job.user_id == auth.user_id
+    grid = []
     
     campos_tarea = [db1.job.name, db1.job.action, db1.job.date] 
     
@@ -20,17 +19,13 @@ def index():
     return locals()
 
  
-
+@auth.requires_login()
 def resumen():
     #Mensajes de la pagina
     job_name = request.args(0)
     
     fila_accion = db1(db1.job.name == job_name).select(db1.job.action)
     accion = fila_accion[0]['action']
-    
-    texto_summary = T("Global Summary")
-    texto_summary_per_host = T("Summary per host")
-    texto_vars = T("Variables")
     
     job_user_id = int(re.split("_", job_name)[0])
     user_id = int(auth.user_id)
@@ -45,16 +40,20 @@ def resumen():
     cabezas = []
     datos = {}
     
-    #botones del pie de la pagina1
-    boton_volver = INPUT(_value = T('Back'),_type= "button", _class="btn btn-default", _onclick= "window.history.back();")
-    boton_descargar = INPUT(_value = T('Download Resume'),_type= "button", _class="btn btn-primary",
-                                #_href="/datos/private/Ansible/resultados/" + job_name + ".txt"
-    )
+    enlace_resumen = "http://127.0.0.1:8000/datos/appadmin/update/db1/scheduler_run/"
+    
     if job_user_id == user_id:
         trabajo = db1(db1.job.name == job_name).select()
 
         #print "----------------- /////////////// ------------", trabajo[0]
         query_task = db1.scheduler_task.id == trabajo[0]["task_id"]
+        
+        '''
+        borrar despues
+        '''
+        campos_ejecucion = db1(db1.scheduler_run.task_id == trabajo[0]["task_id"]).select()
+        if campos_ejecucion:
+            enlace_resumen += str(campos_ejecucion[0]["id"])
 
         campos_task = [db1.scheduler_task.status, db1.scheduler_task.start_time, db1.scheduler_task.next_run_time]
         grid = SQLFORM.grid(query_task, fields = campos_task, csv=False, editable=False, deletable=False, 

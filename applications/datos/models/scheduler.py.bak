@@ -40,6 +40,7 @@ def playbook(*args, **vars):
         extra_vars = " --extra-vars @" + ruta_variables
     #print extra_vars
     comando = "ansible-playbook " + playbook + " -i " + hosts + extra_vars
+    print "- - - - - -- COMANDO ES ------ "
     print comando
     
     #comando_listo = shlex.split(comando)
@@ -50,8 +51,14 @@ def playbook(*args, **vars):
     #print "proceso es: ", pid
     
     output = process.communicate()
+    
     salida = output[0]
+    print "- - - - - - - -  SALIDA ES - - - - - - - "
     print salida
+    
+    errores = output[1]
+    print "-----------------LOS ERRORES SON ------------"
+    print errores
     #str_salida = salida.split("PLAY RECAP *********************************************************************") #Camilo 
     str_salida = salida.split("PLAY RECAP *********************************************************************") #Carlos
     guardar_resumen(nombre, str_salida[1])

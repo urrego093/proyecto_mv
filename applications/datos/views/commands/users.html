@@ -7,14 +7,15 @@
 
 <div class="panel panel-success" id="usuarios">
     <div class="panel-heading">
-        <h2 class="panel-title">{{=T('What do you want to do?')}}</h2>
+        <h2 class="panel-title center">{{=T('What do you want to do?')}}</h2>
     </div>
 
-    <div class="panel-body">
+    <div class="panel-body center">
         <div class="btn-group btn-group-justified">
             <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'create_users'))}}">
                <button class= 'btn btn-default btn-lg'> {{=T('Create users')}} </button>
             </a>
+            
 
             <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'delete_users'))}}">
                <button class= 'btn btn-default btn-lg'> {{=T('Delete users')}} </button>

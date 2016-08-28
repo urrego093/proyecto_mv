@@ -9,14 +9,21 @@ def register_course():
         redirect(URL('default','index'))
     return locals()
 
+@auth.requires_login()
 def create_hostvars_yml(idmachine, systemOpe):
     datos = dict()
     if systemOpe == "Ubuntu":
         datos = dict(ansible_become_pass="reverse", ansible_user="ubuntu")
+        #datos = dict(ansible_become_pass="osboxes.org", ansible_user="osboxes")
     elif systemOpe == "CentOS":
-        datos = dict(ansible_become_pass="reverse", ansible_user="root")
+        datos = dict(ansible_become_pass="Centosbase123", ansible_user="root")                
+        #datos = dict(ansible_become_pass="osboxes.org", ansible_user="root")
     elif systemOpe == "Fedora":
-        datos = dict(ansible_become_pass="reverse", ansible_user="root")
+        datos = dict(ansible_become_pass="Centosbase123", ansible_user="root")
+        #datos = dict(ansible_become_pass="osboxes.org", ansible_user="root")
+
+        
+    #datos = dict (ansible_become_pass="reverse", ansible_user="root")
     
     ruta_basica = os.path.join(request.folder, 'private/Ansible/host_vars/')
     file_path = ruta_basica + idmachine
@@ -27,10 +34,23 @@ def create_hostvars_yml(idmachine, systemOpe):
 def register_machine():
     form = SQLFORM(db1.machine).process()
     if form.accepted:
-        registrar_host([1,2], ['est1','est2'])
-        create_hostvars_yml(str(form.vars.ip_machine), str(form.vars.operative_system))
-        session.flash = T(" Machine Create!")
-        redirect(URL('default','index'))
+        
+        ip = str(form.vars.ip_machine)
+        sistema_operativo = str(form.vars.operative_system)
+        maquina_id = form.vars.id
+        
+        create_hostvars_yml(ip, sistema_operativo)
+        session.flash = T(" Machine Created!")
+
+        '''
+            Al crear una maquina en el sistema, de manera automática se instala la llave local en la maquina
+            para conectar por ssh sin contraseña y se instala el paqeuet vnc
+        '''
+        variables_extra = dict(IP = ip, OS = sistema_operativo)
+        
+        redirect(URL('maquinas', 'ejecutar', vars= dict(ids=maquina_id, opcion='first_time', variables_extra=variables_extra))) 
+
+        #redirect(URL('default','index'))
     return locals()
 
 @auth.requires_membership('Administrador')
@@ -114,37 +134,11 @@ def regis_student():
 
 @auth.requires_login()
 @auth.requires_membership('Administrador')
-def registrar_host(ids,hosts):
-    for i in ids:
-        last_port = db1(db1.port_machine.ip_machine==i).select().last()
-        if last_port:
-            nexts = int(last_port.number_port)
-            for n in hosts:
-                nexts += 1
-                print "ANTIGUO", i, "port", nexts, "host", n
-                db1.port_machine.insert(ip_machine=i, number_port=nexts, hostname=n)
-                db1.commit()
-
-        else:
-            nexts = 5901
-            for n in hosts:
-                nexts += 1
-                print "NUEVO", i, "port", nexts, "host", n
-                db1.port_machine.insert(ip_machine=i, number_port=nexts, hostname=n)
-                db1.commit()
-
-        
-    #for row in P_HOST:
-     #   db1.port_machine.insert(ip_machine=id_machine, number_port=row)
-      #  db1.commit()
-
-@auth.requires_login()
-@auth.requires_membership('Administrador')
 def agree_teacher():
     rows = db1(db1.auth_user.registration_key=='pending').select()
     return locals()
 
-
+@auth.requires_login()
 def show_teacher():
     user = db1.auth_user(request.args(0, cast=int))
     user.update(registration_key='')
@@ -163,6 +157,7 @@ def show_teacher():
 
     return locals()
 
+@auth.requires_login()
 def update_group_teacher():
     member = db1.auth_membership(request.args(0, cast=int) or redirect(URL('index')))
 
@@ -189,9 +184,10 @@ def update_group_teacher():
         elif form.errors:
             response.flash = T ('Group No Update')
     else:
-        redirect(URL('index'))
+        redirect(URL('default','index'))
     return locals()
 
+@auth.requires_login()
 def mostrar_macxuser():
     course = db1.course(request.args(1, cast=int) or redirect(URL('index')))
     machine = db1.machine(request.args(0, cast=int) or redirect(URL('index')))
@@ -234,6 +230,7 @@ def show_couxuser():
     #)
     return locals()
 
+@auth.requires_login()
 def show_ports():
     semes = request.args(0)
     course = db1.course(request.args(2, cast=int) or redirect(URL('default','index')))
@@ -254,7 +251,7 @@ def show_ports():
     return locals()
 
 
-
+@auth.requires_login()
 def list_files():
     folder_user = "uploads/" + str(auth.user_id) + "/"
     ruta_basica = os.path.join(request.folder, folder_user)
@@ -271,6 +268,7 @@ def list_files():
 
     return locals()
 
+@auth.requires_login()
 ## Reference http://www.web2py.com/AlterEgo/default/show/36
 def my_big_file_downloader():
     import os
@@ -281,6 +279,7 @@ def my_big_file_downloader():
 
     # the old way
 # reference http://www.web2py.com/AlterEgo/default/show/36
+@auth.requires_login()
 def my_small_file_downloader():
     import os
     import gluon.contenttype

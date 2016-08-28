@@ -8,11 +8,9 @@ def index(): return dict(message="hello from system.py")
 @auth.requires_login()
 def reiniciar():
     ids = request.vars["ids"]
-    form = FORM(_method='post').confirm(T('Restart'),{T('Back'):URL('mostrar#')})
+    form = FORM(_method='post').confirm(T('Restart'),{T('Back'):URL('maquinas','mostrar', vars=dict(accion= 'reboot'))})
     form["_align"] = "center"
-    
-    pregunta = T('Do you really whish to restart the selected machines?')
-    
+
     if form.accepted:
         redirect(URL('maquinas', 'ejecutar', vars= dict(ids=ids, opcion='restart')))
         #print tarea
@@ -26,7 +24,7 @@ def install_packages():
     form['_align'] = "center"
     if form.accepted:
         paquetes = request.vars.paquetes
-        paquetes = evaluar_expresion.evaluar(paquetes)
+        paquetes = evaluar_expresion.separar_x_comas(paquetes)
         #servicio = 'yes' if request.vars.servicio else 'no'
 
         variables_extra = dict( remote='all', paquetes=paquetes, accion=accion)
@@ -43,7 +41,7 @@ def remove_packages():
     form = SQLFORM.factory(  Field('paquetes', label='Packages', requires=IS_NOT_EMPTY())).process()
     if form.accepted:
         paquetes = request.vars.paquetes
-        paquetes = evaluar_expresion.evaluar(paquetes)
+        paquetes = evaluar_expresion.separar_x_comas(paquetes)
         #servicio = 'yes' if request.vars.servicio else 'no'
 
         variables_extra = dict( remote='all', paquetes=paquetes, accion=accion)
@@ -59,7 +57,7 @@ def add_repositories():
     form = SQLFORM.factory(  Field('repositorios', label='Repositories', requires=IS_NOT_EMPTY())).process()
     if form.accepted:
         repositorios = request.vars.repositorios
-        repositorios = evaluar_expresion.evaluar(repositorios)
+        repositorios = evaluar_expresion.separar_x_comas(repositorios)
         #servicio = 'yes' if request.vars.servicio else 'no'
 
         variables_extra = dict( remote='all', repositorios=repositorios, accion=accion)
@@ -75,7 +73,7 @@ def remove_repositories():
     form = SQLFORM.factory(  Field('repositorios', label='Repositories', requires=IS_NOT_EMPTY())).process()
     if form.accepted:
         repositorios = request.vars.repositorios
-        repositorios = evaluar_expresion.evaluar(repositorios)
+        repositorios = evaluar_expresion.separar_x_comas(repositorios)
         #servicio = 'yes' if request.vars.servicio else 'no'
 
         variables_extra = dict( remote='all', repositorios=repositorios, accion=accion)
@@ -102,7 +100,7 @@ def start_services():
 
     if form.accepted:
         services = request.vars.services
-        services = evaluar_expresion.evaluar(services)
+        services = evaluar_expresion.separar_x_comas(services)
     
         variables_extra = dict( remote='all', action='start', services=services)
     
@@ -119,7 +117,7 @@ def stop_services():
 
     if form.accepted:
         services = request.vars.services
-        services = evaluar_expresion.evaluar(services)
+        services = evaluar_expresion.separar_x_comas(services)
     
         variables_extra = dict( remote='all', action='stop', services=services)
     
@@ -136,7 +134,7 @@ def restart_services():
 
     if form.accepted:
         services = request.vars.services
-        services = evaluar_expresion.evaluar(services)
+        services = evaluar_expresion.separar_x_comas(services)
     
         variables_extra = dict( remote='all', action='restart', services=services)
     
@@ -152,7 +150,7 @@ def reload_services():
 
     if form.accepted:
         services = request.vars.services
-        services = evaluar_expresion.evaluar(services)
+        services = evaluar_expresion.separar_x_comas(services)
     
         variables_extra = dict( remote='all', action='reload', services=services)
     
@@ -167,10 +165,46 @@ def ports():
     redirect(URL('maquinas', 'ejecutar', vars= dict(ids=ids, opcion='ports', variables_extra = variables_extra, is_debug=True)))
     return dict()
 
+@auth.requires_login()
+def enable_vnc():
+    id_maquina = request.vars["ids"]
+    puertos = db1(db1.port_machine.ip_machine == id_maquina).select(db1.port_machine.number_port, db1.port_machine.hostname)
+    print " ---- -- - - -LOS PUERTOS DE LA MAQUINA SON  - - - - -- - - - - - - -- -"
+    #print puertos
+    datos = []
+    for linea in puertos:
+        puerto = -1
+        usuario = "default_user"
+        for llave in linea:
+            if llave == "number_port":
+                puerto = int(linea[llave]) - 5900
+            elif llave == "hostname":
+                usuario = linea[llave]
+        datos.append(dict(name = usuario, vnc_num = puerto, vnc_port = puerto+5900)) 
+    variables = dict(vnc_users = datos)
+    
+    redirect(URL('maquinas', 'ejecutar', vars= dict(ids=id_maquina, opcion='vnc_config', variables_extra = variables)))
+    return locals()
+    
+@auth.requires_login()
+def first_time():
+    ids = request.vars["ids"]
+    
+    campo = db1(db1.machine.id == ids).select()
 
+    ip = campo[0]["ip_machine"]
+    os = campo[0]["operative_system"]
+    
+    variables_extra = dict(IP = ip, OS = os)
+        
+    redirect(URL('maquinas', 'ejecutar', vars= dict(ids=ids, opcion='first_time', variables_extra=variables_extra))) 
+
+        
+    #redirect(URL('maquinas', 'ejecutar', vars= dict(ids=ids, opcion='vnc_install')))
+    return locals()
 
 @auth.requires_login()
-def tasks_cron():
+def update_packges():
     minutos = ["*"]
     minutos += range(0,60)
     
@@ -188,26 +222,52 @@ def tasks_cron():
     
     #Recuperamos los ids
     ids = request.vars["ids"]
-    form = SQLFORM.factory(Field('minute', label=T('Minute'), requires=IS_IN_SET(minutos, zero='Select one', error_message=T('Too small or too big!'))),
-                           Field('hour', label=T('Hour'), requires=IS_IN_SET(horas, zero='Select one',error_message=T('Too small or too big!'))),
-                           Field('day', label=T('Day of Month'),requires=IS_IN_SET(dias, zero='Select one',error_message=T('Too small or too big!'))),
-                           Field('month', requires=IS_IN_SET(nombre_mes,
-                                                            zero='Select one' ,error_message=T('¡Error!'))),
-                           Field('weekday', label=T('Weekday'), requires=IS_IN_SET(nombre_dias, 
-                                                               zero='Select one', error_message=T('error')))
-                          ) 
+    
+    #Se crea el formulario
+    form = SQLFORM.factory(
+        Field('minute', label=T('Minute'), requires=IS_IN_SET(minutos, zero='Select one', error_message=T('Too small or too big!'))),
+        Field('hour', label=T('Hour'), requires=IS_IN_SET(horas, zero='Select one',error_message=T('Too small or too big!'))),
+        Field('day', label=T('Day of Month'),requires=IS_IN_SET(dias, zero='Select one',error_message=T('Too small or too big!'))),
+        Field('month', requires=IS_IN_SET(nombre_mes,zero='Select one' ,error_message=T('¡Error!'))),
+        Field('weekday', label=T('Weekday'), requires=IS_IN_SET(nombre_dias, zero='Select one', error_message=T('error')))
+    )
     form.add_button(T('Back'), URL('maquinas','mostrar#'))
+    
     if form.process().accepted:
-        response.flash = 'formulario aceptado'
-        redirect(URL('maquinas','ejecutar', vars= dict(ids=ids, opcion='tasks_cron', variables_extra=dict(minute=request.vars.minute,
-                                                                                                         hour = request.vars.hour,
-                                                                                                         day = request.vars.day,
-                                                                                                         month = request.vars.month,
-                                                                                                         weekday = request.vars.weekday))))
+        response.flash = T('Form accepted')
+        redirect(URL('maquinas','ejecutar', vars= dict(ids=ids, opcion='crontab', 
+            variables_extra=dict(minute=request.vars.minute, hour = request.vars.hour, day = request.vars.day,
+                month = request.vars.month, weekday = request.vars.weekday, accion = "update_packges"
+            )))
+        )
 
     elif form.errors:
-        response.flash = 'el formulario tiene errores'
-        #print tarea
+        response.flash = T('Form contains errors')
 
+    return locals()
+
+
+@auth.requires_login()
+def delete_task():   
+    #Recuperamos los ids
+    ids = request.vars["ids"]
+    
+    #Creamos el formulario
+    form = SQLFORM.factory(
+        Field('name', label=T('Name'), requires=IS_NOT_EMPTY()),
+    ) 
+    form.add_button(T('Back'), URL('maquinas','mostrar#'))
+    
+    if form.process().accepted:
+        nombre = request.vars.name
+        nombre = evaluar_expresion.separar_x_comas(nombre)
+        
+        response.flash = T('Form accepted')
+        redirect(URL('maquinas','ejecutar', 
+            vars= dict(ids=ids, opcion='crontab', variables_extra = dict( accion = "delete_task",nombre = nombre) ))
+        )
+
+    elif form.errors:
+        response.flash = T('Form contains errors')
 
     return locals()
