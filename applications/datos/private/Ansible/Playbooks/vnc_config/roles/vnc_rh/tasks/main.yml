@@ -1,0 +1,84 @@
+---
+- name: Install the GUI and VNC Packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+    update_cache: yes
+  with_items: "{{ ubuntu_vnc_packages }}"
+
+- name: Copy the defult password file
+  template:
+    src: password.j2
+    dest: /tmp/file 
+
+- name: vncserver command
+  shell: "sudo -u {{ item.name }} -i vncserver </tmp/file >/tmp/vncpasswd.1 2>/tmp/vncpasswd.2"
+  with_items: "{{ vnc_users }}"
+
+- name: Copy the vncservers.conf file in /etc/ directory
+  template:
+    src: vncservers.conf.j2
+    dest: /etc/vncservers.conf
+    owner: root
+    group: root
+
+- name: Copy the modified "xstartup" file
+  template:
+    src: xstartup.j2
+    dest: "/home/{{ item.name }}/.vnc/xstartup"
+    owner: "{{item.name}}"
+    mode: 0755
+  with_items: "{{ vnc_users }}"
+
+- name: Create a file vncserver in /etc/init.d/ directory
+  template:
+    src: vncserver.j2
+    dest: /etc/init.d/vncserver
+    owner: root
+    group: root
+    mode: 0755
+  register: vnc_service
+
+
+- name: Crear archivo para prevenir que se pida la clave del root a los usuarios
+  template:
+    src: refresh-packagekit.j2
+    dest: /etc/yum/pluginconf.d/refresh-packagekit.conf
+    owner: root
+    group: root
+
+- name: Add vncserver service to default runlevels
+  command: "chkconfig --add vncserver"
+  when: vnc_service.changed
+
+#- name: Restart VNC Service
+#  service: 
+#    name: vncserver 
+#    pattern: /etc/init.d/vncserver
+#    state: restarted
+
+#ps -fea | grep vnc
+
+- name: Abrir puertos centos
+  firewalld: port="{{item.vnc_port}}/tcp" permanent=true state=enabled zone=public
+  with_items: "{{vnc_users}}"
+
+- name: Eliminar archivos temporales que genearn errores
+  shell: "rm -rf /tmp/.X*" 
+
+- name: reiniciar maquina   
+  shell: reboot
+  async: 60
+  poll: 0
+  become: yes
+  become_user: root
+  become_method: sudo
+  ignore_errors: true
+#- name: Reiniciar servicio de firewall
+#  shell: "systemctl restart firewalld.service"
+
+#- name: Restart VNC Service
+#  shell: "systemctl restart vncserver.service"
+#  ignore_errors: true
+
+

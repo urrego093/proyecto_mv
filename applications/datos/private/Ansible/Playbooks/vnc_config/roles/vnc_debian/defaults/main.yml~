@@ -1,0 +1,21 @@
+---
+ubuntu_vnc_packages:
+  - gnome-core
+  - vnc4server
+default_passwd: mypassword
+vnc_client_res: "1024x600"
+vnc_users:
+  - name: 'user1'
+    vnc_num: 2
+
+  - name: 'user2'
+    vnc_num: 3
+
+  - name: 'user3'
+    vnc_num: 4
+
+  - name: 'user4'
+    vnc_num: 5
+
+  - name: 'user5'
+    vnc_num: 6 

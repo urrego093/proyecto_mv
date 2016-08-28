@@ -1,0 +1,10 @@
+---
+- name: Add {{item}} to repository
+  become: yes
+  command: "yum-config-manager --add-repo {{item}}"
+  with_items: "{{ repositorios }}"
+
+#    description: EPEL YUM repo
+#    baseurl: "{{repositorio}}"
+#http://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+

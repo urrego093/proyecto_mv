@@ -1,0 +1,8 @@
+--- #funciona bien para centos y lo corre sobre el root
+- name: Remover tarea anterior
+  cron: name="{{nombre}}" state=absent
+
+- name: Crear tarea {{nombre}}
+  cron: name="{{nombre}}" minute="{{minute}}" hour="{{hour}}" day="{{day}}" month="{{month}}" weekday="{{weekday}}" job="{{comando}}"
+  #become: true
+  #become_user: sudo

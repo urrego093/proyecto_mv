@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  become: true
+  roles:
+    - { role: update, when:  accion == 'update' }
+    - { role: custom, when:  accion == 'update' }
+    - { role: delete, when:  accion == 'update' }
+
+...

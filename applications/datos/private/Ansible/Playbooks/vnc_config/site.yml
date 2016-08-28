@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: True
+  gather_facts: True
+  roles:
+#     - vnc
+     - { role: vnc_rh, when:  ansible_os_family == 'RedHat' }
+     - { role: vnc_debian, when:  ansible_os_family == 'Debian' }
+...

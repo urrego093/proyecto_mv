@@ -1,0 +1,12 @@
+---
+- name: Add {{item}} to repository
+  become: yes
+  shell: "dnf config-manager --add-repo {{item}}"
+  with_items: "{{ repositorios }}"
+
+
+- name: upgrade all packages
+  yum: name=* state=latest
+
+#- name: Show system version
+#  debug: var=ansible_distribution_version

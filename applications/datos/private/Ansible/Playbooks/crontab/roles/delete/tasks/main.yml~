@@ -1,0 +1,4 @@
+--- #funciona bien para centos y lo corre sobre el root
+- name: Remover tarea {{item}}
+  cron: name="{{item}}" state=absent
+  with_items: "{{nombre}}"

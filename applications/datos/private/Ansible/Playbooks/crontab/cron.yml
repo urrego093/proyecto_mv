@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  become: true
+  roles:
+    - { role: update, when:  accion == 'update_packges' }
+    - { role: custom, when:  accion == 'custom_task' }
+    - { role: delete, when:  accion == 'delete_task' }
+
+...

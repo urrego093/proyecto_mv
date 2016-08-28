@@ -1,0 +1,86 @@
+---
+#- name: Install the GUI and VNC Packages
+#  yum:
+#    name: "{{ item }}"
+#    state: installed
+#    update_cache: yes
+#  with_items: "{{ ubuntu_vnc_packages }}"
+
+- name: Copy the defult password file
+  template:
+    src: password.j2
+    dest: /tmp/file 
+
+- name: vncserver command
+  shell: "sudo -u {{ item.name }} -i vncserver </tmp/file >/tmp/vncpasswd.1 2>/tmp/vncpasswd.2"
+  with_items: "{{ vnc_users }}"
+
+- name: Copy the vncservers.conf file in /etc/ directory
+  template:
+    src: vncservers.conf.j2
+    dest: /etc/vncservers.conf
+    owner: root
+    group: root
+
+- name: Copy the modified "xstartup" file
+  template:
+    src: xstartup.j2
+    dest: "/home/{{ item.name }}/.vnc/xstartup"
+    owner: "{{item.name}}"
+    mode: 0755
+  with_items: "{{ vnc_users }}"
+
+- name: Create a file vncserver in /etc/init.d/ directory
+  template:
+    src: vncserver.j2
+    dest: /etc/init.d/vncserver
+    owner: root
+    group: root
+    mode: 0755
+  register: vnc_service
+
+- name: Add vncserver service to default runlevels
+  command: "chkconfig --add vncserver"
+  when: vnc_service.changed
+
+- name: Crear archivo para prevenir que se pida la clave del root a los usuarios
+  template:
+    src: refresh-packagekit.j2
+    dest: /etc/yum/pluginconf.d/refresh-packagekit.conf
+    owner: root
+    group: root
+
+- name: Abrir puertos centos
+  firewalld: port="{{item.vnc_port}}/tcp" permanent=true state=enabled zone=public
+  with_items: "{{vnc_users}}"
+  register: puertos_abiertos
+
+- name: Restart the machine#
+  become: yes  
+  shell: reboot
+  async: 60
+  poll: 0 
+  ignore_errors: true
+  when: puertos_abiertos.changed
+
+
+#- name: Reiniciar servicio de firewall
+#  shell: "systemctl restart firewalld.service"
+#  register: firewalld_restart  
+#  when: puertos_abiertos.changed
+  
+#- name: Restart VNC Service
+#  ignore_errors: true
+#  shell: /etc/init.d/vncserver restart
+#  register: vnc_restart
+#  when: firewalld_restart.changed
+
+#- name: reiniciar maquina
+#  shell: reboot
+#  async: 60
+#  poll: 0
+#  become: yes
+# become_user: root
+#  become_method: sudo
+#  ignore_errors: true
+#  when: vnc_restart.changed

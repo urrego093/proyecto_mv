@@ -1,0 +1,25 @@
+---
+- name: Install local key to CentOS System
+  connection: local  
+  shell: "sshpass -p {{ CentOS.pass }} ssh-copy-id -o StrictHostKeyChecking=no {{ CentOS.user }}@{{ IP }}"
+  when: OS == "CentOS"
+
+
+- name: Install local key to Fedora System
+  ansible_user: camilo
+  #connection: local
+  #local_action: shell "sshpass -p {{ Fedora.pass }} ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub {{ Fedora.user }}@{{ IP }}"
+  local_action: shell "sshpass -p {{ Fedora.pass }} ssh-copy-id -o StrictHostKeyChecking=no {{ Fedora.user }}@{{ IP }}"
+  when: OS == "Fedora"
+
+- name: Install local key to Ubuntu System
+  connection: local  
+  shell: "sshpass -p {{ Ubuntu.pass }} ssh-copy-id -o StrictHostKeyChecking=no {{ Ubuntu.user }}@{{ IP }}"
+  when: OS  == "Ubuntu"
+
+- name: Install local key to Debian System
+  connection: local
+  shell: "sshpass -p {{ Debian.pass }} ssh-copy-id -o StrictHostKeyChecking=no {{ Debian.user }}@{{ IP }}"
+  when: OS == "Debian"
+
+...

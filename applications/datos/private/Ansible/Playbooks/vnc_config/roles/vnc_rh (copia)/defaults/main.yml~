@@ -1,0 +1,15 @@
+---
+ubuntu_vnc_packages:
+  - tigervnc-server
+default_passwd: mypassword
+vnc_client_res: "1024x600"
+vnc_users:
+  - name: 'carlos1'
+    vnc_num: 1
+    vnc_port: "5901"
+  - name: 'carlos2'
+    vnc_num: 2
+    vnc_port: "5902"
+#  - name: 'camilo4'
+#    vnc_num: 6
+#    vnc_port: "5906"

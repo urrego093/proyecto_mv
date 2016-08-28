@@ -1,0 +1,43 @@
+--- # install vnc rules
+
+  - name: Install GUI and VNC Packages alongside firewall-applet on Debian Family
+    apt:
+      name: "{{ item }}"
+      state: installed
+      update_cache: yes
+    with_items: "{{ ubuntu_vnc_packages }}"
+    when: ansible_os_family=="Debian"
+
+  - name: Copiar archivo .deb para que ansible pueda manejar firewalld en Ubuntu 16.04, ty python 3
+    copy: src="python-firewalld_0.1-0.deb" dest="/tmp/python-firewalld_0.1-0.deb"
+    when: ansible_distribution == "Ubuntu" and {{ ansible_distribution_version | version_compare('16.04', '==') }}
+
+  - name: Instalar paquete para que ansible pueda manejar firewalld
+    apt:
+      deb: "/tmp/python-firewalld_0.1-0.deb"
+      state: installed
+    when: ansible_distribution == "Ubuntu" and {{ ansible_distribution_version | version_compare('16.04', '==') }}
+
+
+  -  name: Instalar vnc en Redhat/Centos
+     yum:
+        name: "tigervnc-server"
+        state: installed
+     when: ansible_os_family=="RedHat" and ansible_distribution != "Fedora" 
+
+  -  name: Instalar vnc en Fedora < 22 (YUM)
+     yum:
+        name: "tigervnc-server"
+        state: installed
+     when: ansible_distribution == "Fedora" and {{ ansible_distribution_version | version_compare('22', '<') }}
+
+  -  name: Instalar vnc en Fedora >= 22
+     dnf:
+        name: "tigervnc-server"
+        state: installed
+     when: ansible_distribution == "Fedora" and {{ ansible_distribution_version | version_compare('22', '>=') }}
+     
+  - name: Copiar contrasena
+    become: true
+    template: src=default_pass.j2 dest=/tmp/contra2
+

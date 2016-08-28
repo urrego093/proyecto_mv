@@ -1,0 +1,6 @@
+---
+default_passwd: newpass123456
+ubuntu_vnc_packages:
+  - gnome-core
+  - vnc4server
+...

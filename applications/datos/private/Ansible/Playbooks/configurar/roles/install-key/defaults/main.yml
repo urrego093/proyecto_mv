@@ -1,0 +1,17 @@
+---
+CentOS: 
+  user: root
+  pass: Centosbase123
+
+Ubuntu:
+  user: ubuntu
+  pass: reverse
+
+Fedora:
+  user: root
+  pass: Centosbase123
+
+Debian:
+  user: debian
+  pass: reverse
+...

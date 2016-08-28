@@ -1,0 +1,4 @@
+---
+- include: ssh_copy_id.yml
+- include: vnc_install.yml
+...

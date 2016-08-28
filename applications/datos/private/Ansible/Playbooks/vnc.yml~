@@ -1,0 +1,35 @@
+--- # install vnc rules
+- hosts: all
+  become: true
+- include_vars: default_pass.yml
+  tasks:
+  - name: Instalar paquete en Debian
+    apt:
+        name: "vnc4server"
+        state: installed
+#        update_cache: yes
+    when: ansible_os_family=="Debian"
+
+  -  name: Instalar vnc en Redhat/Centos
+     yum:
+        name: "vnc-server"
+        state: installed
+     when: ansible_os_family=="RedHat" and ansible_distribution =! "Fedora" 
+
+  -  name: Instalar vnc en Fedora < 22 (YUM)
+     yum:
+        name: "vnc-server"
+        state: installed
+     when: ansible_distribution == "Fedora" and {{ ansible_distribution_version | version_compare('22', '<') }}
+
+  -  name: Instalar vnc en Fedora >= 22
+     dnf:
+        name: "vnc-server"
+        state: installed
+     when: ansible_distribution == "Fedora" and {{ ansible_distribution_version | version_compare('22', '>=') }}
+
+
+  - name: Copiar contrasena
+    template:
+        - copy: content="{{ pass }}" dest=/tmp/contra2
+
