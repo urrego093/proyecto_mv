@@ -1,6 +1,14 @@
 {{extend 'layout.html'}}
-<h2>
-    {{=T('Register Group')}}
-</h2>
-{{=form}}
-{{#=BEAUTIFY(response._vars)}}
+
+<div class="jumbotron" align='center'>
+    <h1>{{=T('Register Group')}}</h1>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2 class="panel-title center"></h2>
+    </div>
+<div class="panel-body">
+    {{=form}}
+</div>
+</div>

@@ -5,9 +5,9 @@
     <h1>{{=T('System')}}</h1> 
 </div>
 
-<div class="panel panel-success" id="system">
+<div class="panel panel-info" id="system">
     <div class="panel-heading">
-        <h2 class="panel-title">{{=T('What do you want to do?')}}</h2>
+        <h2 class="panel-title center">{{=T('What do you want to do?')}}</h2>
 </div>
 
 <div class="panel-body" align="center" >
@@ -32,7 +32,8 @@
           <span class="caret"></span></button>
           <ul class="dropdown-menu">
             <li class="dropdown-header">  {{=T('Installation')}}  </li>
-                 <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'first_time'))}}">  {{=T('Enable SSH access and install vnc')}}  </a></li>
+                 <li><a data-toggle="tooltip" data-placement="left" title="This will install also Firewalld!"
+                        href="{{=URL('maquinas','mostrar', vars=dict(accion= 'first_time'))}}">  {{=T('Enable SSH access and install vnc')}}  </a></li>
             <li class="divider"></li>
             <li class="dropdown-header">  {{=T("Configuration")}}  </li>
                 <li><a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'enable_vnc_ports'))}}">  {{=T('Enable vnc (First create users)')}}  </a></li>
@@ -105,9 +106,10 @@
                 <li class="divider"></li>
 
               <li class="dropdown-header">{{=T("Management")}}</li>
-                IN PROGRESS
-                    <li class="disabled"><a href="#">{{=T('Open Ports')}}</a></li>
-                    <li class="disabled"><a href="#">{{=T('Close Ports')}}</a></li>
+                  <li class="enabled">
+                      <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'open_ports'))}}">{{=T('Open Ports')}}</a></li>
+                  <li class="enabled">
+                      <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'close_ports'))}}">{{=T('Close Ports')}}</a></li>
             </ul>
         </div>      
       </div>

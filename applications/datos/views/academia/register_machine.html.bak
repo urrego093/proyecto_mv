@@ -1,6 +1,10 @@
 {{extend 'layout.html'}}
-<h2>
-    {{=T('Register Machine')}}
-</h2>
+
+<div class="jumbotron" align='center'>
+    <h1>{{=T('Register Machine')}}</h1>
+</div>
+
+<div class="modal-body">
 {{=form}}
-{{#=BEAUTIFY(response._vars)}}
+    
+</div>

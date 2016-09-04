@@ -1,6 +1,16 @@
 {{extend 'layout.html'}}
-<h2>
-    Datos del Usuario
-</h2>
 
-{{=form}}
+<div class="jumbotron" align='center'>
+    <h1>{{=T('Accept user request')}}</h1>
+</div>
+
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2 class="panel-title center">{{=T("Are you sure that you want to accept this user as a teacher?")}}</h2>
+    </div>
+
+    <div class="panel-body">
+        {{=form}}
+    </div>
+</div>

@@ -1,5 +1,5 @@
 ---
-- name: muestra los servicios en un sistema
+- name: muestra los puertos abiertos en un sistema
 #  shell: service --status-all
   shell: netstat -lpn
   register: estado

@@ -1,9 +1,8 @@
 ---
-- name: muestra los servicios en un sistema
+- name: muestra los puertos abiertos en un sistema
+  become: yes
 #  shell: service --status-all
-   shell: systemctl list-units --type=service
-#  shell: netstat -lpn
-#  register: ip={ansible_eth0.ipv4.address}
+  shell: netstat -lpn
   register: estado
 
 - debug: msg="{{ estado.stdout_lines }}"

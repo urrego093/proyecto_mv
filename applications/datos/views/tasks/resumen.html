@@ -8,7 +8,7 @@ setTimeout(function()
       var cuerpo = tabla.find("tbody")
       var fila = cuerpo.find("tr")
       var x = fila.children()[0].textContent
-      if (x != "COMPLETED" && x != "FAILED") {        
+      if (x != "COMPLETED" && x != "FAILED" && x != "TIMEOUT") {        
         console.log(x);
         location.reload();
       }
@@ -23,11 +23,9 @@ setTimeout(function()
 
 
 <div class="modal-header">
-    <div class="container" >
         <div class="jumbotron" align='center'>
             <h1>{{=T('Job  ')}} {{=job_name}}</h1>
         </div>
-</div>
 <!--
     <span>
         <a href={{=enlace_resumen}}> Resumen detallado</a>
@@ -47,11 +45,12 @@ setTimeout(function()
     
     <br>
     
-    <div class="panel panel-success" id='summary_host'>
+    <div class="panel panel-info" id='summary_host'>
         <div class="panel-heading">
             <h3 class="panel-title center">{{=T("Summary per host")}}</h3>
         </div>
         <div class="panel-body">
+        <div class="table-responsive text-justify">
             <table class="table table-hover">
         <thead>
           <tr>
@@ -80,15 +79,17 @@ setTimeout(function()
             </tr>
     {{pass}}
     </table> <! Fin del resumen por maquina -->
-        </div>
+    </div>
+    </div>
 </div>   
     
     
-    <div class="panel panel-success" id='variables'>
+    <div class="panel panel-info" id='variables'>
     <div class="panel-heading">
         <h3 class="panel-title center">{{=T("Variables")}}</h3>
     </div>
      <div class="panel-body center">
+        <div class="table-responsive text-justify">
         <table class="table table-hover">
         <thead>
           <tr>
@@ -112,6 +113,7 @@ setTimeout(function()
     {{pass}}
     </table>
     </div>
+    </div>
 </div>
     
 </div>
@@ -130,11 +132,14 @@ setTimeout(function()
                 <h2 class="panel-title">{{=ip}}</h2>
             </div>
             <div class="panel-body">
-                 <table class="table table-hover">
+                <div class="table-responsive">
+                 <table class="table table-hover text-justify">
                     <thead>
                       <tr>
                         {{for cabeza in cabezas:}}
-                          <th>{{=cabeza}}</th>
+                          {{if cabeza != "":}}
+                              <th>{{=cabeza}}</th>
+                          {{pass}}
                         {{pass}}
                       </tr>
                     </thead>
@@ -151,6 +156,7 @@ setTimeout(function()
                     </tbody>
                 {{#pass}}
                 </table>
+                </div>
             </div>            
         </div>
     {{pass}}

@@ -328,6 +328,8 @@ def leer_debug_puertos(nombre):
 
             #remueve unas lineas al final que son la interpretacion de la tabla
             sin_lineas_al_final = re.split('Active UNIX domain',puertos[1])
+            if len(sin_lineas_al_final) ==1:
+                sin_lineas_al_final = re.split('Sockets du domaine UNIX',puertos[1])
             sin_lineas_al_final[0] += '"]'
             #print sin_lineas_al_final[0]    
 

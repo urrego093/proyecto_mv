@@ -2,5 +2,6 @@
 - hosts: "{{ remote }}"
   roles:
     - { role: check , when:  action  == "check" }
-#    - { role: end , when:  action  == "end" }
+    - { role: open , when:  action  == "open" }
+    - { role: close , when:  action  == "close" }
 ...

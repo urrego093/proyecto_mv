@@ -7,5 +7,3 @@
 {{=form}}
     
 </div>
-
-{{#=BEAUTIFY(response._vars)}

@@ -59,7 +59,7 @@ for row in adminis:
         
         response.menu += [
             (T('Consult'), False, '#', [
-                 (T('My Files'), False, URL('academia', 'list_files')),
+                 (T('My Files'), False, URL('files', 'list_files')),
                  (T('My jobs'), False, URL('tasks', 'index')),
                  #(T('Running Services'), False, URL('maquinas','mostrar', vars=dict(accion= 'services'))),
                  #(T('Open ports'), False, URL('maquinas','mostrar', vars=dict(accion= 'ports'))),
@@ -76,8 +76,8 @@ for row in adminis:
         
         response.menu += [
             (T('DB'), False, "#", [
-                (T('Courses and Groups'), False, URL('maquinas', 'lista_maquina_grupo')),
-                (T('Machines by course'), False, URL('maquinas', 'lista_maquina_materia')), 
+                (T('Courses and Groups'), False, URL('admin', 'courses_and_groups')),
+                (T('Machines by course'), False, URL('admin', 'lista_maquina_materia')), 
                 (T('Teachers'), False, URL('admin', 'teachers')),
             ])
         ]
@@ -96,7 +96,7 @@ for row in adminis:
                 (T('Files'), False, URL('commands', 'files')),
             ]),
             (T('Consult'), False, '#', [
-                            (T('My Files'), False, URL('academia', 'list_files')),
+                            (T('My Files'), False, URL('files', 'list_files')),
                             (T('My jobs'), False, URL('tasks', 'index')),
                             #(T('Running Services'), False, URL('maquinas','mostrar', vars=dict(accion= 'services'))),
                             #(T('Open ports'), False, URL('maquinas','mostrar', vars=dict(accion= 'ports')))

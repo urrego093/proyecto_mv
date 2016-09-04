@@ -1,3 +1,10 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla files/clean_machines.html</h1>
+<div class="alert alert-warning center">
+  <strong>{{=T("Hey there! ")}}</strong>{{= T('Do you really want to clean the folders in the selected machines?') }}
+</div>
+ <ul class="pager">
+     {{=form}}
+  
+</ul>
+
 {{#=BEAUTIFY(response._vars)}}

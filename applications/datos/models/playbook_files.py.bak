@@ -146,7 +146,7 @@ def escribir_variables_yml(ruta_nombre, variables):
     ruta_nombre += '.yml'
     print ruta_nombre
     print " ----------- VARIABLES SON ----------"
-    PRINT variables
+    print variables
     diccionario = ast.literal_eval(variables)
     print "diccionario", diccionario
     

@@ -52,10 +52,10 @@ def cambiar_pass():
     ids = request.vars["ids"]
     form = SQLFORM.factory(
         Field('user_name', label='User name', requires=IS_NOT_EMPTY()),
-        Field('password', 'password', label='Password', requires=[IS_LENGTH(minsize=6)
+        Field('password', 'password', label='New password', requires=[IS_LENGTH(minsize=6)
                                                                   #, IS_STRONG(min=6,special=0, upper=1)
                                                                  ]),
-        Field('confirm_password', 'password', label='Confirm password', requires=[
+        Field('confirm_password', 'password', label='Confirm new password', requires=[
                 #IS_STRONG(min=6, special=0, upper=1), 
                 IS_EQUAL_TO(request.vars.password, error_message='passwords do not match')])
     ).process()

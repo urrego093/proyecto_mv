@@ -5,7 +5,7 @@
 def register_course():
     form = SQLFORM(db1.course).process()
     if form.accepted:
-        session.flash = T("Course Create!")
+        session.flash = T("Course Created!")
         redirect(URL('default','index'))
     return locals()
 
@@ -57,7 +57,7 @@ def register_machine():
 def register_group():
     form = SQLFORM(db1.course_group).process()
     if form.accepted:
-        session.flash = T("Group Create!")
+        session.flash = T("Group Created!")
         redirect(URL('default','index'))
     return locals()
 
@@ -123,7 +123,7 @@ def regis_student():
     db1.student_x_machine.course_group.reable = False
     form = SQLFORM(db1.student_x_machine).process()
     if form.accepted:
-        response.flash = T("Student Register")
+        response.flash = T("Student Registered")
         redirect(URL('default','index'))
     elif form.errors:
         response.flash = 'form has errors'
@@ -146,12 +146,15 @@ def show_teacher():
     db1.auth_user.first_name.reable = False
     db1.auth_user.last_name.writable = False
     db1.auth_user.last_name.reable = False
-    form = SQLFORM(db1.auth_user, user, deletable=True, showid=False)
+    form = SQLFORM(db1.auth_user, user, deletable=False, showid=False)
+    form.add_button(T('Back'), URL('academia','agree_teacher') )
 
     if form.process(next=URL('update_group_teacher', args=user.id)).accepted:
-        response.flash = T ('Teacher accepted')
+        #response.flash = T ('Teacher accepted')
+        pass
     elif form.errors:
-        response.flash = T ('Teacher No Update')
+        pass
+        #response.flash = T ('Teacher No Update')
 
 
 
@@ -160,7 +163,6 @@ def show_teacher():
 @auth.requires_login()
 def update_group_teacher():
     member = db1.auth_membership(request.args(0, cast=int) or redirect(URL('index')))
-
     if member:
         ruta_basica = os.path.join(request.folder, 'uploads/')
         ruta_basica = ruta_basica + str(member.user_id)
@@ -171,21 +173,43 @@ def update_group_teacher():
         # si no podemos crear la ruta dejamos que pase
         # si la operación resulto con éxito nos cambiamos al directorio
         os.chdir(ruta_basica)
-        member.update(group_id=2)
-        db1.auth_membership.user_id.writable = False
-        db1.auth_membership.user_id.reable = False
-        db1.auth_membership.group_id.writable = False
-        db1.auth_membership.group_id.reable = False
-        form = SQLFORM(db1.auth_membership, member, showid=False)
+        linea = db1(db1.auth_group.role == "Docente").select(db1.auth_group.id)
+
+        if linea:
+            member.update(group_id=linea[0]["id"])
+            session.flash = T('Teacher Accepted')
+        else:
+            session.flash  = T("Couldn't add the teacher to the group")
+            
+    redirect(URL('academia', 'agree_teacher') )
+
+@auth.requires_login()
+def deny_teacher():
+    user_id = request.args(0, cast=int)
+    user = db1.auth_user(user_id)
+    
+    #user_id = request.args(0, cast=int)
+    #user = db1(db1.auth_user.id == user_id)
+    #print user
+
+    db1.auth_user.first_name.writable = False
+    db1.auth_user.first_name.reable = False
+    db1.auth_user.last_name.writable = False
+    db1.auth_user.last_name.reable = False
+    
+    form = SQLFORM(db1.auth_user, user, deletable=False, showid=False)
+    form.add_button(T('Back'), URL('academia','agree_teacher') )
+
+    if form.process().accepted:
+        db1(db1.auth_user.id == request.args(0, cast=int)).delete()
+        session.flash = T ('User rejected')
+        redirect(URL('academia','agree_teacher'))
+    elif form.errors:
+        session.flash = T ('Error in the form')
 
 
-        if form.process(next=URL('agree_teacher')).accepted:
-            response.flash = T ('User Agree to Teacher Group')
-        elif form.errors:
-            response.flash = T ('Group No Update')
-    else:
-        redirect(URL('default','index'))
     return locals()
+
 
 @auth.requires_login()
 def mostrar_macxuser():
@@ -251,43 +275,7 @@ def show_ports():
     return locals()
 
 
-@auth.requires_login()
-def list_files():
-    folder_user = "uploads/" + str(auth.user_id) + "/"
-    ruta_basica = os.path.join(request.folder, folder_user)
-    lstDir = os.walk(ruta_basica)
-    #Lista vacia para incluir los ficheros
-    lstFiles = []
-    #Crea una lista de los ficheros jpg que existen en el directorio y los incluye a la lista.
-    for root, dirs, files in lstDir:
-        for fichero in files:
-            (nombreFichero, extension) = os.path.splitext(fichero)
-            lstFiles.append(nombreFichero+extension)
 
-    #res = response.stream(open(pathfilename,'rb'), chunk_size=10**6)
-
-    return locals()
-
-@auth.requires_login()
-## Reference http://www.web2py.com/AlterEgo/default/show/36
-def my_big_file_downloader():
-    import os
-    filename=request.args[0]
-    folder_user = str(auth.user_id)
-    pathfilename= os.path.join(request.folder,'uploads/'+folder_user, filename)
-    return response.stream(open(pathfilename,'rb'), chunk_size=10**6)
-
-    # the old way
-# reference http://www.web2py.com/AlterEgo/default/show/36
-@auth.requires_login()
-def my_small_file_downloader():
-    import os
-    import gluon.contenttype
-    filename=request.args[0]
-    folder_user = str(auth.user_id)
-    response.headers['Content-Type']=gluon.contenttype.contenttype(filename)
-    pathfilename=os.path.join(request.folder,'uploads/'+folder_user, filename)
-    return open('pathfilename', 'rb').read()
 
 #def register_student():
 #    form = SQLFORM(db1.student_x_machine).process()

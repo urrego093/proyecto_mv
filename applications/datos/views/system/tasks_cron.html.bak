@@ -1,3 +1,0 @@
-{{extend 'layout.html'}}
-<h1>Está es la plantilla system/tasks_cron.html</h1>
-{{=BEAUTIFY(response._vars)}}

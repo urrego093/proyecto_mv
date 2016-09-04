@@ -1,11 +1,10 @@
 {{extend 'layout.html'}}
 
-<div class="container" >
-  <div class="jumbotron" align='center'>
+<div class="jumbotron" align='center'>
     <h1>{{=T('Previous Jobs')}}</h1>
 </div>
     
-<div class="panel panel-success" id='files'>
+<div class="panel panel-info" id='files'>
     {{ if grid != []: }}
         <div class="panel-heading">
             <h2 class="panel-title center">{{=T("These are your previous jobs")}}</h2>
@@ -18,8 +17,8 @@
             </div>
        </div>
     {{else:}}
-    <div class="alert alert-info center text-justify">
-  <strong>{{=T('Info!')}}</strong> {{=T("You haven't executed tasks yet")}}
+    <div class="alert alert-warning center text-danger">
+  <h4>{{=T("You haven't executed tasks yet")}}</h4> 
     </div>
     {{pass}}
 </div>

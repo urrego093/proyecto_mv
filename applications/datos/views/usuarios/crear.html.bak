@@ -1,3 +1,26 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla usuarios/crear.html</h1>
-{{=BEAUTIFY(response._vars)}}
+
+<div class="jumbotron" align='center'>
+    <h1>{{=T('Create User')}}</h1>
+</div>
+
+
+<div class="panel panel-info">
+    <div class="panel-heading center">
+        <h1 class="panel-title center">
+            <big>
+                {{=T("Enter users separated by comma")}}
+                <br><br>
+                {{=T("You can use something like: 'user 1-3' and it will map to user1,user2, user3")}}
+                <br><br>
+                {{=T("Also you can mix both expresions: user 1-3, newuser, otheruser 1-9")}}
+            </big>
+        </h1>
+    </div>
+
+    <div class="panel-body ">
+        {{=form}}
+    </div>
+</div>
+</div>
+{{#=BEAUTIFY(response._vars)}}

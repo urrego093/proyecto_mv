@@ -20,7 +20,7 @@ def crear():
 
     if form.accepted:
         name = request.vars.user_name
-        name = evaluar_expresion.evaluar(name)
+        name = evaluar_expresion.evaluar_expresion(name)
         registrar_host(ids, name)
         password = request.vars.password
         admin = 'yes' if request.vars.admin else 'no'
@@ -39,7 +39,7 @@ def eliminar_usuario():
 
     if form.accepted:
         name = request.vars.user_name
-        name = evaluar_expresion.evaluar(name)
+        name = evaluar_expresion.evaluar_expresion(name)
         print 'NAME ES :' , name
         delete_host(ids,name)
         variables_extra = dict( remote='all', username=name, action='delete_user')
@@ -52,7 +52,7 @@ def cambiar_pass():
     ids = request.vars["ids"]
     form = SQLFORM.factory(
         Field('user_name', label='User name', requires=IS_NOT_EMPTY()),
-        Field('password', 'password', label='Password', requires=[IS_LENGTH(minsize=6)
+        Field('password', 'password', label='New password', requires=[IS_LENGTH(minsize=6)
                                                                   #, IS_STRONG(min=6,special=0, upper=1)
                                                                  ]),
         Field('confirm_password', 'password', label='Confirm password', requires=[
@@ -62,7 +62,7 @@ def cambiar_pass():
 
     if form.accepted:
         name = request.vars.user_name
-        name = evaluar_expresion.evaluar(name)
+        name = evaluar_expresion.evaluar_expresion(name)
 
         password = request.vars.password
 
@@ -122,24 +122,8 @@ def delete_host(ids,hosts):
                 db1(db1.port_machine.hostname==n).delete()
 
 def del_list(lista1, lista2):
-    print "LISTA 1111111111111 ====================" , lista1
-    print "LISTA 2222222222222 ====================" , lista2
+    #print "LISTA 1111111111111 ====================" , lista1
+    #print "LISTA 2222222222222 ====================" , lista2
     for i in range(len(lista2)):
         print lista1.remove(lista2[i])
     return lista1
-
-
-'''        if last_port:
-            nexts = int(last_port.number_port)
-            for n in hosts:
-                nexts += 1
-                db1.port_machine.insert(ip_machine=i, number_port=nexts, hostname=n)
-                db1.commit()
-
-        else:
-            nexts = 5901
-            for n in hosts:
-                nexts += 1
-                db1.port_machine.insert(ip_machine=i, number_port=nexts, hostname=n)
-                db1.commit()
-'''

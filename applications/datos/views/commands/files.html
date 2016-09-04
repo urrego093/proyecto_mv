@@ -6,13 +6,17 @@
 </div>
 
 
-<div class="panel panel-success" id='files'>
+<div class="panel panel-info" id='files'>
     <div class="panel-heading">
         <h2 class="panel-title center">{{=T('What do you want to do?')}}</h2>
     </div>
      <div class="panel-body center">
         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'copy_files'))}}">
             <button class= 'btn btn-default btn-lg'> {{=T('Send Files')}} </button>
+        </a>
+         
+         <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'limpiar'))}}">
+            <button class= 'btn btn-default btn-lg'> {{=T('Clean Machines')}} </button>
         </a>
         
     </div>

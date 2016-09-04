@@ -5,6 +5,11 @@
 #STR_DAL ="postgres://postgres:1234@localhost/proyecto2"
 #Camilo2
 STR_DAL ="postgres://postgres:1234@localhost/test3"
+#Camilo 3 
+#STR_DAL ="postgres://maquinas_user:user1234@localhost/maquinas_pruebas"
+#UD
+#STR_DAL ="postgres://udistrital:Maquinas1234@localhost/prueba"
+
 
 #STR_DAL ="postgres://tester:carlos123@localhost/bdprueba"
 #This is for operating system use in the virtual machine
@@ -24,7 +29,7 @@ P_HOST = ['5901','5902','5903','5904','5905','5906','5907','5908','5909','5910',
 
 #user for OS depending to port
 HOSTNAME = []
-GROUP = ['51','52','61','62']
+GROUP = []
 #HOSTNAME = ['root','estudiante1','estudiante2','estudiante3','estudiante4','estudiante5','estudiante6','estudiante7','estudiante8','estudiante9','estudiante10','estudiante11','estudiante12','estudiante13','estudiante14','estudiante15']
 # Valor True para crear, False para ya creado
 mig = False
