@@ -1,0 +1,21 @@
+{{extend 'layout.html'}}
+
+<div class="jumbotron" align='center'>
+    <h1>{{=T('Deny teacher')}}</h1>
+</div>
+
+
+<div class="panel panel-info">
+    <div class="panel-heading center">
+        <h1 class="panel-title center">{{=T("Are you sure that you want to reject this user petition?")}}
+        <br>
+            <br>
+        <big><STRONG>{{=T("This will delete the registry in the database")}}</STRONG></big>
+        </h1>
+    </div>
+
+    <div class="panel-body ">
+        {{=form}}
+    </div>
+</div>
+</div>

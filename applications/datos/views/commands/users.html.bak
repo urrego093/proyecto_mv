@@ -1,0 +1,31 @@
+{{extend 'layout.html'}}
+
+<div class="container" >
+  <div class="jumbotron" align='center'>
+    <h1>{{=T('Users')}}</h1> 
+</div>
+
+<div class="panel panel-success" id="usuarios">
+    <div class="panel-heading">
+        <h2 class="panel-title center">{{=T('What do you want to do?')}}</h2>
+    </div>
+
+    <div class="panel-body center">
+        <div class="btn-group btn-group-justified">
+            <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'create_users'))}}">
+               <button class= 'btn btn-default btn-lg'> {{=T('Create users')}} </button>
+            </a>
+            
+
+            <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'delete_users'))}}">
+               <button class= 'btn btn-default btn-lg'> {{=T('Delete users')}} </button>
+            </a>
+        
+            <a href="{{=URL('maquinas','mostrar', vars=dict(accion= 'change_users_pass'))}}">
+               <button class= 'btn btn-default btn-lg'> {{=T("Change users' password")}} </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+{{#=BEAUTIFY(response._vars)}}

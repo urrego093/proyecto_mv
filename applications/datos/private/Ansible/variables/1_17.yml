@@ -1,0 +1,16 @@
+vnc_users:
+- name: estudiante1
+  vnc_num: 1
+  vnc_port: 5901
+- name: estudiante2
+  vnc_num: 2
+  vnc_port: 5902
+- name: user1
+  vnc_num: 3
+  vnc_port: 5903
+- name: user2
+  vnc_num: 4
+  vnc_port: 5904
+- name: user3
+  vnc_num: 5
+  vnc_port: 5905

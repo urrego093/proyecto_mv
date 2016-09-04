@@ -1,0 +1,21 @@
+{{extend 'layout.html'}}
+
+<div class="jumbotron" align='center'>
+    <h1>{{=T('Delete Crontab Tasks')}}</h1>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading center">
+        <h1 class="panel-title center">
+            <strong>{{=T("Remember! ")}}</strong>{{=T('The update task will have the name "actualizacion" ')}}
+        <br>            <br>
+              {{=T("Enter tasks' name separated by comma")}}
+        </h1>
+    </div>
+
+    <div class="panel-body ">
+        {{=form}}
+    </div>
+</div>
+</div>
+{{#=BEAUTIFY(response._vars)}}

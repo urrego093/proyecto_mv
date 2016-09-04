@@ -1,0 +1,14 @@
+---
+- name: Cerrar puertos en firewall-cmd
+  become: yes
+  firewalld: port="{{item}}/tcp" permanent=true state=disabled zone=public
+  with_items: "{{puertos}}"
+  register: puertos_cerrados
+
+- name: Reiniciar servicio de Firewalld si hubo cambios
+  become: yes
+  shell: "firewall-cmd --reload"
+  register: firewalld_restart 
+  when: puertos_abiertos.changed
+...
+

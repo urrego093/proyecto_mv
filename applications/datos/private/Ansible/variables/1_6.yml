@@ -1,0 +1,10 @@
+action: create_user
+admin: 'no'
+password: Estudiantes123
+remote: all
+username:
+- estudiante1
+- estudiante2
+- user1
+- user2
+- user3

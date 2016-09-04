@@ -1,0 +1,7 @@
+vnc_users:
+- name: user1
+  vnc_num: 1
+  vnc_port: 5901
+- name: user2
+  vnc_num: 2
+  vnc_port: 5902

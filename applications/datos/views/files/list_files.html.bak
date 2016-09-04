@@ -1,0 +1,36 @@
+{{extend 'layout.html'}}
+
+  <div class="jumbotron" align='center'>
+    <h1>{{=T('My Files')}}</h1>
+</div>
+
+
+<div class="panel panel-success" id='files'>
+    {{ if lstFiles != []: }}
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title center">{{=T('These are the files that you have uploaded')}}</h2>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table .table-hover">
+                <tr><th><h2>{{=T("File")}}</h2></th><th><h2>{{=T("View")}}</h2></th><th><h2>{{=T("Send")}}</h2></th></tr>
+                {{for file in lstFiles:}}
+                    <tr><td><strong><span class="votes">{{=file}}</span></strong></td>
+                    <td><strong><a href="{{=URL('my_big_file_downloader',args=(file))}}">{{=file}}</a></strong></td>
+                    <td><strong><a href="{{=URL('maquinas','mostrar', vars=dict(accion='re_copy_files', archi= file))}}">
+                         <button> {{=T('Send Files')}} </button>
+                        </a></strong></td></tr>
+                {{pass}}
+                </table>
+            </div> 
+        </div>
+    
+    {{else:}}
+    <div class="alert alert-alert center text-justify">
+      <h4> {{=T("You haven't uploaded any files")}} </h4>
+</div>
+    {{pass}}
+</div>

@@ -43,6 +43,7 @@ applications/*
 !applications/examples/*
 !applications/admin
 !applications/admin/*
+!applications/datos/*
 applications/*/databases/*
 applications/*/sessions/*
 applications/*/errors/*

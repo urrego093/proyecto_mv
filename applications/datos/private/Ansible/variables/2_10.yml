@@ -1,0 +1,8 @@
+action: close
+puertos:
+- '6001'
+- '6002'
+- '6003'
+- '6004'
+- '6005'
+remote: all

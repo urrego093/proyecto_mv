@@ -1,0 +1,17 @@
+{{extend 'layout.html'}}
+
+
+<div class="jumbotron" align='center'>
+    <h1>{{=T('Close Ports')}}</h1>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2 class="panel-title center">{{=T('Please enter port numbers separated by comma')}}</h2>
+    </div>
+    <div class="panel-body">
+        {{=form}}
+    </div>
+</div>
+
+{{#=BEAUTIFY(response._vars)}}

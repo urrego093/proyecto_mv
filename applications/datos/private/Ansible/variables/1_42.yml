@@ -1,0 +1,4 @@
+accion: delete_task
+nombre:
+- prueba
+- '#Ansible: prueba'

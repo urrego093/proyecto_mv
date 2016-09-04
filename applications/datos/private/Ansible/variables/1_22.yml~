@@ -1,0 +1,8 @@
+accion: custom_task
+comando: /sbin/ifconfig > /home/centos/Escritorio/salida.txt
+day: '3'
+hour: '20'
+minute: '16'
+month: aug
+nombre: test1
+weekday: '*'

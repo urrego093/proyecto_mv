@@ -1,0 +1,3 @@
+action: close
+puertos: 6004
+remote: all

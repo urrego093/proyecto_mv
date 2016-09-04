@@ -1,0 +1,983 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> name 'VNC' is not defined"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/views/commands/system.html'
+p5
+sS'code'
+p6
+S'response.write(\'<!DOCTYPE html>\\n<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="\', escape=False)\nresponse.write(T.accepted_language or \'en\')\nresponse.write(\'"> <!--<![endif]-->\\n  <head>\\n    <meta charset="utf-8">\\n    <!-- www.phpied.com/conditional-comments-block-downloads/ -->\\n    <!-- Always force latest IE rendering engine\\n         (even in intranet) & Chrome Frame\\n         Remove this if you use the .htaccess -->\\n    <meta http-equiv="X-UA-Compatible" content="IE=edge\', escape=False)\nresponse.write(not request.is_local and \',chrome=1\' or \'\')\nresponse.write(\'">\\n    <!--  Mobile Viewport Fix\\n          j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag\\n          device-width: Occupy full width of the screen in its current orientation\\n          initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height\\n          user-scalable = yes allows the user to zoom in -->\\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\\n    <title>\', escape=False)\nresponse.write(response.title or request.application)\nresponse.write(\'</title>\\n    <!-- http://dev.w3.org/html5/markup/meta.name.html -->\\n    <meta name="application-name" content="\', escape=False)\nresponse.write(request.application)\nresponse.write(\'">\\n    <!-- Speaking of Google, don\\\'t forget to set your site up:\\n         http://google.com/webmasters -->\\n    <meta name="google-site-verification" content="">\\n    <!-- include stylesheets -->\\n    <link rel="stylesheet" href="\', escape=False)\nresponse.write(URL(\'static\',\'css/bootstrap.min.css\'))\nresponse.write(\'"/>\\n    <link rel="stylesheet" href="\', escape=False)\nresponse.write(URL(\'static\',\'css/web2py-bootstrap3.css\'))\nresponse.write(\'"/>\\n    <link rel="shortcut icon" href="\', escape=False)\nresponse.write(URL(\'static\',\'images/favicon.ico\'))\nresponse.write(\'" type="image/x-icon">\\n    <link rel="apple-touch-icon" href="\', escape=False)\nresponse.write(URL(\'static\',\'images/favicon.png\'))\nresponse.write(\'">\\n    <!-- All JavaScript at the bottom, except for Modernizr which enables\\n         HTML5 elements & feature detects -->\\n    <script src="\', escape=False)\nresponse.write(URL(\'static\',\'js/modernizr-2.8.3.min.js\'))\nresponse.write(\'"></script>\\n    <!--[if lt IE 9]>\\n        <script src="\', escape=False)\nresponse.write(URL(\'static\',\'js/respond-1.4.2.min.js\'))\nresponse.write(\'"></script>\\n        <![endif]-->\\n    <!-- Favicons -->\\n    \', escape=False)\nresponse.write(\'<script type="text/javascript"><!--\\n    // These variables are used by the web2py_ajax_init function in web2py_ajax.js (which is loaded below).\\n    var w2p_ajax_confirm_message = "\', escape=False)\nresponse.write(T(\'Are you sure you want to delete this object?\'))\nresponse.write(\'";\\n    var w2p_ajax_disable_with_message = "\', escape=False)\nresponse.write(T(\'Working...\'))\nresponse.write(\'";\\n    var w2p_ajax_date_format = "\', escape=False)\nresponse.write(T(\'%Y-%m-%d\'))\nresponse.write(\'";\\n    var w2p_ajax_datetime_format = "\', escape=False)\nresponse.write(T(\'%Y-%m-%d %H:%M:%S\'))\nresponse.write(\'";\\n    var ajax_error_500 = \\\'\', escape=False)\nresponse.write(T.M(\'An error occured, please [[reload %s]] the page\') % URL(args=request.args, vars=request.get_vars))\nresponse.write("\'\\n    //--></script>\\n", escape=False)\nresponse.files.insert(0,URL(\'static\',\'js/jquery.js\'))\nresponse.files.insert(1,URL(\'static\',\'css/calendar.css\'))\nresponse.files.insert(2,URL(\'static\',\'js/calendar.js\'))\nresponse.files.insert(3,URL(\'static\',\'js/web2py.js\'))\nresponse.include_meta()\nresponse.include_files()\nresponse.write(\'\\n\', escape=False)\nresponse.write(\' <!-- this includes jquery.js, calendar.js/.css and web2py.js -->\\n    \', escape=False)\nresponse.write(\'\\n    \', escape=False)\n# using sidebars need to know what sidebar you want to use\nmc0 = \'col-md-12\'\nmc1 = \'col-md-9\'\nmc2 = \'col-md-6\'\nleft_sidebar_enabled = globals().get(\'left_sidebar_enabled\', False)\nright_sidebar_enabled = globals().get(\'right_sidebar_enabled\', False)\nmiddle_column = {0: mc0, 1: mc1, 2: mc2}[\n(left_sidebar_enabled and 1 or 0)+(right_sidebar_enabled and 1 or 0)]\nresponse.write(\'\\n  </head>\\n  <body>\\n    <!--[if lt IE 8]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->\\n    <div class="w2p_flash alert alert-dismissable">\', escape=False)\nresponse.write(response.flash or \'\')\nresponse.write(\'</div>\\n    <!-- Navbar ======================================= -->\\n    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">\\n      <div class="container-fluid">\\n        <div class="navbar-header">\\n          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">\\n            <span class="sr-only">Toggle navigation</span>\\n            <span class="icon-bar"></span>\\n            <span class="icon-bar"></span>\\n            <span class="icon-bar"></span>\\n          </button>\\n          \', escape=False)\nresponse.write(response.logo or \'\')\nresponse.write(\'\\n        </div>\\n        <div class="collapse navbar-collapse navbar-ex1-collapse">\\n          <ul class="nav navbar-nav navbar-right">\\n            \', escape=False)\nresponse.write(\'auth\' in globals() and auth.navbar(\'Welcome\',mode=\'dropdown\') or \'\')\nresponse.write(\'\\n          </ul>\\n          \', escape=False)\nif response.menu:\n    response.write(\'\\n          \', escape=False)\n    response.write(MENU(response.menu, _class=\'nav navbar-nav\',li_class=\'dropdown\',ul_class=\'dropdown-menu\'))\n    response.write(\'\\n          \', escape=False)\n    pass\nresponse.write(\'\\n        </div>\\n      </div>\\n    </nav>\\n    <!-- Masthead ===================================== -->    \\n    \', escape=False)\nresponse.write(\'\\n    \', escape=False)\nresponse.write(\'\\n    <!-- Main ========================================= -->\\n    <!-- Begin page content -->\\n    <div class="container-fluid main-container">\\n      \', escape=False)\nif left_sidebar_enabled:\n    response.write(\'\\n        <div class="col-md-3 left-sidebar">\\n            \', escape=False)\n    response.write(\'\\n            <h3>Left Sidebar</h3>\\n            <p></p>\\n            \', escape=False)\n    response.write(\'\\n        </div>\\n      \', escape=False)\n    pass\nresponse.write(\'\\n\\n      <div class="\', escape=False)\nresponse.write(middle_column)\nresponse.write(\'">\\n        \', escape=False)\nresponse.write(\'\\n        \', escape=False)\nresponse.write(\'\\n\\n<div class="container" >\\n  <div class="jumbotron" align=\\\'center\\\'>\\n    <h1>\', escape=False)\nresponse.write(T(\'System\'))\nresponse.write(\'</h1> \\n</div>\\n\\n<div class="panel panel-success" id="system">\\n    <div class="panel-heading">\\n        <h2 class="panel-title">\', escape=False)\nresponse.write(T(\'What do you want to do?\'))\nresponse.write(\'</h2>\\n</div>\\n\\n<div class="panel-body" align="center" >\\n<div class="container-fluid">\\n    \\n<!--- Primera Fila: General y manejo de paquetes  -->\\n    <div class="row">\\n      <div class="col-sm-6">\\n        <div class="dropdown">\\n          <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  \', escape=False)\nresponse.write(T(\'Basic Commands\'))\nresponse.write(\'\\n          <span class="caret"></span></button>\\n          <ul class="dropdown-menu">\\n            <li class="dropdown-header">  \', escape=False)\nresponse.write(T(\'General\'))\nresponse.write(\'  </li>\\n                <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'reboot\')))\nresponse.write(\'">  \', escape=False)\nresponse.write(T("Reboot System"))\nresponse.write(\'  </a></li>\\n\\n            <li class="divider"></li>\\n\\n            <li class="dropdown-header">  \', escape=False)\nresponse.write(T(VNC))\nresponse.write(\'  </li>\\n                <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'first_time\')))\nresponse.write(\'">  \', escape=False)\nresponse.write(T(\'Enable SSH access and install vnc\'))\nresponse.write(\'  </a></li>\\n                <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'enable_vnc_ports\')))\nresponse.write(\'">  \', escape=False)\nresponse.write(T(\'Enable vnc (First create users)\'))\nresponse.write(\'  </a></li>\\n        </div>  \\n      </div>\\n\\n      <div class="col-sm-6">\\n        <div class="dropdown">\\n            <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  \', escape=False)\nresponse.write(T(\'Packages and repositories\'))\nresponse.write(\'\\n            <span class="caret"></span></button>\\n            <ul class="dropdown-menu">\\n              <li class="dropdown-header">\', escape=False)\nresponse.write(T(\'Packages\'))\nresponse.write(\'</li>\\n                  <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'install_package\')))\nresponse.write(\'">  \', escape=False)\nresponse.write(T(\'Install Packages\'))\nresponse.write(\'  </a></li>\\n                  <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'remove_packages\')))\nresponse.write(\'">  \', escape=False)\nresponse.write(T(\'Remove Packages\'))\nresponse.write(\'   </a></li>\\n\\n                <li class="divider"></li>\\n\\n              <li class="dropdown-header">\', escape=False)\nresponse.write(T("Repositories"))\nresponse.write(\'</li>\\n                    <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'add_repo\')))\nresponse.write(\'">     \', escape=False)\nresponse.write(T(\'Add Repositories\'))\nresponse.write(\'     </a></li>\\n                    <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'remove_repo\')))\nresponse.write(\'">  \', escape=False)\nresponse.write(T(\'Remove Repositories\'))\nresponse.write(\'  </a></li>\\n            </ul>\\n        </div>      \\n      </div>\\n    </div>    \\n    <br>\\n        \\n<!--- Segunda Fila: Servicios y puertos  -->\\n    <div class="row">\\n      <div class="col-sm-6">\\n        <div class="dropdown">\\n          <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  \', escape=False)\nresponse.write(T(\'Services Management\'))\nresponse.write(\'\\n          <span class="caret"></span></button>\\n          <ul class="dropdown-menu">\\n            <li class="dropdown-header">  \', escape=False)\nresponse.write(T(\'Consult\'))\nresponse.write(\'  </li>\\n                <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'services\')))\nresponse.write(\'">  \', escape=False)\nresponse.write(T("Running Services"))\nresponse.write(\'</a></li>\\n\\n            <li class="divider"></li>\\n\\n            <li class="dropdown-header">\', escape=False)\nresponse.write(T("Management"))\nresponse.write(\'</li>\\n                <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'start_services\')))\nresponse.write(\'"  >  \', escape=False)\nresponse.write(T(\'Start Services\'))\nresponse.write(\'   </a></li>\\n                <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'stop_services\')))\nresponse.write(\'"   >  \', escape=False)\nresponse.write(T(\'Stop Services\'))\nresponse.write(\'    </a></li>\\n                <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'restart_services\')))\nresponse.write(\'">  \', escape=False)\nresponse.write(T(\'Restart Services\'))\nresponse.write(\' </a></li>\\n                <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'reload_services\')))\nresponse.write(\'" >  \', escape=False)\nresponse.write(T(\'Reload Services\'))\nresponse.write(\'   </a></li>\\n\\n        </div>  \\n      </div>\\n\\n      <div class="col-sm-6">\\n        <div class="dropdown">\\n            <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">\', escape=False)\nresponse.write(T(\'Packages and repositories\'))\nresponse.write(\'\\n            <span class="caret"></span></button>\\n            <ul class="dropdown-menu">\\n              <li class="dropdown-header">\', escape=False)\nresponse.write(T(\'Packages\'))\nresponse.write(\'</li>\\n                  <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'install_package\')))\nresponse.write(\'">\', escape=False)\nresponse.write(T(\'Install Packages\'))\nresponse.write(\'</a></li>\\n                  <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'remove_packages\')))\nresponse.write(\'">\', escape=False)\nresponse.write(T(\'Remove Packages\'))\nresponse.write(\'</a></li>\\n\\n                <li class="divider"></li>\\n\\n              <li class="dropdown-header">\', escape=False)\nresponse.write(T("Repositories"))\nresponse.write(\'</li>\\n                    <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'add_repo\')))\nresponse.write(\'">\', escape=False)\nresponse.write(T(\'Add Repositories\'))\nresponse.write(\'</a></li>\\n                    <li><a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'remove_repo\')))\nresponse.write(\'">\', escape=False)\nresponse.write(T(\'Remove Repositories\'))\nresponse.write(\'</a></li>\\n            </ul>\\n        </div>      \\n      </div>\\n    </div>  \\n\\n</div>\\n\\n    \\n    \\n         \\n    <br>>\\n    <h3>\\n        \', escape=False)\nresponse.write(T(\'Ports\'))\nresponse.write(\'\\n    </h3>\\n    \\n    <a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'ports\')))\nresponse.write(\'">\\n        <button class= \\\'btn btn-default btn-lg\\\'> \', escape=False)\nresponse.write(T("Don\'t click, it\'s just a test"))\nresponse.write(\' </button>\\n    </a>\\n         \\n<!--         \\n         <br><br>\\n          <h3>\\n             \', escape=False)\nresponse.write(T(\'VNC\'))\nresponse.write(\'\\n         </h3>\\n         <a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'enable_vnc_ports\')))\nresponse.write(\'">\\n            <button class= \\\'btn btn-default btn-lg\\\'> \', escape=False)\nresponse.write(T("Enable vnc ports"))\nresponse.write(\' </button>\\n         </a>\\n          <br><br>\\n-->\\n\\n    <h3>\\n        \', escape=False)\nresponse.write(T(\'Cron tasks\'))\nresponse.write(\'\\n    </h3>\\n    <a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'update_packges\')))\nresponse.write(\'">\\n        <button class= \\\'btn btn-default btn-lg\\\'> \', escape=False)\nresponse.write(T(\'Schedule an upgrade\'))\nresponse.write(\' </button>\\n    </a>\\n         \\n    <a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'custom_task\')))\nresponse.write(\'">\\n        <button class= \\\'btn btn-default btn-lg\\\'> \', escape=False)\nresponse.write(T(\'Schedule a command (Bash not available)\'))\nresponse.write(\' </button>\\n    </a>\\n\\n    <a href="\', escape=False)\nresponse.write(URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'delete_task\')))\nresponse.write(\'">\\n        <button class= \\\'btn btn-default btn-lg\\\'> \', escape=False)\nresponse.write(T(\'Delete a task by its name\'))\nresponse.write(\' </button>\\n    </a>\\n    </div>\\n</div>\\n\', escape=False)\nresponse.write(BEAUTIFY(response._vars))\nresponse.write(\'\\n\', escape=False)\nresponse.write(\'\\n        \', escape=False)\nresponse.write(\'\\n      </div>\\n\\n      \', escape=False)\nif right_sidebar_enabled:\n    response.write(\'\\n        <div class="col-md-3">\\n            \', escape=False)\n    response.write(\'\\n            <h3>Right Sidebar</h3>\\n            <p></p>\\n            \', escape=False)\n    response.write(\'\\n        </div>\\n      \', escape=False)\n    pass\nresponse.write(\'\\n\\n    </div>\\n\\n    \', escape=False)\nresponse.write(\' <!-- this is default footer -->      \\n    <footer class="footer">\\n      <div class="container-fluid">\\n        <div class="copyright pull-left">\', escape=False)\nresponse.write(T(\'Copyright\'))\nresponse.write(\' &#169; \', escape=False)\nresponse.write(request.now.year)\nresponse.write(\'</div>\\n          <div id="poweredBy" class="pull-right">\\n            \', escape=False)\nresponse.write(T(\'Powered by\'))\nresponse.write(\'\\n            <a href="http://www.web2py.com/">web2py</a>\\n          </div>\\n      </div>\\n    </footer>\\n    \', escape=False)\nresponse.write(\'\\n      \\n      \\n    <!-- The javascript =============================== -->\\n    <script src="\', escape=False)\nresponse.write(URL(\'static\',\'js/bootstrap.min.js\'))\nresponse.write(\'"></script>\\n    <script src="\', escape=False)\nresponse.write(URL(\'static\',\'js/web2py-bootstrap3.js\'))\nresponse.write(\'"></script>\\n    \', escape=False)\nresponse.write(\'\\n    \', escape=False)\nif response.google_analytics_id:\n    response.write(\'\\n    <!-- Analytics ==================================== -->\\n    <script src="\', escape=False)\n    response.write(URL(\'static\',\'js/analytics.min.js\'))\n    response.write(\'"></script>\\n    <script type="text/javascript">\\n      analytics.initialize({\\n      \\\'Google Analytics\\\':{trackingId:\\\'\', escape=False)\n    response.write(response.google_analytics_id)\n    response.write("\'}\\n      });\\n    </script>\\n    ", escape=False)\n    pass\nresponse.write(\'\\n    <!-- Share ============================y============ -->\\n    <script src="\', escape=False)\nresponse.write(URL(\'static\',\'js/share.js\',vars=dict(static=URL(\'static\',\'images\'))))\nresponse.write(\'"></script>\\n  </body>\\n</html>\\n\', escape=False)'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__hash__'
+p12
+S"<method-wrapper '__hash__' of exceptions.NameError object>"
+p13
+sS'__setattr__'
+p14
+S"<method-wrapper '__setattr__' of exceptions.NameError object>"
+p15
+sS'__reduce_ex__'
+p16
+S'<built-in method __reduce_ex__ of exceptions.NameError object>'
+p17
+sS'__getslice__'
+p18
+S"<method-wrapper '__getslice__' of exceptions.NameError object>"
+p19
+sS'__getitem__'
+p20
+S"<method-wrapper '__getitem__' of exceptions.NameError object>"
+p21
+sS'__setstate__'
+p22
+S'<built-in method __setstate__ of exceptions.NameError object>'
+p23
+sS'args'
+p24
+S'("name \'VNC\' is not defined",)'
+p25
+sS'__reduce__'
+p26
+S'<built-in method __reduce__ of exceptions.NameError object>'
+p27
+sS'__str__'
+p28
+S"<method-wrapper '__str__' of exceptions.NameError object>"
+p29
+sS'__format__'
+p30
+S'<built-in method __format__ of exceptions.NameError object>'
+p31
+sS'__getattribute__'
+p32
+S"<method-wrapper '__getattribute__' of exceptions.NameError object>"
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.NameError'>"
+p35
+sS'__unicode__'
+p36
+S'<built-in method __unicode__ of exceptions.NameError object>'
+p37
+sS'__delattr__'
+p38
+S"<method-wrapper '__delattr__' of exceptions.NameError object>"
+p39
+sS'__subclasshook__'
+p40
+S'<built-in method __subclasshook__ of type object>'
+p41
+sS'__repr__'
+p42
+S"<method-wrapper '__repr__' of exceptions.NameError object>"
+p43
+sS'__dict__'
+p44
+S'{}'
+p45
+sS'__sizeof__'
+p46
+S'<built-in method __sizeof__ of exceptions.NameError object>'
+p47
+sS'__doc__'
+p48
+S"'Name not found globally.'"
+p49
+sS'__init__'
+p50
+S"<method-wrapper '__init__' of exceptions.NameError object>"
+p51
+sS'__new__'
+p52
+S'<built-in method __new__ of type object>'
+p53
+ssS'evalue'
+p54
+S"name 'VNC' is not defined"
+p55
+sS'request'
+p56
+cgluon.html
+XML_unpickle
+p57
+(S's\xc07\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>commands</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-b7fe206e-e44b-4a8b-8fc1-b2d6d0fa1466<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_datos</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-5b2bbde6-32e3-4ba5-a17d-94319e7b5424<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-b7fe206e-e44b-4a8b-8fc1-b2d6d0fa1466; session_id_datos=127.0.0.1-5b2bbde6-32e3-4ba5-a17d-94319e7b5424</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/datos/commands/system</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>46698</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>camilo-GX70-3CC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-b7fe206e-e44b-4a8b-8fc1-b2d6d0fa1466; session_id_datos=127.0.0.1-5b2bbde6-32e3-4ba5-a17d-94319e7b5424</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/datos/commands/system</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>46698</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/datos/commands/system</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>camilo-GX70-3CC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.13.4-stable+timestamp.2016.02.10.15.41.11</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f0f3900f1e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f0f312af2c0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f0ef77d9c50&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f0f3900f1e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f0f312af2c0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f0ef77d9c50&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>system</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 8, 28, 0, 12, 53, 501831)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/datos/commands/system</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 8, 28, 5, 12, 53, 501863)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f0ef6aeca10&gt;</div></td></tr></table></div>'
+tRp58
+sS'frames'
+p59
+(lp60
+(dp61
+S'file'
+p62
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/restricted.py'
+p63
+sS'dump'
+p64
+(dp65
+S'environment'
+p66
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}"
+p67
+sS'ccode'
+p68
+S'<code object <module> at 0x7f0ef7aa7b30, file "/...ations/datos/views/commands/system.html", line 1>'
+p69
+ssS'lnum'
+p70
+I227
+sS'lines'
+p71
+(dp72
+I224
+S'            ccode = code'
+p73
+sI225
+S'        else:'
+p74
+sI226
+S'            ccode = compile2(code, layer)'
+p75
+sI227
+S'        exec ccode in environment'
+p76
+sI228
+S'    except HTTP:'
+p77
+sI229
+S'        raise'
+p78
+sI230
+S'    except RestrictedError:'
+p79
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p80
+sI222
+S'    try:'
+p81
+sI223
+S'        if isinstance(code, types.CodeType):'
+p82
+ssS'call'
+p83
+S'(code=\'response.write(\\\'<!DOCTYPE html>\\\\n<!--[if (gt IE ..."></script>\\\\n  </body>\\\\n</html>\\\\n\\\', escape=False)\', environment={\'A\': <class \'gluon.html.A\'>, \'ANY_OF\': <class \'gluon.validators.ANY_OF\'>, \'ASSIGNJS\': <function ASSIGNJS>, \'AppConfig\': <function AppConfig>, \'Auth\': <class \'gluon.tools.Auth\'>, \'B\': <class \'gluon.html.B\'>, \'BEAUTIFY\': <class \'gluon.html.BEAUTIFY\'>, \'BODY\': <class \'gluon.html.BODY\'>, \'BR\': <class \'gluon.html.BR\'>, \'BUTTON\': <class \'gluon.html.BUTTON\'>, ...}, layer=\'/home/camilo/Escritorio/nuevo_nuevo_repo_git/pro..._mv/applications/datos/views/commands/system.html\')'
+p84
+sS'func'
+p85
+S'restricted'
+p86
+sa(dp87
+g62
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/views/commands/system.html'
+p88
+sg64
+(dp89
+S'a'
+S'undefined'
+p90
+sS'href'
+p91
+g90
+sS'T'
+S'<gluon.languages.translator object>'
+p92
+sS'li'
+p93
+g90
+ssg70
+I87
+sg71
+(dp94
+I96
+S'response.write(\'  </a></li>\\n        </div>  \\n      </div>\\n\\n      <div class="col-sm-6">\\n        <div class="dropdown">\\n            <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  \', escape=False)'
+p95
+sI97
+S"response.write(T('Packages and repositories'))"
+p96
+sI78
+S'response.write(\'</h2>\\n</div>\\n\\n<div class="panel-body" align="center" >\\n<div class="container-fluid">\\n    \\n<!--- Primera Fila: General y manejo de paquetes  -->\\n    <div class="row">\\n      <div class="col-sm-6">\\n        <div class="dropdown">\\n          <button class="btn btn-default dropdown-toggle btn-lg" type="button" data-toggle="dropdown">  \', escape=False)'
+p97
+sI79
+S"response.write(T('Basic Commands'))"
+p98
+sI80
+S'response.write(\'\\n          <span class="caret"></span></button>\\n          <ul class="dropdown-menu">\\n            <li class="dropdown-header">  \', escape=False)'
+p99
+sI81
+S"response.write(T('General'))"
+p100
+sI82
+S'response.write(\'  </li>\\n                <li><a href="\', escape=False)'
+p101
+sI83
+S"response.write(URL('maquinas','mostrar', vars=dict(accion= 'reboot')))"
+p102
+sI84
+S'response.write(\'">  \', escape=False)'
+p103
+sI85
+S'response.write(T("Reboot System"))'
+p104
+sI86
+S'response.write(\'  </a></li>\\n\\n            <li class="divider"></li>\\n\\n            <li class="dropdown-header">  \', escape=False)'
+p105
+sI87
+S'response.write(T(VNC))'
+p106
+sI88
+S'response.write(\'  </li>\\n                <li><a href="\', escape=False)'
+p107
+sI89
+S"response.write(URL('maquinas','mostrar', vars=dict(accion= 'first_time')))"
+p108
+sI90
+S'response.write(\'">  \', escape=False)'
+p109
+sI91
+S"response.write(T('Enable SSH access and install vnc'))"
+p110
+sI92
+S'response.write(\'  </a></li>\\n                <li><a href="\', escape=False)'
+p111
+sI93
+S"response.write(URL('maquinas','mostrar', vars=dict(accion= 'enable_vnc_ports')))"
+p112
+sI94
+S'response.write(\'">  \', escape=False)'
+p113
+sI95
+S"response.write(T('Enable vnc (First create users)'))"
+p114
+ssg83
+S'()'
+p115
+sg85
+S'<module>'
+p116
+sasS'pyver'
+p117
+S'Python 2.7.12: /home/camilo/miniconda2/bin/python (prefix: /home/camilo/miniconda2)'
+p118
+sS'session'
+p119
+g57
+(S's\xd1\t\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ACTIONS</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>Restart</div></td></tr><tr><td><div>Add user</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>3600</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>76c27926-3737-4786-911b-ee394856f4d5</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 8, 28, 0, 7, 17, 358498)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remember_me</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">email</td><td style="vertical-align:top;">:</td><td><div>admin@correo.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>Administrador</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>1L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>DelSistema</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">reset_password_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">1</td><td style="vertical-align:top;">:</td><td><div>Administrador</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr></table></div>'
+tRp120
+sS'etype'
+p121
+S"<type 'exceptions.NameError'>"
+p122
+sS'date'
+p123
+S'Sun Aug 28 00:12:53 2016'
+p124
+sS'response'
+p125
+g57
+(S's\x95*\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f0ef6ccc810&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_datos</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-5b2bbde6-32e3-4ba5-a17d-94319e7b5424<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>/datos/static/js/jquery.js</div></td></tr><tr><td><div>/datos/static/css/calendar.css</div></td></tr><tr><td><div>/datos/static/js/calendar.js</div></td></tr><tr><td><div>/datos/static/js/web2py.js</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>bootstrap3_inline</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="navbar-brand" href="/datos/default/index" id="pmv_logo"><b>VM-UD</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Accueil</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Approval</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Teacher</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/academia/agree_teacher</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>To register</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Course</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/academia/register_course</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Machine</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/academia/register_machine</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Group</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/academia/register_group</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Consult</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Files</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/academia/list_files</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>My jobs</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/tasks/index</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Commands</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Users</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/commands/users</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>System</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/commands/system</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Files</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/commands/files</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>DB</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Courses and Groups</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/maquinas/lista_maquina_grupo</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Machines by course</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/maquinas/lista_maquina_materia</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Teachers</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/admin/teachers</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Carlos  &lt;suarezsilvestre1@gmail.com&gt; Camilo &lt;urrego@outlook.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div>web2py, python, framework</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^commands/\\w+\\.py$</div></td></tr><tr><td><div>^commands/system/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/sessions/121/1bc/127.0.0.1-5b2bbde6-32e3-4ba5-a17d-94319e7b5424&#x27;, mode &#x27;rb+&#x27; at 0x7f0ef7735db0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/sessions/127.0.0.1-5b2bbde6-32e3-4ba5-a17d-94319e7b5424</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>407bc5166df03e0e14418b86e0fbf698</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-5b2bbde6-32e3-4ba5-a17d-94319e7b5424</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>commands/system.html</div></td></tr></table></div>'
+tRp126
+sS'locals'
+p127
+(dp128
+S'Service'
+p129
+S"<class 'gluon.tools.Service'>"
+p130
+sS'OBJECT'
+p131
+S"<class 'gluon.html.OBJECT'>"
+p132
+sS'SQLDB'
+p133
+S"<class 'pydal.base.DAL'>"
+p134
+sg119
+S"<Storage {'_auth_next': None, 'flash': None, '_f...gin]': ['ae54f8b9-6a1d-4c4a-9b1d-7b05f1c10ad8']}>"
+p135
+sS'LINK'
+p136
+S"<class 'gluon.html.LINK'>"
+p137
+sS'playbook'
+p138
+S'<function playbook>'
+p139
+sS'BR'
+p140
+S"<class 'gluon.html.BR'>"
+p141
+sS'local_import'
+p142
+S'<function <lambda>>'
+p143
+sS'OPTGROUP'
+p144
+S"<class 'gluon.html.OPTGROUP'>"
+p145
+sS'__package__'
+p146
+S'None'
+p147
+sS'PROCESSOR'
+p148
+S"['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', <lazyT 'Other'>]"
+p149
+sS'row'
+p150
+S"<Row {'group_id': 1L, 'user_id': 1L, 'id': 1L}>"
+p151
+sS'PRE'
+p152
+S"<class 'gluon.html.PRE'>"
+p153
+sS'IS_INT_IN_RANGE'
+p154
+S"<class 'gluon.validators.IS_INT_IN_RANGE'>"
+p155
+sS'buscar_tarea_debug'
+p156
+S'<function buscar_tarea_debug>'
+p157
+sS'IS_LOWER'
+p158
+S"<class 'gluon.validators.IS_LOWER'>"
+p159
+sS'IS_STRONG'
+p160
+S"<class 'gluon.validators.IS_STRONG'>"
+p161
+sS'cache'
+p162
+S'<gluon.cache.Cache object>'
+p163
+sS'IS_IN_DB'
+p164
+S"<class 'gluon.validators.IS_IN_DB'>"
+p165
+sS'RAM_MEMORY'
+p166
+S"['512MB', '1024MB', '2048MB', '3072MB', '4096MB', '5120MB', '6144MB', '7168MB', '8192MB', '9216MB', '10240MB', <lazyT 'Other MB'>]"
+p167
+sS'yaml'
+p168
+S"<module 'yaml' from '/home/camilo/miniconda2/lib/python2.7/site-packages/yaml/__init__.pyc'>"
+p169
+sS'TAG'
+p170
+S'<gluon.html.__TAG__ object>'
+p171
+sS'Scheduler'
+p172
+S"<class 'gluon.scheduler.Scheduler'>"
+p173
+sS'SQLField'
+p174
+S"<class 'pydal.objects.Field'>"
+p175
+sS'mail'
+p176
+S'<gluon.tools.Mail object>'
+p177
+sS'BODY'
+p178
+S"<class 'gluon.html.BODY'>"
+p179
+sS'IS_DATE_IN_RANGE'
+p180
+S"<class 'gluon.validators.IS_DATE_IN_RANGE'>"
+p181
+sS'IFRAME'
+p182
+S"<class 'gluon.html.IFRAME'>"
+p183
+sS'URL'
+p184
+S'<function URL>'
+p185
+sS'__file__'
+p186
+S"'/home/camilo/Escritorio/nuevo_nuevo_repo_git/pro..._mv/applications/datos/views/commands/system.html'"
+p187
+sS'auth'
+p188
+S'<gluon.tools.Auth object>'
+p189
+sS'P'
+S"<class 'gluon.html.P'>"
+p190
+sS'TFOOT'
+p191
+S"<class 'gluon.html.TFOOT'>"
+p192
+sS'scheduler'
+p193
+S'<Scheduler(Thread-175, initial daemon)>'
+p194
+sS'db1'
+p195
+S'<DAL uri="postgres:******@localhost/test3">'
+p196
+sS'XHTML'
+p197
+S"<class 'gluon.html.XHTML'>"
+p198
+sS'subprocess'
+p199
+S"<module 'subprocess' from '/home/camilo/miniconda2/lib/python2.7/subprocess.pyc'>"
+p200
+sS'ON'
+p201
+S'True'
+p202
+sS'macxuser'
+p203
+S'[]'
+p204
+sS'OL'
+p205
+S"<class 'gluon.html.OL'>"
+p206
+sS'TEXTAREA'
+p207
+S"<class 'gluon.html.TEXTAREA'>"
+p208
+sS'MENU'
+p209
+S"<class 'gluon.html.MENU'>"
+p210
+sS'HOSTNAME'
+p211
+S'[]'
+p212
+sS'courses'
+p213
+S'<Set (course_group.cod_course IS NULL)>'
+p214
+sS'IS_IMAGE'
+p215
+S"<class 'gluon.validators.IS_IMAGE'>"
+p216
+sS'EM'
+p217
+S"<class 'gluon.html.EM'>"
+p218
+sS'CODE'
+p219
+S"<class 'gluon.html.CODE'>"
+p220
+sS'GROUP'
+p221
+S"['51', '52', '61', '62']"
+p222
+sS'HR'
+p223
+S"<class 'gluon.html.HR'>"
+p224
+sS'cargar_variables'
+p225
+S'<function cargar_variables>'
+p226
+sS'IS_DATETIME'
+p227
+S"<class 'gluon.validators.IS_DATETIME'>"
+p228
+sS'STYLE'
+p229
+S"<class 'gluon.html.STYLE'>"
+p230
+sS'LABEL'
+p231
+S"<class 'gluon.html.LABEL'>"
+p232
+sS'escribir_variables_json'
+p233
+S'<function escribir_variables_json>'
+p234
+sS'CLEANUP'
+p235
+S"<class 'gluon.validators.CLEANUP'>"
+p236
+sS'plugins'
+p237
+S'<gluon.tools.PluginManager object>'
+p238
+sS'INPUT'
+p239
+S"<class 'gluon.html.INPUT'>"
+p240
+sS'SELECT'
+p241
+S"<class 'gluon.html.SELECT'>"
+p242
+sS'CENTER'
+p243
+S"<class 'gluon.html.CENTER'>"
+p244
+sS'Auth'
+p245
+S"<class 'gluon.tools.Auth'>"
+p246
+sS'DEVELOPMENT_MENU'
+p247
+S'False'
+p248
+sS'__builtins__'
+p249
+S"{'ArithmeticError': <type 'exceptions.ArithmeticError'>, 'AssertionError': <type 'exceptions.AssertionError'>, 'AttributeError': <type 'exceptions.AttributeError'>, 'BaseException': <type 'exceptions.BaseException'>, 'BufferError': <type 'exceptions.BufferError'>, 'BytesWarning': <type 'exceptions.BytesWarning'>, 'DeprecationWarning': <type 'exceptions.DeprecationWarning'>, 'EOFError': <type 'exceptions.EOFError'>, 'Ellipsis': Ellipsis, 'EnvironmentError': <type 'exceptions.EnvironmentError'>, ...}"
+p250
+sS'HTML'
+p251
+S"<class 'gluon.html.HTML'>"
+p252
+sS'SQLFORM'
+p253
+S"<class 'gluon.sqlhtml.SQLFORM'>"
+p254
+sS'adminis'
+p255
+S'<Rows (1)>'
+p256
+sS'LOAD'
+p257
+S'<function LOAD>'
+p258
+sS'redirect'
+p259
+S'<function redirect>'
+p260
+sS'FIELDSET'
+p261
+S"<class 'gluon.html.FIELDSET'>"
+p262
+sS'ast'
+p263
+S"<module 'ast' from '/home/camilo/miniconda2/lib/python2.7/ast.pyc'>"
+p264
+sS'IS_EQUAL_TO'
+p265
+S"<class 'gluon.validators.IS_EQUAL_TO'>"
+p266
+sS'embed64'
+p267
+S'<function embed64>'
+p268
+sS'IS_LIST_OF'
+p269
+S"<class 'gluon.validators.IS_LIST_OF'>"
+p270
+sS'left_sidebar_enabled'
+p271
+g248
+sS'EMBED'
+p272
+S"<class 'gluon.html.EMBED'>"
+p273
+sS'separar_resultados'
+p274
+S'<function separar_resultados>'
+p275
+sS'_'
+S'<function _>'
+p276
+sS'myconf'
+p277
+S"{'forms': {'formstyle': 'bootstrap3_inline', 'se...tre1@gmail.com', 'server': 'smtp.gmail.com:587'}}"
+p278
+sS'H2'
+p279
+S"<class 'gluon.html.H2'>"
+p280
+sS'H3'
+p281
+S"<class 'gluon.html.H3'>"
+p282
+sS'AppConfig'
+p283
+S'<function AppConfig>'
+p284
+sS'H1'
+p285
+S"<class 'gluon.html.H1'>"
+p286
+sS'H6'
+p287
+S"<class 'gluon.html.H6'>"
+p288
+sS'H4'
+p289
+S"<class 'gluon.html.H4'>"
+p290
+sS'H5'
+p291
+S"<class 'gluon.html.H5'>"
+p292
+sS'UL'
+p293
+S"<class 'gluon.html.UL'>"
+p294
+sS'IS_UPPER'
+p295
+S"<class 'gluon.validators.IS_UPPER'>"
+p296
+sS'guardar_debug'
+p297
+S'<function guardar_debug>'
+p298
+sS'IS_TIME'
+p299
+S"<class 'gluon.validators.IS_TIME'>"
+p300
+sS'os'
+p301
+S"<module 'os' from '/home/camilo/miniconda2/lib/python2.7/os.pyc'>"
+p302
+sS'OPTION'
+p303
+S"<class 'gluon.html.OPTION'>"
+p304
+sS'TITLE'
+p305
+S"<class 'gluon.html.TITLE'>"
+p306
+sS'CRYPT'
+p307
+S"<class 'gluon.validators.CRYPT'>"
+p308
+sS'IS_EMPTY_OR'
+p309
+S"<class 'gluon.validators.IS_EMPTY_OR'>"
+p310
+sS'MARKMIN'
+p311
+S"<class 'gluon.html.MARKMIN'>"
+p312
+sS'ASSIGNJS'
+p313
+S'<function ASSIGNJS>'
+p314
+sS'__name__'
+p315
+S"'__restricted__'"
+p316
+sS'HTTP'
+p317
+S"<class 'gluon.http.HTTP'>"
+p318
+sS'STRONG'
+p319
+S"<class 'gluon.html.STRONG'>"
+p320
+sS'COL'
+p321
+S"<class 'gluon.html.COL'>"
+p322
+sS'mc1'
+p323
+S"'col-md-9'"
+p324
+sS'mc0'
+p325
+S"'col-md-12'"
+p326
+sS'service'
+p327
+S'<gluon.tools.Service object>'
+p328
+sS'SCRIPT'
+p329
+S"<class 'gluon.html.SCRIPT'>"
+p330
+sS'leer_debug_puertos'
+p331
+S'<function leer_debug_puertos>'
+p332
+sS'json'
+p333
+S"<module 'json' from '/home/camilo/miniconda2/lib/python2.7/json/__init__.pyc'>"
+p334
+sS'escribir_variables_yml'
+p335
+S'<function escribir_variables_yml>'
+p336
+sS'TABLE'
+p337
+S"<class 'gluon.html.TABLE'>"
+p338
+sS'buscar_tarea_resumen'
+p339
+S'<function buscar_tarea_resumen>'
+p340
+sS'IS_IPV4'
+p341
+S"<class 'gluon.validators.IS_IPV4'>"
+p342
+sS'IS_LENGTH'
+p343
+S"<class 'gluon.validators.IS_LENGTH'>"
+p344
+sS'IS_IPV6'
+p345
+S"<class 'gluon.validators.IS_IPV6'>"
+p346
+sS'XML'
+p347
+S"<class 'gluon.html.XML'>"
+p348
+sS'B'
+S"<class 'gluon.html.B'>"
+p349
+sS'couxuser'
+p350
+S'[]'
+p351
+sS'IMG'
+p352
+S"<class 'gluon.html.IMG'>"
+p353
+sS'SQLTABLE'
+p354
+S"<class 'gluon.sqlhtml.SQLTABLE'>"
+p355
+sS'IS_MATCH'
+p356
+S"<class 'gluon.validators.IS_MATCH'>"
+p357
+sS'STR_DAL'
+p358
+S"'postgres://postgres:1234@localhost/test3'"
+p359
+sS'IS_ALPHANUMERIC'
+p360
+S"<class 'gluon.validators.IS_ALPHANUMERIC'>"
+p361
+sS'leer_debug_servicios'
+p362
+S'<function leer_debug_servicios>'
+p363
+sS'SPAN'
+p364
+S"<class 'gluon.html.SPAN'>"
+p365
+sS'IS_JSON'
+p366
+S"<class 'gluon.validators.IS_JSON'>"
+p367
+sS'IS_IPADDRESS'
+p368
+S"<class 'gluon.validators.IS_IPADDRESS'>"
+p369
+sS'crear_inventario'
+p370
+S'<function crear_inventario>'
+p371
+sS'P_HOST'
+p372
+S"['5901', '5902', '5903', '5904', '5905', '5906', '5907', '5908', '5909', '5910', '5911', '5912', '5913', '5914', '5915', '5916']"
+p373
+sS'IS_SLUG'
+p374
+S"<class 'gluon.validators.IS_SLUG'>"
+p375
+sS'OPERA_SYSTEM'
+p376
+S"['Fedora', 'CentOS', 'Ubuntu', 'Kali', 'Windows', <lazyT 'Other'>]"
+p377
+sS'BEAUTIFY'
+p378
+S"<class 'gluon.html.BEAUTIFY'>"
+p379
+sS'META'
+p380
+S"<class 'gluon.html.META'>"
+p381
+sS'BUTTON'
+p382
+S"<class 'gluon.html.BUTTON'>"
+p383
+sS'IS_DATE'
+p384
+S"<class 'gluon.validators.IS_DATE'>"
+p385
+sS'IS_EMAIL'
+p386
+S"<class 'gluon.validators.IS_EMAIL'>"
+p387
+sS'middle_column'
+p388
+S"'col-md-12'"
+p389
+sS'IS_NOT_EMPTY'
+p390
+S"<class 'gluon.validators.IS_NOT_EMPTY'>"
+p391
+sS'IS_FLOAT_IN_RANGE'
+p392
+S"<class 'gluon.validators.IS_FLOAT_IN_RANGE'>"
+p393
+sS'TBODY'
+p394
+S"<class 'gluon.html.TBODY'>"
+p395
+sS'CAT'
+p396
+S"<class 'gluon.html.CAT'>"
+p397
+sS'Field'
+p398
+S"<class 'pydal.objects.Field'>"
+p399
+sS'mc2'
+p400
+S"'col-md-6'"
+p401
+sS'IS_LIST_OF_EMAILS'
+p402
+S"<class 'gluon.validators.IS_LIST_OF_EMAILS'>"
+p403
+sS'DIV'
+p404
+S"<class 'gluon.html.DIV'>"
+p405
+sS'LEGEND'
+p406
+S"<class 'gluon.html.LEGEND'>"
+p407
+sS'guardar_resumen'
+p408
+S'<function guardar_resumen>'
+p409
+sS'COLGROUP'
+p410
+S"<class 'gluon.html.COLGROUP'>"
+p411
+sS'DAL'
+p412
+S"<class 'pydal.base.DAL'>"
+p413
+sS'TT'
+p414
+S"<class 'gluon.html.TT'>"
+p415
+sS'TR'
+p416
+S"<class 'gluon.html.TR'>"
+p417
+sS'mig'
+p418
+g248
+sS'LI'
+p419
+S"<class 'gluon.html.LI'>"
+p420
+sS'right_sidebar_enabled'
+p421
+g248
+sS'TH'
+p422
+S"<class 'gluon.html.TH'>"
+p423
+sS'TD'
+p424
+S"<class 'gluon.html.TD'>"
+p425
+sS'PluginManager'
+p426
+S"<class 'gluon.tools.PluginManager'>"
+p427
+sS'IS_URL'
+p428
+S"<class 'gluon.validators.IS_URL'>"
+p429
+sS'A'
+S"<class 'gluon.html.A'>"
+p430
+sS'HEAD'
+p431
+S"<class 'gluon.html.HEAD'>"
+p432
+sS'IS_DATETIME_IN_RANGE'
+p433
+S"<class 'gluon.validators.IS_DATETIME_IN_RANGE'>"
+p434
+sS'abrir_resumen'
+p435
+S'<function abrir_resumen>'
+p436
+sS'FORM'
+p437
+S"<class 'gluon.html.FORM'>"
+p438
+sS'I'
+S"<class 'gluon.html.I'>"
+p439
+sS'xmlescape'
+p440
+S'<function xmlescape>'
+p441
+sS'IS_NOT_IN_DB'
+p442
+S"<class 'gluon.validators.IS_NOT_IN_DB'>"
+p443
+sS'SEMESTER'
+p444
+S"['2016-I', '2016-III', '2017-I', '2017-III', '2018-I', '2018-III', '2019-I', '2019-III', '2020-I', '2020-III', '2021-I', '2021-III', '2022-I', '2022-III', '2023-I', '2023-III', '2024-I', '2024-III', '2025-I', '2025-III']"
+p445
+sg125
+S"<Storage {'body': <cStringIO.StringO object at 0...0x7f0ef7aa1668>, 'view': 'commands/system.html'}>"
+p446
+sS'THEAD'
+p447
+S"<class 'gluon.html.THEAD'>"
+p448
+sS'ANY_OF'
+p449
+S"<class 'gluon.validators.ANY_OF'>"
+p450
+sS'IS_NULL_OR'
+p451
+S"<class 'gluon.validators.IS_EMPTY_OR'>"
+p452
+sg56
+S"<Storage {'_vars': <Storage {}>, 'function': 'sy...nuevo_repo_git/proyecto_mv/applications/datos/'}>"
+p453
+sS'IS_EXPR'
+p454
+S"<class 'gluon.validators.IS_EXPR'>"
+p455
+sS'T'
+S'<gluon.languages.translator object>'
+p456
+sS'IS_IN_SET'
+p457
+S"<class 'gluon.validators.IS_IN_SET'>"
+p458
+sS'IS_UPLOAD_FILENAME'
+p459
+S"<class 'gluon.validators.IS_UPLOAD_FILENAME'>"
+p460
+sS'escribir_host_yml'
+p461
+S'<function escribir_host_yml>'
+p462
+sS're'
+p463
+S"<module 're' from '/home/camilo/miniconda2/lib/python2.7/re.pyc'>"
+p464
+sS'IS_DECIMAL_IN_RANGE'
+p465
+S"<class 'gluon.validators.IS_DECIMAL_IN_RANGE'>"
+p466
+sssS'traceback'
+p467
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/views/commands/system.html", line 87, in <module>\n    <li><a href="{{=URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'add_repo\'))}}">{{=T(\'Add Repositories\')}}</a></li>\nNameError: name \'VNC\' is not defined\n'
+p468
+s.

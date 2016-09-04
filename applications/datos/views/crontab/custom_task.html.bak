@@ -1,0 +1,36 @@
+{{extend 'layout.html'}}
+
+<div class="jumbotron" align='center'>
+    <h1>{{=T('Custom Crontab Task')}}</h1>
+</div>
+
+
+<div class="panel panel-info">
+    <div class="panel-heading center">
+        <h1 class="panel-title center">{{=T('Select one configuration of auto-tasks update')}}
+        <br>            <br>
+        {{=T("Option '*' is all elements")}}
+        </h1>
+    </div>
+
+    <div class="panel-body ">
+        {{=form}}
+    </div>
+</div>
+</div>
+
+
+
+<div class="modal-header" align="center">
+    
+    <h1 class="modal-title">{{=T("Schedule a custom task")}}</h1>
+</div>
+
+<div class="modal-body">
+    <h1>{{=T()}}</h1>
+    <br>
+    <h2>{{=T('')}}</h2>
+    <br>
+    {{=form}}
+</div>
+{{#=BEAUTIFY(response._vars)}}

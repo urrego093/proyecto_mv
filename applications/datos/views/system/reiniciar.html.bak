@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<div class="alert alert-warning center">
+  <strong>{{=T("Hey there! ")}}</strong>{{= T('Do you really want to restart the selected machines?') }}
+</div>
+ <ul class="pager">
+     {{=form}}
+  <li><a href="#">Previous</a></li>
+  <li><a href="#">Next</a></li>
+</ul>
+
+{{#=BEAUTIFY(response._vars)}}

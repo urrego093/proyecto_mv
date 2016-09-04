@@ -1,0 +1,19 @@
+{{extend 'layout.html'}}
+<br>
+<div class="alert alert-info center">
+  <h2>
+      <strong>{{=T("Info! ")}}</strong>{{=T('The task will have the name "actualizacion" ')}}
+  </h2>
+</div>
+<div class="modal-header" align="center">
+    
+    <h1 class="modal-title text-justify">{{=T("Schedule packages update")}}</h1>
+</div>
+<div class="modal-body">
+    <h1>{{=T('Select one configuration for the system packages auto update')}}</h1>
+    <br>
+    <h2>{{=T('Option "*" is all elements')}}</h2>
+    <br>
+    {{=form}}
+</div>
+{{#=BEAUTIFY(response._vars)}}

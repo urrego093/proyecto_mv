@@ -1,0 +1,6 @@
+accion: update_packges
+day: '*'
+hour: '4'
+minute: '0'
+month: '*'
+weekday: '*'

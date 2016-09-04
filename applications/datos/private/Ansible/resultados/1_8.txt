@@ -1,0 +1,1 @@
+192.168.0.106              : ok=7    changed=4    unreachable=0    failed=0   

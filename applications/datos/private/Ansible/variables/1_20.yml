@@ -1,0 +1,7 @@
+accion: install_packages
+paquetes:
+- geany
+- apache2
+- httpd
+- nodejs
+remote: all

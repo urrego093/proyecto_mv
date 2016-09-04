@@ -1,0 +1,8 @@
+accion: custom_task
+comando: echo "asddadadasadasd"
+day: '*'
+hour: '10'
+minute: '10'
+month: '*'
+nombre: test2
+weekday: '*'

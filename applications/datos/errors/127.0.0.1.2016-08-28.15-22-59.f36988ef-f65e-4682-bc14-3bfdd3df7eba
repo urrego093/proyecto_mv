@@ -1,0 +1,701 @@
+(dp1
+S'output'
+p2
+S'<class \'psycopg2.ProgrammingError\'> relation "course_group" does not exist\nLINE 1: SELECT DISTINCT course_group.cod_course FROM course_group WH...\n                                                     ^\n'
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/models/menu.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n#########################################################################\n## Customize your APP title, subtitle and menus here\n#########################################################################\n\nresponse.logo = A(B(\'VM-UD\'),XML(\'&trade;&nbsp;\'),\n                  _class="navbar-brand",_href=URL(\'default\', \'index\'),\n                  _id="pmv_logo")\n\nresponse.title = request.application.replace(\'_\',\' \').title()\nresponse.subtitle = \'\'\n\n## read more at http://dev.w3.org/html5/markup/meta.name.html\nresponse.meta.author = \'Carlos  <suarezsilvestre1@gmail.com> Camilo <urrego@outlook.com>\'\nresponse.meta.description = \'a cool new app\'\nresponse.meta.keywords = \'web2py, python, framework\'\nresponse.meta.generator = \'Web2py Web Framework\'\n\n## your http://google.com/analytics id\nresponse.google_analytics_id = None\n\n#########################################################################\n## this is the main application menu add/remove items as required\n#########################################################################\n\nresponse.menu = [\n    (T(\'Home\'), False, URL(\'default\', \'index\'), [])]\n\n\n#List of course for userid  (Ex: User_id 1, machines 192.168.1.114,192.168.1.115)\ncouxuser = []\nfor row in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):\n    couxuser.append((T(str(row.cod_course.name_course)), False, URL(\'academia\', \'show_couxuser\', args=(row.cod_course.id)))) #id_course\n\n\nmacxuser = []\nfor c_group in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):\n    for row in db1(db1.machine.code_course==c_group.cod_course.id).select(db1.machine.ip_machine, db1.machine.id, distinct=True):\n        macxuser.append((row.ip_machine, False,URL(\'academia\', \'mostrar_macxuser\',args=(row.id, c_group.cod_course)))) #/id_machine/id_course\n\nadminis = db1((db1.auth_membership.user_id == auth.user_id)).select()\nfor row in adminis:\n    if row.group_id.role =="Administrador": #row.group_id == 1\n        response.menu += [\n            (T(\'Approval\'), False, \'#\', [\n                (T(\'Teacher\'), False, URL(\'academia\', \'agree_teacher\'))\n            ])\n        ]\n        \n        response.menu += [     \n            (T(\'To register\'), False, \'#\', [\n                    (T(\'Course\'), False, URL(\'academia\', \'register_course\')),\n                    (T(\'Machine\'), False, URL(\'academia\', \'register_machine\')),\n                    (T(\'Group\'), False, URL(\'academia\', \'register_group\'))\n            ])\n        ]\n        \n        response.menu += [\n            (T(\'Consult\'), False, \'#\', [\n                 (T(\'My Files\'), False, URL(\'academia\', \'list_files\')),\n                 (T(\'My jobs\'), False, URL(\'tasks\', \'index\')),\n                 #(T(\'Running Services\'), False, URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'services\'))),\n                 #(T(\'Open ports\'), False, URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'ports\'))),\n            ])\n        ]\n        \n        response.menu += [\n            (T(\'Commands\'), False, \'#\', [\n                (T(\'Users\'), False,  URL(\'commands\',\'users\')),\n                (T(\'System\'), False, URL(\'commands\', \'system\')),\n                (T(\'Files\'), False, URL(\'commands\', \'files\'))\n            ])\n        ]\n        \n        response.menu += [\n            (T(\'DB\'), False, "#", [\n                (T(\'Courses and Groups\'), False, URL(\'maquinas\', \'lista_maquina_grupo\')),\n                (T(\'Machines by course\'), False, URL(\'maquinas\', \'lista_maquina_materia\')), \n                (T(\'Teachers\'), False, URL(\'admin\', \'teachers\')),\n            ])\n        ]\n        \n    if row.group_id.role=="Docente":\n        response.menu += [\n            (T(\'Courses\'), False,\'#\',couxuser),\n            (T(\'Machines\'), False,\'#\',macxuser),\n            #(T(\'Commands\'), False, URL(\'maquinas\',\'mostrar\')),\n           ]\n        \n        response.menu += [\n            (T(\'Commands\'), False, \'#\', [\n                (T(\'Users\'), False,  URL(\'commands\',\'users\')),\n                (T(\'System\'), False, URL(\'commands\', \'system\')),\n                (T(\'Files\'), False, URL(\'commands\', \'files\')),\n            ]),\n            (T(\'Consult\'), False, \'#\', [\n                            (T(\'My Files\'), False, URL(\'academia\', \'list_files\')),\n                            (T(\'My jobs\'), False, URL(\'tasks\', \'index\')),\n                            #(T(\'Running Services\'), False, URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'services\'))),\n                            #(T(\'Open ports\'), False, URL(\'maquinas\',\'mostrar\', vars=dict(accion= \'ports\')))\n                    ]\n             )\n            #(T(\'Students\'), False, \'#\', [\n            #                (T(\'Register\'), False, URL(\'default\', \'register_student\')),\n            #                (T(\'List\'), False, URL(\'tasks\', \'index\'))])\n        ]\n        \n    else:\n        response.menu += []\n\n\nDEVELOPMENT_MENU = False\n\n#########################################################################\n## provide shortcuts for development. remove in production\n#########################################################################\n\ndef _():\n    # shortcuts\n    app = request.application\n    ctr = request.controller\n    # useful links to internal and external resources\n    response.menu += [\n        (T(\'My Sites\'), False, URL(\'admin\', \'default\', \'site\')),\n          (T(\'This App\'), False, \'#\', [\n              (T(\'Design\'), False, URL(\'admin\', \'default\', \'design/%s\' % app)),\n              LI(_class="divider"),\n              (T(\'Controller\'), False,\n               URL(\n               \'admin\', \'default\', \'edit/%s/controllers/%s.py\' % (app, ctr))),\n              (T(\'View\'), False,\n               URL(\n               \'admin\', \'default\', \'edit/%s/views/%s\' % (app, response.view))),\n              (T(\'DB Model\'), False,\n               URL(\n               \'admin\', \'default\', \'edit/%s/models/db.py\' % app)),\n              (T(\'Menu Model\'), False,\n               URL(\n               \'admin\', \'default\', \'edit/%s/models/menu.py\' % app)),\n              (T(\'Config.ini\'), False,\n               URL(\n               \'admin\', \'default\', \'edit/%s/private/appconfig.ini\' % app)),\n              (T(\'Layout\'), False,\n               URL(\n               \'admin\', \'default\', \'edit/%s/views/layout.html\' % app)),\n              (T(\'Stylesheet\'), False,\n               URL(\n               \'admin\', \'default\', \'edit/%s/static/css/web2py-bootstrap3.css\' % app)),\n              (T(\'Database\'), False, URL(app, \'appadmin\', \'index\')),\n              (T(\'Errors\'), False, URL(\n               \'admin\', \'default\', \'errors/\' + app)),\n              (T(\'About\'), False, URL(\n               \'admin\', \'default\', \'about/\' + app)),\n              ]),\n          (\'web2py.com\', False, \'#\', [\n             (T(\'Download\'), False,\n              \'http://www.web2py.com/examples/default/download\'),\n             (T(\'Support\'), False,\n              \'http://www.web2py.com/examples/default/support\'),\n             (T(\'Demo\'), False, \'http://web2py.com/demo_admin\'),\n             (T(\'Quick Examples\'), False,\n              \'http://web2py.com/examples/default/examples\'),\n             (T(\'FAQ\'), False, \'http://web2py.com/AlterEgo\'),\n             (T(\'Videos\'), False,\n              \'http://www.web2py.com/examples/default/videos/\'),\n             (T(\'Free Applications\'),\n              False, \'http://web2py.com/appliances\'),\n             (T(\'Plugins\'), False, \'http://web2py.com/plugins\'),\n             (T(\'Recipes\'), False, \'http://web2pyslices.com/\'),\n             ]),\n          (T(\'Documentation\'), False, \'#\', [\n             (T(\'Online book\'), False, \'http://www.web2py.com/book\'),\n             LI(_class="divider"),\n             (T(\'Preface\'), False,\n              \'http://www.web2py.com/book/default/chapter/00\'),\n             (T(\'Introduction\'), False,\n              \'http://www.web2py.com/book/default/chapter/01\'),\n             (T(\'Python\'), False,\n              \'http://www.web2py.com/book/default/chapter/02\'),\n             (T(\'Overview\'), False,\n              \'http://www.web2py.com/book/default/chapter/03\'),\n             (T(\'The Core\'), False,\n              \'http://www.web2py.com/book/default/chapter/04\'),\n             (T(\'The Views\'), False,\n              \'http://www.web2py.com/book/default/chapter/05\'),\n             (T(\'Database\'), False,\n              \'http://www.web2py.com/book/default/chapter/06\'),\n             (T(\'Forms and Validators\'), False,\n              \'http://www.web2py.com/book/default/chapter/07\'),\n             (T(\'Email and SMS\'), False,\n              \'http://www.web2py.com/book/default/chapter/08\'),\n             (T(\'Access Control\'), False,\n              \'http://www.web2py.com/book/default/chapter/09\'),\n             (T(\'Services\'), False,\n              \'http://www.web2py.com/book/default/chapter/10\'),\n             (T(\'Ajax Recipes\'), False,\n              \'http://www.web2py.com/book/default/chapter/11\'),\n             (T(\'Components and Plugins\'), False,\n              \'http://www.web2py.com/book/default/chapter/12\'),\n             (T(\'Deployment Recipes\'), False,\n              \'http://www.web2py.com/book/default/chapter/13\'),\n             (T(\'Other Recipes\'), False,\n              \'http://www.web2py.com/book/default/chapter/14\'),\n             (T(\'Helping web2py\'), False,\n              \'http://www.web2py.com/book/default/chapter/15\'),\n             (T("Buy web2py\'s book"), False,\n              \'http://stores.lulu.com/web2py\'),\n             ]),\n          (T(\'Community\'), False, None, [\n             (T(\'Groups\'), False,\n              \'http://www.web2py.com/examples/default/usergroups\'),\n              (T(\'Twitter\'), False, \'http://twitter.com/web2py\'),\n              (T(\'Live Chat\'), False,\n               \'http://webchat.freenode.net/?channels=web2py\'),\n              ]),\n        ]\nif DEVELOPMENT_MENU: _()\n\nif "auth" in locals(): auth.wikimenu()\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__module__'
+p12
+S"'psycopg2'"
+p13
+sS'__getslice__'
+p14
+S"<method-wrapper '__getslice__' of ProgrammingError object>"
+p15
+sS'__str__'
+p16
+S"<method-wrapper '__str__' of ProgrammingError object>"
+p17
+sS'__reduce__'
+p18
+S'<built-in method __reduce__ of ProgrammingError object>'
+p19
+sS'__dict__'
+p20
+S'{}'
+p21
+sS'__sizeof__'
+p22
+S'<built-in method __sizeof__ of ProgrammingError object>'
+p23
+sS'__weakref__'
+p24
+S'None'
+p25
+sS'__init__'
+p26
+S"<method-wrapper '__init__' of ProgrammingError object>"
+p27
+sS'__setattr__'
+p28
+S"<method-wrapper '__setattr__' of ProgrammingError object>"
+p29
+sS'__reduce_ex__'
+p30
+S'<built-in method __reduce_ex__ of ProgrammingError object>'
+p31
+sS'__new__'
+p32
+S'<built-in method __new__ of type object>'
+p33
+sS'diag'
+p34
+S'<psycopg2.extensions.Diagnostics object>'
+p35
+sS'__format__'
+p36
+S'<built-in method __format__ of ProgrammingError object>'
+p37
+sS'__class__'
+p38
+S"<class 'psycopg2.ProgrammingError'>"
+p39
+sS'pgerror'
+p40
+S'\'ERROR:  relation "course_group" does not exist\\nL...                                               ^\\n\''
+p41
+sS'__doc__'
+p42
+S"'Error related to database programming (SQL error, table not found etc).'"
+p43
+sS'__getitem__'
+p44
+S"<method-wrapper '__getitem__' of ProgrammingError object>"
+p45
+sS'__setstate__'
+p46
+S'<built-in method __setstate__ of ProgrammingError object>'
+p47
+sS'__getattribute__'
+p48
+S"<method-wrapper '__getattribute__' of ProgrammingError object>"
+p49
+sS'args'
+p50
+S'(\'relation "course_group" does not exist\\nLINE 1: S...                                               ^\\n\',)'
+p51
+sS'__subclasshook__'
+p52
+S'<built-in method __subclasshook__ of type object>'
+p53
+sS'pgcode'
+p54
+S"'42P01'"
+p55
+sS'__unicode__'
+p56
+S'<built-in method __unicode__ of ProgrammingError object>'
+p57
+sS'cursor'
+p58
+S'<cursor object at 0x7f3b9a915908; closed: 0>'
+p59
+sS'__delattr__'
+p60
+S"<method-wrapper '__delattr__' of ProgrammingError object>"
+p61
+sS'__repr__'
+p62
+S"<method-wrapper '__repr__' of ProgrammingError object>"
+p63
+sS'__hash__'
+p64
+S"<method-wrapper '__hash__' of ProgrammingError object>"
+p65
+ssS'evalue'
+p66
+S'relation "course_group" does not exist\nLINE 1: SELECT DISTINCT course_group.cod_course FROM course_group WH...\n                                                     ^\n'
+p67
+sS'request'
+p68
+cgluon.html
+XML_unpickle
+p69
+(S'sG=\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>c499739156685</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>appadmin</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-40991f7d-1d78-415c-bc68-f06296c0cc30<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_datos</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-a93bad53-66d4-497a-9a72-c4bc0ac58c7f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-40991f7d-1d78-415c-bc68-f06296c0cc30; session_id_datos=127.0.0.1-a93bad53-66d4-497a-9a72-c4bc0ac58c7f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:3000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_REFERER</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:3000/admin/default/edit/datos/models/menu.py?id=models__menu__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_WEB2PY_COMPONENT_ELEMENT</td><td style="vertical-align:top;">:</td><td><div>c499739156685</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_WEB2PY_COMPONENT_LOCATION</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:3000/admin/default/edit/datos/models/menu.py?id=models__menu__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_X_REQUESTED_WITH</td><td style="vertical-align:top;">:</td><td><div>XMLHttpRequest</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>53712</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>camilo-GX70-3CC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>3000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-40991f7d-1d78-415c-bc68-f06296c0cc30; session_id_datos=127.0.0.1-a93bad53-66d4-497a-9a72-c4bc0ac58c7f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:3000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_referer</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:3000/admin/default/edit/datos/models/menu.py?id=models__menu__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_web2py_component_element</td><td style="vertical-align:top;">:</td><td><div>c499739156685</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_web2py_component_location</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:3000/admin/default/edit/datos/models/menu.py?id=models__menu__py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_x_requested_with</td><td style="vertical-align:top;">:</td><td><div>XMLHttpRequest</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>53712</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>camilo-GX70-3CC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>3000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.13.4-stable+timestamp.2016.02.10.15.41.11</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f3be12831e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f3bd951f2c0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f3b9b4ebc50&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f3be12831e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f3bd951f2c0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f3b9b4ebc50&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 8, 28, 15, 22, 59, 649715)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/datos/appadmin/hooks</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 8, 28, 20, 22, 59, 649752)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f3b9b4f0050&gt;</div></td></tr></table></div>'
+tRp70
+sS'frames'
+p71
+(lp72
+(dp73
+S'file'
+p74
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/restricted.py'
+p75
+sS'dump'
+p76
+(dp77
+S'environment'
+p78
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}"
+p79
+sS'ccode'
+p80
+S'<code object <module> at 0x7f3bb40a2730, file "/...to_mv/applications/datos/models/menu.py", line 8>'
+p81
+ssS'lnum'
+p82
+I227
+sS'lines'
+p83
+(dp84
+I224
+S'            ccode = code'
+p85
+sI225
+S'        else:'
+p86
+sI226
+S'            ccode = compile2(code, layer)'
+p87
+sI227
+S'        exec ccode in environment'
+p88
+sI228
+S'    except HTTP:'
+p89
+sI229
+S'        raise'
+p90
+sI230
+S'    except RestrictedError:'
+p91
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p92
+sI222
+S'    try:'
+p93
+sI223
+S'        if isinstance(code, types.CodeType):'
+p94
+ssS'call'
+p95
+S'(code=\'# -*- coding: utf-8 -*-\\n# this file is released ...ENU: _()\\n\\nif "auth" in locals(): auth.wikimenu()\\n\', environment={\'A\': <class \'gluon.html.A\'>, \'ANY_OF\': <class \'gluon.validators.ANY_OF\'>, \'ASSIGNJS\': <function ASSIGNJS>, \'AppConfig\': <function AppConfig>, \'Auth\': <class \'gluon.tools.Auth\'>, \'B\': <class \'gluon.html.B\'>, \'BEAUTIFY\': <class \'gluon.html.BEAUTIFY\'>, \'BODY\': <class \'gluon.html.BODY\'>, \'BR\': <class \'gluon.html.BR\'>, \'BUTTON\': <class \'gluon.html.BUTTON\'>, ...}, layer=\'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/models/menu.py\')'
+p96
+sS'func'
+p97
+S'restricted'
+p98
+sa(dp99
+g74
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/models/menu.py'
+p100
+sg76
+(dp101
+S'distinct'
+p102
+S'undefined'
+p103
+sS'builtinTrue'
+p104
+S'True'
+p105
+sS'db1.course_group'
+p106
+S'<Table course_group (id, cod_group, id_teacher, ...reated_on, created_by, modified_on, modified_by)>'
+p107
+sS'db1.course_group.id_teacher'
+p108
+S'<pydal.objects.Field object>'
+p109
+sS'auth'
+p110
+S'<gluon.tools.Auth object>'
+p111
+sS').select'
+p112
+g103
+sS'db1'
+p113
+S'<DAL uri="postgres:******@localhost/maquinas_pruebas">'
+p114
+sS'db1.course_group.cod_course'
+p115
+S'<pydal.objects.Field object>'
+p116
+sS'row'
+p117
+g103
+sS'auth.user_id'
+p118
+S'None'
+p119
+ssg82
+I34
+sg83
+(dp120
+I32
+S'#List of course for userid  (Ex: User_id 1, machines 192.168.1.114,192.168.1.115)'
+p121
+sI33
+S'couxuser = []'
+p122
+sI34
+S'for row in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):'
+p123
+sI35
+S"    couxuser.append((T(str(row.cod_course.name_course)), False, URL('academia', 'show_couxuser', args=(row.cod_course.id)))) #id_course"
+p124
+sI36
+S''
+sI37
+S''
+sI38
+S'macxuser = []'
+p125
+sI29
+S"    (T('Home'), False, URL('default', 'index'), [])]"
+p126
+sI30
+S''
+sI31
+S''
+ssg95
+S'()'
+p127
+sg97
+S'<module>'
+p128
+sa(dp129
+g74
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/objects.py'
+p130
+sg76
+(dp131
+S'self.query'
+p132
+S'<Query (course_group.id_teacher IS NULL)>'
+p133
+sS'adapter.select'
+p134
+S'<bound method PostgreSQLAdapter.select of <pydal.adapters.postgres.PostgreSQLAdapter object>>'
+p135
+sS'fields'
+p136
+S'[<pydal.objects.Field object>]'
+p137
+sS'adapter'
+p138
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p139
+sS'attributes'
+p140
+S"{'distinct': True}"
+p141
+sS'self'
+p142
+S'<Set (course_group.id_teacher IS NULL)>'
+p143
+ssg82
+I2020
+sg83
+(dp144
+I2016
+S"                                    attributes.get('left', None),"
+p145
+sI2017
+S"                                    attributes.get('orderby', None),"
+p146
+sI2018
+S"                                    attributes.get('groupby', None))"
+p147
+sI2019
+S'        fields = adapter.expand_all(fields, tablenames)'
+p148
+sI2020
+S'        return adapter.select(self.query, fields, attributes)'
+p149
+sI2021
+S''
+sI2022
+S'    def iterselect(self, *fields, **attributes):'
+p150
+sI2023
+S'        adapter = self.db._adapter'
+p151
+sI2024
+S'        tablenames = adapter.tables(self.query,'
+p152
+sI2015
+S"                                    attributes.get('join', None),"
+p153
+ssg95
+S"(self=<Set (course_group.id_teacher IS NULL)>, *fields=[<pydal.objects.Field object>], **attributes={'distinct': True})"
+p154
+sg97
+S'select'
+p155
+sa(dp156
+g74
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/base.py'
+p157
+sg76
+(dp158
+S'fields'
+p159
+S'[<pydal.objects.Field object>]'
+p160
+sS'self'
+p161
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p162
+sS'attributes'
+p163
+S"{'distinct': True}"
+p164
+sS'self._select_aux'
+p165
+S'<bound method PostgreSQLAdapter._select_aux of <pydal.adapters.postgres.PostgreSQLAdapter object>>'
+p166
+sS'sql'
+p167
+S"'SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);'"
+p168
+ssg82
+I1296
+sg83
+(dp169
+I1291
+S'            return cache_model('
+p170
+sI1292
+S'                key,'
+p171
+sI1293
+S'                lambda self=self,args=args:self._select_aux(*args),'
+p172
+sI1294
+S'                time_expire)'
+p173
+sI1295
+S'        else:'
+p174
+sI1296
+S'            return self._select_aux(sql,fields,attributes)'
+p175
+sI1297
+S''
+sI1298
+S'    def iterselect(self, query, fields, attributes):'
+p176
+sI1299
+S'        sql = self._select(query, fields, attributes)'
+p177
+sI1300
+S"        cacheable = attributes.get('cacheable', False)"
+p178
+ssg95
+S"(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, query=<Query (course_group.id_teacher IS NULL)>, fields=[<pydal.objects.Field object>], attributes={'distinct': True})"
+p179
+sg97
+g155
+sa(dp180
+g74
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/base.py'
+p181
+sg76
+(dp182
+S'self'
+p183
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p184
+sS'self.execute'
+p185
+S'<bound method PostgreSQLAdapter.execute of <pydal.adapters.postgres.PostgreSQLAdapter object>>'
+p186
+sS'sql'
+p187
+S"'SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);'"
+p188
+ssg82
+I1253
+sg83
+(dp189
+I1248
+S''
+sI1249
+S'    def _select_aux(self, sql, fields, attributes):'
+p190
+sI1250
+S'        args_get = attributes.get'
+p191
+sI1251
+S"        cache = args_get('cache',None)"
+p192
+sI1252
+S'        if not cache:'
+p193
+sI1253
+S'            self.execute(sql)'
+p194
+sI1254
+S'            rows = self._fetchall()'
+p195
+sI1255
+S'        else:'
+p196
+sI1256
+S'            if isinstance(cache, dict):'
+p197
+sI1257
+S"                cache_model = cache['model']"
+p198
+ssg95
+S"(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, sql='SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);', fields=[<pydal.objects.Field object>], attributes={'distinct': True})"
+p199
+sg97
+S'_select_aux'
+p200
+sa(dp201
+g74
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/postgres.py'
+p202
+sg76
+(dp203
+S'a'
+S"('SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);',)"
+p204
+sS'self'
+p205
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p206
+sS'b'
+g21
+sS'BaseAdapter.execute'
+p207
+S'<unbound method BaseAdapter.execute>'
+p208
+sS'global BaseAdapter'
+p209
+S"<class 'pydal.adapters.base.BaseAdapter'>"
+p210
+ssg82
+I362
+sg83
+(dp211
+I357
+S''
+sI358
+S'    def execute(self, *a, **b):'
+p212
+sI359
+S'        if PY2 and self.driver_name == "pg8000":'
+p213
+sI360
+S'            a = list(a)'
+p214
+sI361
+S"            a[0] = a[0].decode('utf8')"
+p215
+sI362
+S'        return BaseAdapter.execute(self, *a, **b)'
+p216
+sI363
+S''
+sI364
+S''
+sI365
+S'class NewPostgreSQLAdapter(PostgreSQLAdapter):'
+p217
+sI366
+S"    drivers = ('psycopg2','pg8000')"
+p218
+ssg95
+S"(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, *a=('SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);',), **b={})"
+p219
+sg97
+S'execute'
+p220
+sa(dp221
+g74
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/base.py'
+p222
+sg76
+(dp223
+S'a'
+S"('SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);',)"
+p224
+sS'self'
+p225
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p226
+sS'b'
+g21
+sS'self.log_execute'
+p227
+S'<bound method PostgreSQLAdapter.log_execute of <pydal.adapters.postgres.PostgreSQLAdapter object>>'
+p228
+ssg82
+I1388
+sg83
+(dp229
+I1383
+S'        self.db._timings.append((command,time.time()-t0))'
+p230
+sI1384
+S'        del self.db._timings[:-TIMINGSSIZE]'
+p231
+sI1385
+S'        return ret'
+p232
+sI1386
+S''
+sI1387
+S'    def execute(self, *a, **b):'
+p233
+sI1388
+S'        return self.log_execute(*a, **b)'
+p234
+sI1389
+S''
+sI1390
+S'    def execute_test_query(self):'
+p235
+sI1391
+S'        return self.execute(self.test_query)'
+p236
+sI1392
+S''
+ssg95
+S"(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, *a=('SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);',), **b={})"
+p237
+sg97
+g220
+sa(dp238
+g74
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/base.py'
+p239
+sg76
+(dp240
+S'a'
+S"('SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);',)"
+p241
+sS'b'
+g21
+sS'self'
+p242
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p243
+sS'ret'
+p244
+g103
+sS'command'
+p245
+S"'SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);'"
+p246
+sS'self.get_cursor'
+p247
+S'<bound method PostgreSQLAdapter.get_cursor of <pydal.adapters.postgres.PostgreSQLAdapter object>>'
+p248
+sS').execute'
+p249
+g103
+ssg82
+I1382
+sg83
+(dp250
+I1377
+S'            command = self.filter_sql_command(command)'
+p251
+sI1378
+S'        if self.db._debug:'
+p252
+sI1379
+S"            self.db.logger.debug('SQL: %s' % command)"
+p253
+sI1380
+S'        self.db._lastsql = command'
+p254
+sI1381
+S'        t0 = time.time()'
+p255
+sI1382
+S'        ret = self.get_cursor().execute(command, *a[1:], **b)'
+p256
+sI1383
+S'        self.db._timings.append((command,time.time()-t0))'
+p257
+sI1384
+S'        del self.db._timings[:-TIMINGSSIZE]'
+p258
+sI1385
+S'        return ret'
+p259
+sI1386
+S''
+ssg95
+S"(self=<pydal.adapters.postgres.PostgreSQLAdapter object>, *a=('SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);',), **b={})"
+p260
+sg97
+S'log_execute'
+p261
+sasS'pyver'
+p262
+S'Python 2.7.12: /home/camilo/miniconda2/bin/python (prefix: /home/camilo/miniconda2)'
+p263
+sS'session'
+p264
+g69
+(S's\xf2\x00\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ACTIONS</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>Restart</div></td></tr><tr><td><div>Add user</div></td></tr></table></div></td></tr></table></div>'
+tRp265
+sS'etype'
+p266
+S"<class 'psycopg2.ProgrammingError'>"
+p267
+sS'date'
+p268
+S'Sun Aug 28 15:23:00 2016'
+p269
+sS'response'
+p270
+g69
+(S's\x00\x1e\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f3b9a9424c8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_datos</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-a93bad53-66d4-497a-9a72-c4bc0ac58c7f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>bootstrap3_inline</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="navbar-brand" href="/datos/default/index" id="pmv_logo"><b>VM-UD</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Accueil</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/datos/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Carlos  &lt;suarezsilvestre1@gmail.com&gt; Camilo &lt;urrego@outlook.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div>web2py, python, framework</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^appadmin/\\w+\\.py$</div></td></tr><tr><td><div>^appadmin/hooks/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/sessions/012/1bf/127.0.0.1-a93bad53-66d4-497a-9a72-c4bc0ac58c7f&#x27;, mode &#x27;rb+&#x27; at 0x7f3b9a93e420&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/sessions/127.0.0.1-a93bad53-66d4-497a-9a72-c4bc0ac58c7f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>f8eb5770b66f2d47e44032e5a4589c08</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-a93bad53-66d4-497a-9a72-c4bc0ac58c7f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Datos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>appadmin/hooks.html</div></td></tr></table></div>'
+tRp271
+sS'locals'
+p272
+(dp273
+S'a'
+S"('SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);',)"
+p274
+sS'self'
+p275
+S'<pydal.adapters.postgres.PostgreSQLAdapter object>'
+p276
+sS'b'
+g21
+sS'command'
+p277
+S"'SELECT DISTINCT course_group.cod_course FROM course_group WHERE (course_group.id_teacher IS NULL);'"
+p278
+sS't0'
+p279
+S'1472415780.813731'
+p280
+sssS'traceback'
+p281
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/models/menu.py", line 34, in <module>\n    for row in db1(db1.course_group.id_teacher==auth.user_id).select(db1.course_group.cod_course, distinct=True):\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/objects.py", line 2020, in select\n    return adapter.select(self.query, fields, attributes)\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/base.py", line 1296, in select\n    return self._select_aux(sql,fields,attributes)\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/base.py", line 1253, in _select_aux\n    self.execute(sql)\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/postgres.py", line 362, in execute\n    return BaseAdapter.execute(self, *a, **b)\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/base.py", line 1388, in execute\n    return self.log_execute(*a, **b)\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/packages/dal/pydal/adapters/base.py", line 1382, in log_execute\n    ret = self.get_cursor().execute(command, *a[1:], **b)\nProgrammingError: relation "course_group" does not exist\nLINE 1: SELECT DISTINCT course_group.cod_course FROM course_group WH...\n                                                     ^\n\n'
+p282
+s.

@@ -1,0 +1,51 @@
+{{extend 'layout.html'}}
+
+<div class="container" >
+  <div class="jumbotron" align='center'>
+    <h1>{{=T('Install Packages')}}</h1> 
+</div>
+
+{{=form}}
+
+ <div class="panel panel-info center">
+      <div class="panel-heading">
+          <strong><h2>
+              {{=T('Important Notes!')}}
+          </h2></strong>
+    </div>
+<div class="panel-body">
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#general" data-toggle="tab">General</a></li>
+        <li><a href="#redhat" data-toggle="tab">Red-Hat Family</a></li>
+        <li><a href="#debian" data-toggle="tab">Debian Family</a></li>
+        <li><a href="#solarissuse" data-toggle="tab">Solaris and Suse</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="general" class="tab-pane active">
+          <h3 class="text-justify">{{=T("Remember that some packages may have different names according to the distribution")}}</h3>
+              <pre >{{="Debian -> apache2"}}</pre>
+              <pre>{{="RedHat -> httpd"}}</pre>
+          <h3>{{=T("You can install  'apache2,httpd' but some errors will appear, its recommended to install packages per distribution")}}</h3>
+        </div>
+        <div id="redhat" class="tab-pane">
+           <h3> {{=T("Support for DNF in Fedora >= 22 distributions included!")}}</h3>
+            <br>
+           <h3> {{=T("With YUM and DNF you can use URL's instead of package names")}}</h3>
+        </div>
+        <div id="debian" class="tab-pane">
+           <h3>{{=T("Some packages versions and names could differ between distributions")}}</h3>
+        </div>
+        <div id="solarissuse" class="tab-pane">
+          <h3>{{=T("Support for these distributions is not tested yet")}}</h3>
+             <pre>
+                {{=T("pkg5 is used for Solaris")}}
+            </pre>
+            <pre>
+                {{=T("zypper is used for Suse")}}
+            </pre>
+        </div>
+      </div><!-- /.tab-content -->
+    </div>  <!-- /.tabbable -->
+</div>  <!-- panel body-->
+</div>  <!-- panel -->

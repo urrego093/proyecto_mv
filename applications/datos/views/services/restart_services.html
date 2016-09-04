@@ -1,0 +1,21 @@
+{{extend 'layout.html'}}
+<div class="jumbotron" align='center'>
+    <h1>{{=T('Restart Services')}}</h1>
+</div>
+
+
+<div class="panel panel-info">
+    <div class="panel-heading center">
+        <h1 class="panel-title center">
+            <big>
+                {{=T("Please list the services you want to restart separated by comma")}}
+            </big>
+        </h1>
+    </div>
+
+    <div class="panel-body ">
+        {{=form}}
+    </div>
+</div>
+</div>
+{{#=BEAUTIFY(response._vars)}}
