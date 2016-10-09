@@ -1,4 +1,23 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla default/r_est.html</h1>
-{{=gs}}
+<div class="jumbotron" align='center'>
+    <h1>{{=T("Register Student")}}</h1>
+</div>
+
+<div class="container ">
+    <div class="panel panel-info center" id='info'>
+        <div class="panel-heading">
+            <h4>
+                {{=T("Please select a row to assign a student to the port")}}
+            </h4>
+            
+        </div>
+    </div>
+    <div class="panel-body " >
+        <div class="panel-body center">
+            {{=gs}}
+        </div> <!-- panel body -->
+    </div>
+</div>
+
+
 {{#=BEAUTIFY(response._vars)}}

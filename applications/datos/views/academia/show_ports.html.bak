@@ -1,3 +1,44 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla academia/show_ports.html</h1>
-{{=BEAUTIFY(response._vars)}}
+<div class="jumbotron" align='center'>
+    <h1>{{=T("Show Ports")}}</h1>
+</div>
+
+<div class="container center">
+    <div class="panel panel-info" id='info'>
+        <div class="panel-heading">
+            <h4>
+                <b>{{=T("Course")}}:</b>  {{=course.name_course}} <br><br>
+                <b>{{=T('Machine')}}:</b> {{=machine.ip_machine}} <br><br>
+                <b>{{=T('Group Number')}}:</b> {{=num_group}} <br><br>
+                <b>{{=T('Semester')}}:</b> {{=semes}} <br><br>
+            </h4>
+            
+        </div>
+    </div>
+    <div class="panel-body center" >
+        <div class="panel-body center">
+            <table class="table table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th> {{=T('Port')}} </th>
+                        <th> {{=T('Hostname')}} </th>
+                        <th> {{=T('Code Student')}} </th>
+                        <th> {{=T('Name Student')}} </th>
+                        <th> {{=T('Group')}} </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{for row_p in list_port:}}
+                    <tr><td><strong><span class="votes">{{=row_p[0]}}</span></strong></td>
+                        <td><strong><span class="votes">{{=row_p[1]}}</span></strong></td>
+                        <td><strong><span class="votes">{{=row_p[2]}}</span></strong></td>
+                        <td><strong><span class="votes">{{=row_p[3]}}</span></strong></td>
+                        <td><strong><span class="votes">{{=row_p[4]}}</span></strong></td></tr>
+                    {{pass}}
+                </tbody>
+            </table>
+            
+            <a href="{{=URL('academia','r_est', args=(semes,machine.id,course.id,num_group))}}"><button> {{=T('Register Student')}} </button> </a>
+        </div> <!-- panel body -->
+    </div>
+</div>

@@ -1,3 +1,2 @@
-action: open
-puertos: '6005'
+action: check
 remote: all

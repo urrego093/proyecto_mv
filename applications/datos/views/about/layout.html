@@ -1,0 +1,129 @@
+{{#include 'web2py_ajax.html'}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}"/>
+    <link rel='stylesheet' href='{{=URL("static", "css/tutorial.css")}}'>
+      
+    <link rel="shortcut icon" href="/datos/static/images/favicon.ico" type="image/x-icon">  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="index3.js"></script> -->
+    <script src="{{=URL('static', 'js/tutorial.js')}}"></script>
+  </head>
+    
+  <body>
+    <div>
+    <div id="body">
+      <div id="wrapper"  >
+        <div class="overlay"></div>
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+          <ul class="nav sidebar-nav" >
+              
+            <a class="navbar-brand"  id="pmv_logo" href="{{=URL('default','index')}}" data-toggle="tooltip" title="{{=T('Back to main page')}}">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <b>VM-UD</b>&nbsp;
+            </a>
+              
+            <a class="navbar-brand"  id="manual_logo" href="{{=URL('tutorial','index')}}" data-toggle="tooltip" title="{{=T('Back to user manual')}}">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <b>User manual</b>&nbsp;
+            </a>  
+              
+              
+              {{if auth.user:}}
+            <li class="dropdown" data-w2pmenulevel="l0"><a class="dropdown-toggle" data-toggle="dropdown" href="#" rel="nofollow">{{=T('Welcome') + " " + auth.user.first_name }}<span class="caret"> </span></a>
+                <ul class="dropdown-menu">
+                    <li class="divider"></li>
+                    <li><a href="/datos/default/user/profile?_next=/datos/tutorial/index" rel="nofollow"><i class="icon icon-user glyphicon glyphicon-user"></i> Perfil</a></li>
+                    <li><a href="/datos/default/user/change_password?_next=/datos/tutorial/index" rel="nofollow"><i class="icon icon-lock glyphicon glyphicon-lock"></i> Contraseña</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/datos/default/user/logout?_next=/datos/tutorial/index" rel="nofollow"><i class="icon icon-off glyphicon glyphicon-off"></i> Salir</a></li>
+                </ul>
+              </li>
+
+            
+            {{else:}}
+            <li class="dropdown open dropup" data-w2pmenulevel="l0"><a class="dropdown-toggle" data-toggle="dropdown" href="#" rel="nofollow" aria-expanded="true">Iniciar Sesión<span class="caret"> </span></a>
+                <ul class="dropdown-menu">
+                    <li class="divider"></li>
+                    <li><a href="/datos/default/user/register?_next=/datos/tutorial/index" rel="nofollow">
+                        <i class="icon icon-user glyphicon glyphicon-user"></i> {{=T('Sign Up')}} </a>
+                    </li>
+                    
+                    <li><a href="/datos/default/user/request_reset_password?_next=/datos/tutorial/index" rel="nofollow">
+                        <i class="icon icon-lock glyphicon glyphicon-lock"></i> {{=T('Forgot password?')}} </a>
+                    </li>
+                    
+                    <li class="divider"></li>
+                    
+                    <li><a href="/datos/default/user/login?_next=/datos/tutorial/index" rel="nofollow">
+                        <i class="icon icon-off glyphicon glyphicon-off"></i> {{=T('Log in')}} </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="divider"></li>
+            {{pass}}
+              
+            <li class="divider"></li>
+              
+            <!-- Developers -->  
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{=T('Developers')}} <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-header"></li>
+                <li><a href="#"> Camilo Urrego </a></li>
+                <li><a href="#"> Carlos Suárez </a></li>
+                <li class="divider"></li>
+              </ul>
+            </li>  
+              
+            <!-- Teachers -->  
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{=T('Directors')}} <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-header"></li>
+                <li><a href="#"> John Parra </a></li>
+                <li><a href="#"> Alejandro Daza </a></li>
+                <li class="divider"></li>
+              </ul>
+            </li>  
+             
+            <li class="divider"></li>
+              
+          </ul>
+            
+            
+        </nav>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+          <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+          <span class="hamb-top"></span>
+          <span class="hamb-middle"></span>
+          <span class="hamb-bottom"></span>
+          </button>
+          <div class="container">
+            {{block main}}
+            {{include}}
+            {{end}}
+
+          <ul class="pager">
+            <li class="previous"><a href="#" id="anterior"><span class="">{{=T("Previous")}}  </span>
+              </a>
+            </li>
+            <li class="next"><a href="#" id="siguiente">{{=T("Next")}}  </a></li>
+          </ul>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+    </div>
+    <!-- #body -->    
+  </body>
+</html>

@@ -1,0 +1,26 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href','http://example.com');
+        $('#anterior').attr('href','#');
+        
+        /*
+            en el index no tiene sentido que este activo el boton no ?
+        */
+        var boton_atras = $(".previous");
+        boton_atras.addClass("disabled");
+        
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"={{  =URL('tutorial', 'test')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>

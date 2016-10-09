@@ -1,7 +1,2 @@
-origen: /home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/uploads/2/$caso0_001.png
-somelist:
-- estudiante1
-- estudiante2
-- user1
-- user2
-- user3
+action: check
+remote: all

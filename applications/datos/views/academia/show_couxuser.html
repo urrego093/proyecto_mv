@@ -1,12 +1,23 @@
 {{extend 'layout.html'}}
-<h1>{{#=auth.user.first_name}} 
-    {{#=auth.user.last_name}}</h1>
-<h1>{{=course.name_course}}</h1>
 
-<h2>{{=T('Select one Machine')}}</h2>
-<div class="well">
 
-{{=maquinas}}
-
+<div class="jumbotron" align='center'>
+    <h1>{{=course.name_course}}</h1>
 </div>
+
+<div class="container center">
+    <div class="panel panel-info" id='info'>
+        <div class="panel-heading">
+            <h2 class="panel-title center">{{=T("Select one of the machines of the course")}}</h2>
+        </div>
+    </div>
+    <div class="panel-body ">
+        <div class="panel-body center">
+            <div class="well">
+                {{=maquinas}}
+        </div>
+    </div>
+</div>
+
+
 {{#=BEAUTIFY(response._vars)}}

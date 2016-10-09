@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # intente algo como
+import evaluar_expresion
 
 @auth.requires_login()
 def clean_machines(): 

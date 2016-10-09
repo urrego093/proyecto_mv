@@ -1,0 +1,11 @@
+# -*- coding: utf-8 -*-
+# intente algo como
+import os
+
+def index(): 
+    ruta_siguiente = URL('tutorial', 'test')
+    print ruta_siguiente
+    return locals()
+
+def test():
+    return locals()

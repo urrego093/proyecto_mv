@@ -2595,3 +2595,18 @@ CREATE TABLE scheduler_task_deps(
     can_visit CHAR(1)
 );
 success!
+timestamp: 2016-10-07T23:31:22.051804
+CREATE TABLE student_x_machine(
+    id SERIAL PRIMARY KEY,
+    ip_machine INTEGER REFERENCES port_machine (id) ON DELETE CASCADE  ,
+    code_student VARCHAR(512),
+    name_student VARCHAR(512),
+    semester VARCHAR(512),
+    course_group VARCHAR(512),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!

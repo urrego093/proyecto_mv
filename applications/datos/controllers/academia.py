@@ -16,7 +16,8 @@ def create_hostvars_yml(idmachine, systemOpe):
         datos = dict(ansible_become_pass="reverse", ansible_user="ubuntu")
         #datos = dict(ansible_become_pass="osboxes.org", ansible_user="osboxes")
     elif systemOpe == "CentOS":
-        datos = dict(ansible_become_pass="Centosbase123", ansible_user="root")                
+        #datos = dict(ansible_become_pass="Centosbase123", ansible_user="root")
+        datos = dict(ansible_become_pass="reverse", ansible_user="root")  
         #datos = dict(ansible_become_pass="osboxes.org", ansible_user="root")
     elif systemOpe == "Fedora":
         datos = dict(ansible_become_pass="Centosbase123", ansible_user="root")
@@ -77,9 +78,11 @@ def r_est():
     course = db1.course(request.args(2, cast=int))
     machine = db1.machine(request.args(1, cast=int) or redirect(URL('default','index')))
     num_group = request.args(3) or redirect(URL('default','index'))
+    
     port_m = db1(db1.port_machine.ip_machine==machine.id).select()
     list_port_usados = []
     list_all_port = []
+    print list_all_port
 
     for row_mac in port_m:
         list_all_port.append(row_mac.id)

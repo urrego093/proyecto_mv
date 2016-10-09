@@ -1,2 +1,2 @@
-ansible_become_pass: Centosbase123
-ansible_user: root
+ansible_become_pass: reverse
+ansible_user: ubuntu

@@ -1,0 +1,5 @@
+accion: install_packages
+paquetes:
+- postgresql
+- postgresql-contrib
+remote: all

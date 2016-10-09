@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 # essayez quelque chose comme
+import evaluar_expresion
+
+
 def index(): return dict(message="hello from services.py")
 
 

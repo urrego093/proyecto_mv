@@ -1,3 +1,20 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla academia/mostrar_macxuser.html</h1>
-{{=BEAUTIFY(response._vars)}}
+
+
+<div class="jumbotron" align='center'>
+    <h1><h1>{{=machine.ip_machine}} {{=T('of')}} {{=course.name_course}}</h1></h1>
+</div>
+
+<div class="container ">
+    <div class="panel panel-info" id='info'>
+        <div class="panel-heading">
+            <h2 class="panel-title center">{{=T('Select one group')}}</h2>
+        </div>
+    </div>
+    <div class="panel-body ">
+        <div class="panel-body ">
+            <div class="well">
+                {{=groups}}
+        </div>
+    </div>
+</div>

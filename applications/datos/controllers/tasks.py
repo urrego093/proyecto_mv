@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # intente algo como
+import evaluar_expresion
+
 @auth.requires_login()
 def index():
     query_job = db1.job.user_id == auth.user_id

@@ -1,7 +1,20 @@
 {{extend 'layout.html'}}
-<h1>{{#=auth.user.first_name}} 
-    {{#=auth.user.last_name}}</h1>
-<h1>{{=machine.ip_machine}} {{=T('of')}} {{=course.name_course}}</h1>
 
-<h2>{{=T('Select one group')}}</h2>
-{{=groups}}
+
+<div class="jumbotron" align='center'>
+    <h1><h1>{{=machine.ip_machine}} {{=T('of')}} {{=course.name_course}}</h1></h1>
+</div>
+
+<div class="container ">
+    <div class="panel panel-info center" id='info'>
+        <div class="panel-heading">
+            <h2 class="panel-title center">{{=T('Select one group')}}</h2>
+        </div>
+    </div>
+    <div class="panel-body ">
+        <div class="panel-body ">
+            <div class="well">
+                {{=groups}}
+        </div>
+    </div>
+</div>

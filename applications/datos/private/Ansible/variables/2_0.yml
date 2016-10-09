@@ -1,0 +1,8 @@
+action: create_user
+admin: 'no'
+password: Centosbase123
+remote: all
+username:
+- user1
+- user2
+- user3

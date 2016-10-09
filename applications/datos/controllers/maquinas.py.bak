@@ -143,6 +143,12 @@ def mostrar():
                     else:
                         response.flash = T("For this task, please select just one machine")
 
+                elif accion == T("first_time"):
+                    ids = x.vars.records
+                    if type(ids) == str:  
+                        redirect(URL('vnc','first_time', vars=dict(ids=ids)))
+                    else:
+                        response.flash = T("For this task, please select just one machine")
                 else:
                     pass
             else:

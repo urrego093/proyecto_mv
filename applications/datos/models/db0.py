@@ -4,9 +4,9 @@
 #Camilo
 #STR_DAL ="postgres://postgres:1234@localhost/proyecto2"
 #Camilo2
-STR_DAL ="postgres://postgres:1234@localhost/test3"
+#STR_DAL ="postgres://postgres:1234@localhost/test3"
 #Camilo 3 
-#STR_DAL ="postgres://maquinas_user:user1234@localhost/maquinas_pruebas"
+STR_DAL ="postgres://maquinas_user:user1234@localhost/maquinas_pruebas"
 #UD
 #STR_DAL ="postgres://udistrital:Maquinas1234@localhost/prueba"
 

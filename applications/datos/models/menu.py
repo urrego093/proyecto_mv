@@ -28,6 +28,13 @@ response.google_analytics_id = None
 response.menu = [
     (T('Home'), False, URL('default', 'index'), [])]
 
+response.menu = [
+    (T('User manual'), False, URL('tutorial', 'index'), []),
+     (T('About'), False, URL('about', 'index'), [])
+
+]
+
+
 
 #List of course for userid  (Ex: User_id 1, machines 192.168.1.114,192.168.1.115)
 couxuser = []
@@ -81,6 +88,10 @@ for row in adminis:
                 (T('Teachers'), False, URL('admin', 'teachers')),
             ])
         ]
+        
+
+
+        
         
     if row.group_id.role=="Docente":
         response.menu += [

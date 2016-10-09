@@ -39,11 +39,9 @@ def resumen():
     debug = dict()
     cabezas = []
     datos = {}
+    
     enlace_resumen = "http://127.0.0.1:8000/datos/appadmin/update/db1/scheduler_run/"
     
-    boton_descargar = INPUT(_value = T('Download Resume'),_type= "button", _class="btn btn-primary",
-                                #_href="/datos/private/Ansible/resultados/" + job_name + ".txt"
-    )
     if job_user_id == user_id:
         trabajo = db1(db1.job.name == job_name).select()
 

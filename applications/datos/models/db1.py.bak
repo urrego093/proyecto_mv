@@ -89,7 +89,7 @@ db1.define_table('student_x_machine',
                Field('name_student','string', requires=IS_NOT_EMPTY()),
                Field('semester', 'string', label = T('Semester'), requires=IS_IN_SET(SEMESTER, zero = T('Select One'), error_message='You no choose one')),
                Field('course_group', 'string', label = T('Group'), requires=IS_IN_SET(GROUP, zero = T('Select One'), error_message='You no choose one')),
-               auth.signature,migrate=False
+               auth.signature,migrate=True
 )
 
 db1.student_x_machine.ip_machine.requires=IS_NOT_IN_DB(db1(db1.student_x_machine.semester==request.vars.semester),
@@ -109,7 +109,7 @@ db1.define_table('job',
 db1.job.name.requires=IS_NOT_IN_DB(db1(db1.job.name==request.vars.name), 'job.name')
 
 campos = db1(db1.auth_group.id).select()
-print len(campos)
+#print len(campos)
 if mig and len(campos) == 0:
     db1.auth_group.bulk_insert([dict(role='Administrador', description='Es el administrador del sistema')])
     db1.auth_group.bulk_insert([dict(role='Docente', description='Para los docentes del sistema el alcance se limita a las máquinas de los grupos que él dirige')])

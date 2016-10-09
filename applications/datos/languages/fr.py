@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 {
+' Machine Created!': ' Machine Created!',
 '!=': '!=',
 '!langcode!': 'fr',
 '!langname!': 'Français',
@@ -56,6 +57,7 @@
 'Authentication': 'Authentification',
 'Available Databases and Tables': 'Bases de données et tables disponibles',
 'Back': 'Back',
+'Back to main page': 'Back to main page',
 'Basic Commands': 'Basic Commands',
 'Buy this book': 'Acheter ce livre',
 "Buy web2py's book": "Buy web2py's book",
@@ -210,6 +212,7 @@
 'Global Summary': 'Global Summary',
 'Graph Model': 'Graph Model',
 'Group': 'Group',
+'Group Created!': 'Group Created!',
 'Group ID': 'Groupe ID',
 'Group Number': 'Group Number',
 'Group uniquely assigned to user %(id)s': 'Group uniquely assigned to user %(id)s',
@@ -301,6 +304,7 @@
 'New Record': 'Nouvel enregistrement',
 'new record inserted': 'nouvel enregistrement inséré',
 'New Search': 'New Search',
+'Next': 'Next',
 'next %s rows': 'next %s rows',
 'next 100 rows': '100 prochaines lignes',
 'No': 'No',
@@ -362,6 +366,7 @@
 'Powered by': 'Alimenté par',
 'PPA repositories like ppa:nginx/stable  will work in Ubuntu but not in Debian': 'PPA repositories like ppa:nginx/stable  will work in Ubuntu but not in Debian',
 'Preface': 'Préface',
+'Previous': 'Previous',
 'previous %s rows': 'previous %s rows',
 'previous 100 rows': '100 lignes précédentes',
 'Previous Jobs': 'Previous Jobs',

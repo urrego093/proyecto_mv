@@ -1,3 +1,27 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla academia/show_couxuser.html</h1>
-{{=BEAUTIFY(response._vars)}}
+
+
+<div class="jumbotron" align='center'>
+    <h1>{{=course.name_course}}</h1>
+</div>
+
+<div class="container center">
+              <div class="panel panel-info center">
+                    <div class="panel-heading">
+                        <h2 class="panel-title center"></h2>
+                    </div>
+            </div>
+<div class="panel-body ">
+    <div class="panel panel-info" id='info'>
+    <div class="panel-heading">
+        <h2 class="panel-title center">{{=T("Select one of the machines of the course")}}</h2>
+    </div>
+     <div class="panel-body center">
+         <div class="well">
+            {{=maquinas}}
+        </div>
+    </div>
+</div>
+
+
+{{#=BEAUTIFY(response._vars)}}

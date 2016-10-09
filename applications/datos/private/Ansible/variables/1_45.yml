@@ -1,0 +1,3 @@
+action: open
+puertos: '8140'
+remote: all

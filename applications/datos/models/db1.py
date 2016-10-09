@@ -89,7 +89,7 @@ db1.define_table('student_x_machine',
                Field('name_student','string', requires=IS_NOT_EMPTY()),
                Field('semester', 'string', label = T('Semester'), requires=IS_IN_SET(SEMESTER, zero = T('Select One'), error_message='You no choose one')),
                Field('course_group', 'string', label = T('Group'), requires=IS_IN_SET(GROUP, zero = T('Select One'), error_message='You no choose one')),
-               auth.signature,migrate=False
+               auth.signature
 )
 
 db1.student_x_machine.ip_machine.requires=IS_NOT_IN_DB(db1(db1.student_x_machine.semester==request.vars.semester),

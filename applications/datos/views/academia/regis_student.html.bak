@@ -1,3 +1,26 @@
 {{extend 'layout.html'}}
-<h1>Está es la plantilla academia/regis_student.html</h1>
-{{=BEAUTIFY(response._vars)}}
+
+<div class="jumbotron" align='center'>
+    <h1>{{=T("Student Registration")}}</h1>
+</div>
+
+<div class="container center">
+    <div class="panel panel-info" id='info'>
+        <div class="panel-heading">
+            <h4 >
+                <b>{{=T('Machine')}}: </b> {{=machine.ip_machine}} <br><br>
+                <b>{{=T('Port')}}: </b> {{=id_port_mach.number_port}} 
+            </h4>
+        </div>
+    </div>
+    <div class="panel-body ">
+        <div class="panel-body center">
+            <div class="well">
+               {{=form}}
+        </div>
+    </div>
+</div>
+
+
+
+{{#=BEAUTIFY(response._vars)}}

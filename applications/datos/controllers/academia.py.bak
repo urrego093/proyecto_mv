@@ -16,7 +16,8 @@ def create_hostvars_yml(idmachine, systemOpe):
         datos = dict(ansible_become_pass="reverse", ansible_user="ubuntu")
         #datos = dict(ansible_become_pass="osboxes.org", ansible_user="osboxes")
     elif systemOpe == "CentOS":
-        datos = dict(ansible_become_pass="Centosbase123", ansible_user="root")                
+        #datos = dict(ansible_become_pass="Centosbase123", ansible_user="root")
+        datos = dict(ansible_become_pass="reverse", ansible_user="root")  
         #datos = dict(ansible_become_pass="osboxes.org", ansible_user="root")
     elif systemOpe == "Fedora":
         datos = dict(ansible_become_pass="Centosbase123", ansible_user="root")
@@ -203,10 +204,11 @@ def deny_teacher():
     if form.process().accepted:
         db1(db1.auth_user.id == request.args(0, cast=int)).delete()
         session.flash = T ('User rejected')
+        redirect(URL('academia','agree_teacher'))
     elif form.errors:
         session.flash = T ('Error in the form')
 
-    redirect(URL('academia','agree_teacher'))
+
     return locals()
 
 

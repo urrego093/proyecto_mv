@@ -1,1 +1,1 @@
-192.168.0.106              : ok=5    changed=3    unreachable=0    failed=0   
+10.20.250.91               : ok=0    changed=0    unreachable=1    failed=0   

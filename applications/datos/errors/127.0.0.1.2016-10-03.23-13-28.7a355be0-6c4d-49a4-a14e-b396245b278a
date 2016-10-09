@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'rutaCSS' is not defined"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/controllers/tutorial.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# intente algo como\nimport os\n\ndef index(): \n    #rutaJS = os.path.join(request.folder, \'static\', \'js/tutorial.js\')\n    rutaJS = URL(\'statics\', \'js/tutorial.js\')\n\n    print rutaJS\n    \n    #rutaCSS = os.path.join(request.folder, \'static\', \'css/tutorial.css\')\n    rutacSS = URL(\'statics\', \'css/tutorial.css\')\n    print rutaCSS\n    \n    print "asdasdasds"\n    \n    \n    return locals()\n\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/controllers/tutorial.py", line 20, in <module>\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/controllers/tutorial.py", line 13, in index\n    print rutaCSS\nNameError: global name \'rutaCSS\' is not defined\n'
+p11
+s.

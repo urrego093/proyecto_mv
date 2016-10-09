@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'evaluar_expresion' is not defined"
+p3
+sS'layer'
+p4
+S'/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/controllers/services.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# essayez quelque chose comme\ndef index(): return dict(message="hello from services.py")\n\n\n@auth.requires_login()\ndef services():\n    ids = request.vars["ids"]\n    variables_extra = dict( remote=\'all\', action=\'check\')\n    \n    redirect(URL(\'maquinas\', \'ejecutar\', vars= dict(ids=ids, opcion=\'services\', variables_extra = variables_extra, is_debug=True)))\n    return dict()\n\n@auth.requires_login()\ndef start_services():\n    services = []\n    ids = request.vars["ids"]\n    form = SQLFORM.factory(\n        Field(\'services\', label=\'Services\', requires=IS_NOT_EMPTY()),\n    ).process()\n\n    if form.accepted:\n        services = request.vars.services\n        services = evaluar_expresion.separar_x_comas(services)\n    \n        variables_extra = dict( remote=\'all\', action=\'start\', services=services)\n    \n        redirect(URL(\'maquinas\', \'ejecutar\', vars= dict(ids=ids, opcion=\'services\', variables_extra = variables_extra)))\n    return locals()\n\n\n@auth.requires_login()\ndef stop_services():\n    ids = request.vars["ids"]\n    form = SQLFORM.factory(\n        Field(\'services\', label=\'Services\', requires=IS_NOT_EMPTY()),\n    ).process()\n\n    if form.accepted:\n        services = request.vars.services\n        services = evaluar_expresion.separar_x_comas(services)\n    \n        variables_extra = dict( remote=\'all\', action=\'stop\', services=services)\n    \n        redirect(URL(\'maquinas\', \'ejecutar\', vars= dict(ids=ids, opcion=\'services\', variables_extra = variables_extra)))\n    return locals()\n\n\n@auth.requires_login()\ndef restart_services():\n    ids = request.vars["ids"]\n    form = SQLFORM.factory(\n        Field(\'services\', label=\'Services\', requires=IS_NOT_EMPTY()),\n    ).process()\n\n    if form.accepted:\n        services = request.vars.services\n        services = evaluar_expresion.separar_x_comas(services)\n    \n        variables_extra = dict( remote=\'all\', action=\'restart\', services=services)\n    \n        redirect(URL(\'maquinas\', \'ejecutar\', vars= dict(ids=ids, opcion=\'services\', variables_extra = variables_extra)))\n    return locals()\n\n@auth.requires_login()\ndef reload_services():\n    ids = request.vars["ids"]\n    form = SQLFORM.factory(\n        Field(\'services\', label=\'Services\', requires=IS_NOT_EMPTY()),\n    ).process()\n\n    if form.accepted:\n        services = request.vars.services\n        services = evaluar_expresion.separar_x_comas(services)\n    \n        variables_extra = dict( remote=\'all\', action=\'reload\', services=services)\n    \n        redirect(URL(\'maquinas\', \'ejecutar\', vars= dict(ids=ids, opcion=\'services\', variables_extra = variables_extra)))\n    return locals()\n\nresponse._vars=response._caller(stop_services)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/controllers/services.py", line 81, in <module>\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/globals.py", line 415, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/gluon/tools.py", line 4231, in f\n    return action(*a, **b)\n  File "/home/camilo/Escritorio/nuevo_nuevo_repo_git/proyecto_mv/applications/datos/controllers/services.py", line 41, in stop_services\n    services = evaluar_expresion.separar_x_comas(services)\nNameError: global name \'evaluar_expresion\' is not defined\n'
+p11
+s.

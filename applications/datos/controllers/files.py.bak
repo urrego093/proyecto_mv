@@ -48,10 +48,6 @@ def copiar_archivos():
         ## ^ ^ comentar si se desea encriptar archivos, se debe tener algun registro en la base de datos para que no salga feo
         redirect(URL('maquinas','ejecutar', vars= dict(ids=ids, opcion='copyFile', variables_extra=dict(origen=ruta_basica + orig_name,
                                                                                   somelist=request.vars.hostname))))
-    elif x.vars.archivo == None:
-            print "EL archivo es ------------------------ : "
-            print form.vars.archivo
-            response.flash = T("Please select a file")
     return locals()
 
 
