@@ -1,0 +1,126 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'bdd')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'subidos')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>ADMINISTRACIÓN DE BASES DE DATOS</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Ésta función está disponible sólo para el administrador del sistema y permite editar algunos datos de la aplicación como lo son los cursos y los grupos, los datos de los docentes y las máquinas.
+<br><br>
+Es posible acceder a estas configuraciones en la opcion  BDD en la barra de navegación :
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/06.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Submenú para administrar bases de datos
+        </p>
+    </div>
+</div>
+
+<br><br>
+<div class="text-justify">
+    <p >
+<b><big>Cursos y grupos:</big></b> Presenta una lista de todos los cursos registrados en el sistema, con la posibilidad de revisar los datos del curso, modificarlos y si es necesario eliminar el curso del sistema.
+    </p>
+</div>
+
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/07.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Formulario para registrar un grupo
+        </p>
+    </div>
+</div>
+
+
+<br><br>
+<div class="text-justify">
+    <p >
+A la derecha aparece en color verde la frase 'Grupos del curso' y al hacer clic sobre ella se listarán los grupos del curso en todos los semestres tal como se muestra en la imagen :
+    </p>
+</div>
+
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/08.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Vista de todos los grupos de la materia seleccionada
+        </p>
+    </div>
+</div>
+
+<br><br>
+<div class="text-justify">
+    <p >
+Al igual que en la lista de cursos es posible revisar los datos completos del grupo, editarlos y si es necesario eliminarlo.
+    </p>
+    <br><br>
+    <b><big>Máquinas por curso:</big></b> Presenta una lista de los cursos del sistema con la opción de modificarlos o eliminarlos :
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/09.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Vista de todos los cursos registrados y la posibilidad de observar las máquinas asociadas al curso
+        </p>
+    </div>
+</div>
+
+<br><br>
+<div class="text-justify">
+    <p >
+En éste formulario la opción para listar todos los grupos es remplazada por una opción que permite observar las máquinas asociadas al curso deseado 'Equipos', al hacer clic en ella se podrán modificar o eliminar de ser requerido por el administrador del sistema.
+    </p>
+</div>
+
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/10.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Vista de todos los cursos registrados y la posibilidad de observar las máquinas asociadas al curso
+        </p>
+    </div>
+</div>
+
+
+<br><br>
+<div class="text-justify">
+    <p >
+    <b><big>Docentes:</big></b> Ésta última opción permite administrar los docentes registrados en el sistema y permite modificar sus datos o eliminarlos, puede ser conveniente en caso de que por equivocación se aceptó al usuario o por alguna razón no se necesita el usario en el sistema :
+            </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/11.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Vista de todos docentes registrados
+        </p>
+    </div>
+</div>

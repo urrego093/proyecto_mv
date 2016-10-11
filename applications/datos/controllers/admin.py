@@ -46,7 +46,7 @@ def lista_maquina_materia():
         #course_group = db1.course_group.id_teacher== indentificador
                          #, course = db1.course.id == 2
                         )
-    grid = SQLFORM.smartgrid(db1.course,linked_tables=['machine'], constraints = restricciones,
+    grid = SQLFORM.smartgrid(db1.course,linked_tables=['machine'],
         #searchable=False,
         deletable=True, editable=True, details=True, csv= True, create= False
         #, links=[lambda row:A(T("Select"),_href=URL("maquinas","lista_maquina_clase",args=[row.id]))]

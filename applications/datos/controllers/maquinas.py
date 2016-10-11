@@ -118,7 +118,7 @@ def mostrar():
                     redirect(URL('services', 'reload_services', vars=dict(ids= x.vars.records)))
 
     #### Ports
-                elif accion == T('ports'):
+                elif accion == 'ports':
                     redirect(URL('ports', 'ports', vars=dict(ids= x.vars.records)))
                 
                 elif accion == T('open_ports'):

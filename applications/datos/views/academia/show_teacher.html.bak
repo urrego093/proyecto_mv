@@ -10,6 +10,7 @@
         <h2 class="panel-title center">{{=T("Are you sure that you want to accept this user as a teacher?")}}</h2>
     </div>
 
-<div class="panel-body">
-    {{=form}}
+    <div class="panel-body">
+        {{=form}}
+    </div>
 </div>

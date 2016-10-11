@@ -9,7 +9,7 @@ def clean_machines():
     form["_align"] = "center"
 
     if form.accepted:
-        redirect(URL('maquinas', 'ejecutar', vars= dict(ids=ids, opcion='restart')))
+        redirect(URL('maquinas', 'ejecutar', vars= dict(ids=ids, opcion='limpiar')))
         #print tarea
     return dict(form=form)
 
@@ -28,7 +28,7 @@ def copiar_archivos():
         HOSTNAME.append(row.hostname);
     #url = URL('download')
     # https://groups.google.com/forum/#!topic/web2py/X5xmXyTCavY Checkbox Multiple
-    form = SQLFORM.factory(  Field("archivo", "upload", uploadfolder=ruta_basica, autodelete=True,requires=IS_NOT_EMPTY()), #widget=SQLFORM.widgets.upload.widget),
+    form = SQLFORM.factory(  Field("archivo", "upload", label=T("Select file"), uploadfolder=ruta_basica, autodelete=True,requires=IS_NOT_EMPTY()), #widget=SQLFORM.widgets.upload.widget),
         Field("hostname", "list:string",
               default=HOSTNAME,widget=SQLFORM.widgets.checkboxes.widget,
               requires=[IS_IN_SET(HOSTNAME,multiple=True),IS_NOT_EMPTY()]))

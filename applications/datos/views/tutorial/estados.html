@@ -1,0 +1,120 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'tareas')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'usuario')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>Estados</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Las tareas son la parte fundamental de la aplicación, una tarea puede ser cualquier cambio o consulta sobre el estado del sistema y se pueden ejecutar en su gran mayoría sobre gran variedad de equipos a la vez, tienen asociada a su ejecución un estado, variables de ejecución, resumen y en el caso de la consulta sobre servicios y puertos abiertos una respuesta a la tarea, para facilitar la búsqueda de tareas se clasificaron en 3 categorías como se explicará más adelante, cada una de éstas categorías tiene subcategorías que agrupan tareas similares.
+<br><br>
+Una tarea puede tener diferentes estados a lo largo de su vida en el sistema, dichos estados son los mismos que usa el planificador de tareas del framework Web2py usado para desarrollar la aplicación, los posibles cambios de estado se muestran en la figura XXX.        
+    </p>
+</div>
+
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/tareas/00.jpg')}}" alt="Aplicación principal"> br
+    </div>
+    <p>
+            Imagen: Posibles estados de una tarea
+        </p>
+</div>
+<div class="table-responsive text-justify">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ESTADO</th>
+                <th>SIGNIFICADO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    QUEUED
+                </td>
+                <td>
+                    La tarea ha sido recibida por el planificador del sistema y espera a ser asignada.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ASSIGNED
+                </td>
+                <td>
+                    La tarea ha sido asignada a un ejecutor, si bien es posible tener varios, en la aplicación únicamente se está usando uno por lo tanto las tareas se ejecutan de manera lineal.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    EXPIRED
+                </td>
+                <td>
+                    Si ha a una tarea se le configura un tiempo de vida y ésta no es ejecutada dentro de ese tiempo la tarea expira, en la aplicación ninguna tarea tiene tiempo de expiración así que todas se ejecutarán tarde o temprano.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    RUNNING
+                </td>
+                <td>
+                    La tarea se encuentra en ejecución.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    TIMEOUT
+                </td>
+                <td>
+                    Las tareas tienen un tiempo de ejecución de 10 minutos, si dentro de este tiempo la tarea no se completa cambiará a este estado.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    FAILED
+                </td>
+                <td>
+                    Si no se pudo ejecutar la tarea ésta cambiará a este estado, en las pruebas hechas nunca una tarea ha llegado a éste estado.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    COMPLETED
+                </td>
+                <td>
+                    Cuando una tarea se ejecuta cambia a éste estado.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+ <p class="center">
+     Tabla: Posibles estados de una tarea
+</p>
+
+<br><br>
+
+<div class="well text-justify">
+    <p >
+        <big><b>NOTA: </b></big>
+En el resumen de las tareas si una tarea no ha llegado a un estado final como TIMEOUT, FAILED o COMPLETED la pagina se recargará cada 10 segundos.
+    </p>
+</div>

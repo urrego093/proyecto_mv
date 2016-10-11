@@ -1,0 +1,69 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'cursosGrupos')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'bdd')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>REGISTRO DE MÁQUINAS</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+De nada servirá registrar cursos y grupos si no se asigna alguna máquina a cada curso, para ello se debe diligenciar el formulario que se muestra a continuación :
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/04.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Formulario para registrar una máquina
+        </p>
+    </div>
+</div>
+
+<br><br>
+
+<div class="text-justify">
+    <p >
+Los campos Curso, Sistema Operativo, memoria RAM y procesador son una lista de valores predeterminados o cargados de la base de datos, lamentablemente más allá de la dirección IP, el curso y el sistema operativo estos campos relamente no harán nada son, por el momento, meramente informativos y deberían reflejar las configuraciones de las máquinas virtuales creadas con el gestor  usado en la Universidad Distrital.
+        <br><br>
+
+Una vez se envia el formulario y éste es aceptado se abrirá una ventana con el resumen de una tarea, ésta es la primera tarea que se debe ejecutar en una máquina y es la configuración del acceso SSH y la instalación del cliente VNC.
+
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/05.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Resumen de la tarea para configurar una máquina recién creada
+        </p>
+    </div>
+</div>
+
+<br><br>
+<div class="text-justify">
+    <p> 
+    <b><big>
+La ejecución de ésta tarea es obligatoria para que pueda funcionar la aplicación y si por alguna razón no se completaron todas las tareas sin errores siempre es posible enviar la tarea desde la categoría sistema, en la opción SSH y VNC, HABILITAR ACCESO SSH E INSTALAR VNC.
+    </b></big>
+<br><br>
+Una vez completados éstos pasos un docente puede empezar a usar la aplicación.
+    </p>
+</div>

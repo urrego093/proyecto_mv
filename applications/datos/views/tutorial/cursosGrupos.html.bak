@@ -1,0 +1,60 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'roles')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'maquinas')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>REGISTRO DE CURSOS Y GRUPOS</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Una vez se hace clic sobre la opción para registrar curso aparece un formulario igual al que se muestra en la imágen:
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/02.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Formulario para registrar un curso
+        </p>
+    </div>
+</div>
+
+<br><br>
+
+<div class="text-justify">
+    <p >
+El código del curso es algo que debe manejarse en la universidad, por el momento no se ha integrado ninguna parte de la aplicación a la base de datos de la universidad pero en una versión futura éste formulario podría ser rellenado con datos usados para Cóndor, por citar un ejemplo y no tendría que ser llenado de manera completamente manual.
+<br><br>
+        
+Tras hacer clic en enviar se creará el registro del curso(materia) y podrá asignarsele grupos y máquinas.
+<br><br>
+        
+Para crear un grupo el formulario es un poco diferente ya que los grupos no tiene nombre, se les asigna un docente, un curso y un semestre en el que será impartida la materia, ésto último dado que no siempre existirán la misma cantida de grupos ni serán dictados por los mismos docentes.
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/03.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Formulario para registrar un curso
+        </p>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'bdd')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'tareas')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>Archivos subidos</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Resulta conveniente revisar algunas veces las actividades realizadas en la aplicación por un usuario, en este caso la opción de consulta de registros permite observar las tareas realizadas por un usuario y la lista de archivos que ha subido al sistema y que ha enviado a sus máquinas asignadas.
+<br><br>        
+        En la sección de comandos existe la opción de enviar un archivo a una máquina, el archivo puede ser de cualquier extensión y éste es almacenado en el servidor para que el usuario pueda después reenviarlo o sencillamente consultar el contenido del archivo :
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registros/00.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Lista de archivos subidos anteriormente por un usuario
+        </p>
+    </div>
+</div>
+
+<br><br>
+
+<div class="text-justify">
+    <p >
+El administrador puede hacer muchas cosas que los docentes no, aún así, éstos con las pocas funciones que tienen pueden hacer gran cantidad de cosas, la habilidad para ejecutar tareas tiene muchas opciones como reiniciar las máquinas, instalar paquetes, administrar los servicios en ejecución y muchos más.en dentro de un curso que le haya sido asignado y el administrador sobre cualquier máquina registrada en el sistema, un detalle de la diferencia entre los roles puede observarse en la tabla.
+    </p>
+</div>

@@ -1,0 +1,99 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'index')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'roles')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>REGISTRO DE USUARIOS</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Existen dos tipos de usuario en el sistema, docente y administrador, los dos siguen un proceso similar para registrarse en el sistema que comienza con el diligenciamiento de un formulario, la opción para registrarse se encuentra en la parte superior derecha de la pantalla en la aplicación principal como en la parte superior izquierda en el manual de usuario dentro de la aplicación y la sección acerca de:
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-6">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registro/00.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            En la aplicaión principal
+        </p>
+    </div>
+    <div class="col-sm-6">
+       <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registro/01.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            En el manual de usuario o en la sección acerca de
+        </p>
+    </div>
+</div>
+
+<br>
+<br>
+
+<div class="text-justify">
+    <p >
+Tras hacer clic en 'Registrarse' se debe rellenar el formulario, el campo de contraseña cambia de color dinámicamente según la seguridad de la palabra elegida como se muestra en la figura:
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registro/02.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Formulario de Registro
+        </p>
+    </div>
+</div>
+
+<br>
+<br>
+
+<div class="text-justify">
+    <p >
+El color del campo de contraseña cambia de rojo oscuro a verde oscuro indicando la seguridad de la contraseña, en el camino pasa por el naranja y el amarillo.
+<br>
+<br>
+Una vez se ha registrado el usuario este puede iniciar sesión pero no podrá hacer nada, éste debe ser asignado a un rol en el sistema, en el caso del administrador dicho proceso se hará directamente sobre la base de datos y para los docentes el/los administrador(es) tendrán una opción especial en el aplicativo para aceptar docentes, tal opción es 'Aprobar → Docente' y genera la siguiente salida:
+    </p>
+</div>
+
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registro/03.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Formulario para aceptar Docentes
+        </p>
+    </div>
+</div>
+
+<br><br>
+<div class="text-justify">
+    <p >
+En caso de rechazar la petición del usuario se preguntará al administrador si desea rechazar la petición del usuario y se le advierte que de continuar se eliminará el registro de la base de datos :
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registro/04.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Formulario para rechazar la solicitud
+        </p>
+    </div>
+</div>

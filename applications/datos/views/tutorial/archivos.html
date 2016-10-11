@@ -1,0 +1,95 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'sistema')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        //$('#siguiente').attr('href',"{{  =URL('tutorial', '#')  }}");
+        var boton_siguiente = $(".next");
+        boton_siguiente.addClass("disabled");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>TAREAS DE ARCHIVOS</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Éstas permiten enviar archivos a una máquina a la vez, eligiendo a qué usuarios se les enviará el archivo, dichos usuarios serán únicamente los que se hayan creado con la aplicación.
+<br><br>
+Si existe ya algún usuario en el sistema puede enviarse la tarea para crear usuarios con el nombre del usuario que ya existe y se podrán usar las tareas para dicho usuario.
+<br><br>
+El formulario para enviar el arhivo luce como se muestra en la imágen:
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/tareas/06.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Formulario para enviar un archivo
+        </p>
+    </div>
+</div>
+<br><br>
+
+<div class="text-justify">
+    <p >
+En este ejemplo se seleccionó un archivo llamado luces.sh y en la zona inferior se puede elegir a qué usuarios enviar el archivo, éstos como se mencionó anteriormente, fueron creados con la aplicación.
+    </p>
+</div>
+
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/tareas/07.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Comprobando que se envió el archivo a los usuarios
+        </p>
+    </div>
+</div>
+<br><br>
+
+<div class="text-justify">
+    <p >
+El archivo es enviado a la carpeta de documentos de los usuarios objetivo y almacenado en la lista de archivos del usuario en el servidor.
+<br><br>
+La otra tarea de la categoría de manejo de archivos es la de limpiar máquinas, ésta permite limpiar las carpetas todas las cuentas de usuario en una o varias máquinas, así al iniciar un nuevo semestre no es necesario eliminar los usuarios para limpiar los archivos o entrar usuario por usuario eliminándolos, al ejecutar ésta tarea con la máquina anterior encendida el resultado es:
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/tareas/08.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Resumen de la tarea para limpiar máquinas
+        </p>
+    </div>
+</div>
+<br><br>
+
+<div class="text-justify">
+    <p >
+Y por supuesto para corroborar los cambios en el sistema usamos el terminal como se muestra en la figura XXX.
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/tareas/09.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Comprobadno que se eliminaron los archivos en todas las cuentas de usuario
+        </p>
+    </div>
+</div>
+<br><br>

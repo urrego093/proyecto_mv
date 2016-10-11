@@ -1,0 +1,56 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'roles')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'cursosGrupos')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>CONFIGURACIÓN DEL SISTEMA</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Antes de que los docentes puedan usar el aplicativo deben realizarse algunas configuraciones básicas, si éstas no se hacen el docente no podrá hacer absolutamente nada ya que no tendrá máquinas que administrar y no estará registrado en ningún grupo, a continuación se explicarán las configuraciones en su orden respectivo ya que no será posible por ejemplo registar una máquina sin que exista un curso al cuál será asignada. 
+<br><br>        
+Se puede acceder a las configuraciones de máquinas, cursos y grupos  desde la opción 'registrar' del menú del administrador :
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/00.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Sub menú para configruar Aplicación
+        </p>
+    </div>
+</div>
+
+<br><br>
+
+<div class="text-justify">
+    <p >
+n el caso de la administración de la base de datos ésta tiene su propia opción en el menú de la aplicación y es posible Administrar los cursos y grupos, la Información de los docentes y las máquinas registradas en el sistema, tal como se observa en la imagen:
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/configSistema/01.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Sub menú para configruar Aplicación
+        </p>
+    </div>
+</div>

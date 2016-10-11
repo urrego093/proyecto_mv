@@ -1,0 +1,100 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'registro')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'configSistema')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>ROLES DE USUARIO</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Como se explicó al inicio de este documento existen dos roles en la aplicación, los docentes y un administrador, los dos pueden ejecutar tareas sobre equipos, el docente puede hacerlo siempre y cuando las máquinas se encuentren dentro de un curso que le haya sido asignado y el administrador sobre cualquier máquina registrada en el sistema, un detalle de la diferencia entre los roles puede observarse en la tabla.
+    </p>
+</div>
+
+
+<div class="table-responsive" >
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>TAREA</th>
+                <th>ADMINISTRADOR</th>
+                <th>DOCENTE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Aprobar docente</td>
+                <td>X</td>
+                <td></td>
+            </tr><tr>
+                <td>Registrar cursos</td>
+                <td>X</td>
+                <td></td>
+            </tr> <tr>
+                <td>Registrar máquinas</td>
+                <td>X</td>
+                <td></td>
+            </tr> <tr>
+                <td>Registrar grupos</td>
+                <td>X</td>
+                <td></td>
+            </tr> <tr>
+                <td>Administrar cursos y grupos</td>
+                <td>X</td>
+                <td></td>
+            </tr> <tr>
+                <td>Modificar docentes en el sistema</td>
+                <td>X</td>
+                <td></td>
+            </tr> <tr>
+                <td>Modificar máquinas en el sistema</td>
+                <td>X</td>
+                <td></td>
+            </tr> <tr>
+                <td>Consultar archivos subidos</td>
+                <td>X</td>
+                <td>X</td>
+            </tr> <tr>
+                <td>Consultar historial de tareas</td>
+                <td>X</td>
+                <td>X</td>
+            </tr> <tr>
+                <td>Consultar máquinas por curso</td>
+                <td>X</td>
+                <td>X</td>
+            </tr> <tr>
+                <td>Ejecutar tareas en equipos</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p  class="text-center">
+    Tabla: Funciones disponibles para cada rol
+</p>
+
+
+<br><br>
+
+<div class="text-justify">
+    <p >
+El administrador puede hacer muchas cosas que los docentes no, aún así, éstos con las pocas funciones que tienen pueden hacer gran cantidad de cosas, la habilidad para ejecutar tareas tiene muchas opciones como reiniciar las máquinas, instalar paquetes, administrar los servicios en ejecución y muchos más.en dentro de un curso que le haya sido asignado y el administrador sobre cualquier máquina registrada en el sistema, un detalle de la diferencia entre los roles puede observarse en la tabla.
+    </p>
+</div>

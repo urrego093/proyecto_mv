@@ -13,7 +13,7 @@ def crear():
                                                                  ]
              ),
         Field('confirm_password', 'password', label='Confirm password', requires=[
-                #IS_STRONG(min=6, special=0, upper=1), 
+                IS_STRONG(min=6, special=0, upper=1), 
                 IS_EQUAL_TO(request.vars.password, error_message='passwords do not match')]),
         Field('admin', 'boolean', label='Admin')
     ).process()

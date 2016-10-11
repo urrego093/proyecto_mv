@@ -1,0 +1,138 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'subidos')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'estados')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>Tareas anteriores</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Los usuarios pueden consultar las tareas que ejecutaron con anterioridad, por ejemplo éste puede enviar varias tareas a la vez y tras un tiempo consultar el estado final de cada una de ellas, la lista de tareas luce como se muestra en la imagen:
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registros/01.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Lista de tareas anteriores de un usuario
+        </p>
+    </div>
+</div>
+
+<br><br>
+
+<div class="text-justify">
+    <p >
+Como se puede observar aparece una pista del tipo de tarea que se ejecutó, esto es de manera general, al entrar al resumen de la tarea se podrá observar la descripción completa de la tarea incluyendo variables y resumen de tareas por equipo.
+<br><br>
+Cabe destacar que ésta información sólo está disponible para el usuario que ejecutó las tareas, si otro usuario trata de por ejemplo de acceder al resumen de una tarea que él no ejecutó le aparecera un mensaje igual al mostrado en la imagen:
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registros/02.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+           Resumen de una tarea que no corresponde al usuario
+        </p>
+    </div>
+</div>
+
+
+
+<div class="text-justify">
+    <p >
+Cuando se abre el resumen de una tarea aparecerán 3 secciones, la primera es un resumen general de la tarea que incluye estado, hora de creación y hora a la que será ejecutada. 
+<br><br>
+La segunda sección contendrá un resumen por equipo, dicho resumen contiene cuatro columnas, éstas indican en orden :
+<br><br>  
+        
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>RESULTADO</th>
+                <th>SIGNIFICADO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    OK
+                </td>
+                <td>
+                    El número de pasos completados con éxito pero que no generaron cambios en el sistema.     
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Changed
+                </td>
+                <td>
+                    El número de pasos completados y que generaron cambios en el sistema, en caso de que se ejecute un tarea en repetidas ocasiones la aplicación sabrá si se hicieron cambios o el sistema continúa igual, en dado caso el paso se marcará como OK.   
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Unreachable
+                </td>
+                <td>
+                    Si la máquina destino no fue alcanzable por alguna razón aquí se podrá observar dicha situación, puede deberse a varias situaciones, las más comunes son que la máquina se encuentra apagada o que no se ha configurado bien el acceso por SSH, si se tiene certeza de que la máquina se encuentra correctamente configurada se debe contactar con el web master para que encienda la máquina ya que el prototipo no permite encender las máquinas de manera remota.     Unreachable : Si la máquina destino no fue alcanzable por alguna razón aquí se podrá observar dicha situación, puede deberse a varias situaciones, las más comunes son que la máquina se encuentra apagada o que no se ha configurado bien el acceso por SSH, si se tiene certeza de que la máquina se encuentra correctamente configurada se debe contactar con el web master para que encienda la máquina ya que el prototipo no permite encender las máquinas de manera remota.   
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Failed
+                </td>
+                <td>
+                    En caso de que algunos de los pasos falle aquí se encontrará dicho error, la aplicación detendrá la ejecución apenas encuentre un error, en esa situación debe comunicarse con el web master para que corrija el error.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>        
+ <br><br>   
+
+No se muestra la descripción de todos los pasos para completar una tarea ya que son aspectos técnicos que no deberían ser de importancia para el usuario.
+ <br><br>  
+
+    Un caso especial de tarea es la consulta de servicios y puertos abiertos en el sistema, ésta tarea tiene una sección extra al final que muestra los resultados de la consulta en una tabla como se muestra en las imágenes.
+    </p>
+</div>
+
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registros/04.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+           Servicios activos de una máquina
+        </p>
+    </div>
+</div>
+
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/registros/05.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+           Puertos abiertos de una máquina
+        </p>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'estados')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'sistema')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>TAREAS DE USUARIO</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Éstas permiten manejar aspectos básicos de los usuarios en las máquinas, permiten crear usuarios normales o con permisos de superusuario, eliminar usuarios y modificar su clave. 
+<br><br>
+Los tres formularios son bastante similares y no tienen mayor complejidad, por ejemplo el de crear usuarios se presenta en la imágen:
+    </p>
+</div>
+
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/tareas/02.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Fromulario para crear usuarios
+        </p>
+    </div>
+</div>
+
+<br><br>
+
+<div class="text-justify">
+  <p >
+Las contraseñas deben coincidir o no será posible enviar el formulario, además las contraseñas no tienen restricciones respecto a mayúsculas, minusculas, caracteres especiales o números.
+<br><br>
+La opción Admin permite crear el usuario con permisos de superusuario, funciona en los sistemas de la damilia RedHat y Debian.
+<br><br>
+   <div class="well text-center">
+            <b class="text-center"><big>Nota: </big></b>El uso de expresiones explicado en el panel azul de la imagen anterior aplica para cualquiera de las 3 tareas de manejo de usuarios.
+    </div>
+  </p>
+</div>

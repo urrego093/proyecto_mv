@@ -1,0 +1,98 @@
+{{extend 'tutorial/layout.html'}}
+
+<script>
+    $(document).ready(function () {
+        /*
+            Asi se modifica el enlace del enlace anterior 
+        */
+        $('#anterior').attr('href',"{{  =URL('tutorial', 'registro')  }}");
+        
+        /*
+            Asi se modifica el enlace del enlace siguiente 
+        */
+        $('#siguiente').attr('href',"{{  =URL('tutorial', 'configSistema')  }}");
+        //$('#siguiente').attr('href','#');
+        
+
+    });
+</script>
+
+<div class="page-header center">
+  <h1>TAREAS DE SISTEMA</h1>
+</div>
+
+<div class="text-justify">
+    <p >
+Ésta categoría es la que más tareas tiene asociadas ya que manejan los aspectos más importantes para la administración de sistemas, existen varias subcategorías con varias tareas asociadas, la lista completa de las tareas disponibles en este tipo de tareas se encuentra disponible en la tabla:
+    </p>
+</div>
+
+<div class="table-responsive text-justify">
+  <table class="table table-striped table-bordered table-hover">
+ <thead>
+  <tr>
+    <th class="tg-yw4l">Subcategoría</th>
+    <th class="tg-yw4l">Tareas Disponibles</th>
+    <th class="tg-yw4l">Explicación</th>
+  </tr>
+ </thead>
+
+<tbody>
+  <tr>
+    <td class="tg-yw4l">ReiniciarSistema</td>
+    <td class="tg-yw4l">Ésta categoría es la que más tareas tiene asociadas ya que manejan los aspectos más importantes para la administración de sistemas, existen varias subcategorías con varias tareas asociadas, la lista completa de las tareas disponibles en este tipo de tareas se<br>encuentra disponible en la tabla anterior.		</td>
+    <td class="tg-yw4l">Permiten que el sistema se inicie de nuevo por ejemplo para que se corrobore que un servicio se inicia con el sistema.</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">SSH y VNC</td>
+    <td class="tg-yw4l">Habilitar acceso SSH e instalar VNC, Habilitar VNC</td>
+    <td class="tg-yw4l">Permite la comunicación con la máquina objetivo e instala el servidor VNC, de vital importancia para el acceso a las máquinas virtuales de la nube privada de la Universidad.,También instala firewalld y desactiva UFW en Ubuntu.</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">Aplicaciones y repositorios</td>
+    <td class="tg-yw4l">Instalar y eliminar aplicaciones, agregar y eliminar repositorios.</td>
+    <td class="tg-yw4l">Permite instalar aplicaciones de los repositorios para los sistemas de las familias RedHat, Debian y aunque no se ha comprobado para sistemas Solaris y Suse.,Si alguna aplicación no se encuentra en los repositorios por defecto es<br>posible agregar un repositorio.</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">Administración de servicios</td>
+    <td class="tg-yw4l">Consultar servicios en ejecución, iniciar, detener, reiniciar y recargar servicios.</td>
+    <td class="tg-yw4l">Permite manejar los servicios del sistema, lo que se haría con comando similares a 'systemctl opcion nombre_del_servicio'. No requieren que se agregue .service al final de cada servicio.</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">Administración de puertos</td>
+    <td class="tg-yw4l">Consultar puertos actualmente abiertos, abrir y cerrar puertos.</td>
+    <td class="tg-yw4l">Permite,consultar qué aplicaciones están funcionando sobre algún puerto,y permite abrir o cerar puertos con firewalld.,Si,ninguna aplicación funciona sobre un puerto recién abierto no se,observaracambio en la consulta de puertos activos.</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">Tareas Crontab</td>
+    <td class="tg-yw4l">Programar,actualización de paquetes del sistema, crear tarea personalizada,y eliminar tareas por nombre.</td>
+    <td class="tg-yw4l">Utiliza el servicio crontab para programar tareas en el sistema, permite programar por ejemplo copias de seguridad de una base de datos.</td>
+  </tr>
+    </tbody>
+</table>
+</div>
+<p class="center">
+Explicación de los diferentes tipos de tareas
+</p>
+
+<br><br>
+
+<div class="text-justify">
+    <p >
+Cada tarea contiene notas de ayuda para introducir los parámetros en el panel de color azul, en el caso de la gestión de aplicaiones y paquetes éstas  contienen toda una sección categorizada por sistema operativo.
+    </p>
+    
+<div class='row center'>
+    <div class="col-sm-12">
+        <img class="img-responsive img-thumbnail" src="{{=URL('static','images/tareas/05.jpg')}}" alt="Aplicación principal"> <br>
+        <p>
+            Sección de notas por Sistema Operativo en tareas de Paquetes/Repositorios
+        </p>
+    </div>
+</div>    
+    
+<div class="well">
+    <big>NOTA:<b></b></big> Las tareas de gestión de aplicaciones/paquetes, servicios y  puertos, permiten ingresar los parámetros de la tarea separados por comas.
+    </div>
+    
+</div>
