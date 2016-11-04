@@ -1,6 +1,1 @@
-192.168.0.105              : ok=3    changed=1    unreachable=0    failed=0   
-192.168.0.106              : ok=3    changed=1    unreachable=0    failed=0   
-192.168.0.108              : ok=0    changed=0    unreachable=1    failed=0   
-192.168.0.109              : ok=0    changed=0    unreachable=1    failed=0   
-192.168.0.116              : ok=3    changed=1    unreachable=0    failed=0   
-192.168.0.117              : ok=3    changed=1    unreachable=0    failed=0   
+192.168.0.105              : ok=4    changed=0    unreachable=0    failed=0   
